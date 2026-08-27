@@ -1,0 +1,1365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LittleDevLab — Custom 3D Printed Home Goods</title>
+  <meta name="description" content="Thoughtfully designed, precision 3D printed home organizers. Custom holders for Chilewich coasters and eyeglass + contact lens storage, made in the SF Bay Area." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Reset & Base ──────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:     #1E3A5F;
+      --navy-mid: #2A4F7C;
+      --navy-lt:  #3D6491;
+      --accent:   #C8A96E;
+      --sand:     #F5F2ED;
+      --white:    #FFFFFF;
+      --gray-100: #F8F7F5;
+      --gray-200: #EDEAE4;
+      --gray-400: #A8A198;
+      --gray-600: #6B6460;
+      --gray-800: #2E2A26;
+      --radius:   8px;
+      --radius-lg: 16px;
+      --shadow-sm: 0 1px 3px rgba(30,58,95,.08), 0 1px 2px rgba(30,58,95,.06);
+      --shadow-md: 0 4px 16px rgba(30,58,95,.10), 0 2px 6px rgba(30,58,95,.06);
+      --shadow-lg: 0 12px 40px rgba(30,58,95,.14), 0 4px 12px rgba(30,58,95,.08);
+      --font: 'Inter', system-ui, -apple-system, sans-serif;
+      --max-w: 1120px;
+      --nav-h: 68px;
+    }
+
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      font-family: var(--font);
+      color: var(--gray-800);
+      background: var(--white);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img { display: block; max-width: 100%; height: auto; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── Utility ───────────────────────────────────── */
+    .container { max-width: var(--max-w); margin: 0 auto; padding: 0 24px; }
+
+    .tag {
+      display: inline-block;
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--navy);
+      background: rgba(30,58,95,.08);
+      padding: 4px 10px;
+      border-radius: 4px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font);
+      font-size: .9rem;
+      font-weight: 600;
+      padding: 13px 28px;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: all .2s ease;
+      border: 2px solid transparent;
+    }
+    .btn-primary {
+      background: var(--navy);
+      color: var(--white);
+      border-color: var(--navy);
+    }
+    .btn-primary:hover {
+      background: var(--navy-mid);
+      border-color: var(--navy-mid);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+    .btn-outline {
+      background: transparent;
+      color: var(--navy);
+      border-color: var(--navy);
+    }
+    .btn-outline:hover {
+      background: var(--navy);
+      color: var(--white);
+      transform: translateY(-1px);
+    }
+    .btn-ghost {
+      background: rgba(255,255,255,.12);
+      color: var(--white);
+      border-color: rgba(255,255,255,.3);
+    }
+    .btn-ghost:hover {
+      background: rgba(255,255,255,.22);
+      border-color: rgba(255,255,255,.5);
+    }
+
+    /* ── Navigation ────────────────────────────────── */
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--nav-h);
+      background: rgba(255,255,255,.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--gray-200);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+    }
+    .nav .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--navy);
+      letter-spacing: -.01em;
+    }
+    .nav-logo svg { flex-shrink: 0; }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: .88rem;
+      font-weight: 500;
+      color: var(--gray-600);
+      transition: color .15s;
+    }
+    .nav-links a:hover { color: var(--navy); }
+    .nav-cta { margin-left: 8px; }
+
+    /* Hamburger */
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .nav-toggle span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--navy);
+      border-radius: 2px;
+      transition: all .25s;
+    }
+    .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-toggle.open span:nth-child(2) { opacity: 0; }
+    .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ── Hero ──────────────────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      background: var(--navy);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding-top: var(--nav-h);
+      overflow: hidden;
+      position: relative;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 80% at 75% 50%, rgba(200,169,110,.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-content {
+      padding: 80px 24px 80px 48px;
+      max-width: 560px;
+    }
+    .hero-eyebrow {
+      font-size: .78rem;
+      font-weight: 600;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+      font-weight: 700;
+      line-height: 1.12;
+      letter-spacing: -.03em;
+      color: var(--white);
+      margin-bottom: 20px;
+    }
+    .hero h1 em {
+      font-style: normal;
+      color: var(--accent);
+    }
+    .hero-sub {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: rgba(255,255,255,.72);
+      margin-bottom: 36px;
+      max-width: 440px;
+    }
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+    .hero-badges {
+      display: flex;
+      gap: 24px;
+      margin-top: 52px;
+      padding-top: 32px;
+      border-top: 1px solid rgba(255,255,255,.12);
+    }
+    .hero-badge-item { text-align: left; }
+    .hero-badge-num {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: -.03em;
+      line-height: 1;
+    }
+    .hero-badge-label {
+      font-size: .75rem;
+      color: rgba(255,255,255,.5);
+      font-weight: 500;
+      margin-top: 3px;
+      letter-spacing: .03em;
+    }
+    .hero-visual {
+      position: relative;
+      height: 100%;
+      min-height: 600px;
+      overflow: hidden;
+    }
+    .hero-photo-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 6px;
+      height: 100%;
+      padding: 40px 24px 40px 16px;
+    }
+    .hero-photo-grid img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: var(--radius);
+    }
+    .hero-photo-grid img:first-child {
+      grid-row: span 2;
+      border-radius: var(--radius-lg);
+    }
+
+    /* ── Section Base ──────────────────────────────── */
+    section { padding: 96px 0; }
+    .section-header {
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto 64px;
+    }
+    .section-header .tag { margin-bottom: 16px; }
+    .section-header h2 {
+      font-size: clamp(1.8rem, 3vw, 2.5rem);
+      font-weight: 700;
+      letter-spacing: -.03em;
+      line-height: 1.15;
+      color: var(--gray-800);
+      margin-bottom: 14px;
+    }
+    .section-header p {
+      font-size: 1.05rem;
+      color: var(--gray-600);
+      line-height: 1.7;
+    }
+
+    /* ── Products ──────────────────────────────────── */
+    #products { background: var(--gray-100); }
+
+    .product-block {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+      margin-bottom: 48px;
+    }
+    .product-block:last-child { margin-bottom: 0; }
+    .product-block.reverse { direction: rtl; }
+    .product-block.reverse > * { direction: ltr; }
+
+    .product-gallery {
+      position: relative;
+      background: var(--sand);
+      overflow: hidden;
+    }
+    .product-gallery .main-photo {
+      width: 100%;
+      height: 420px;
+      object-fit: cover;
+      transition: transform .5s ease;
+    }
+    .product-gallery:hover .main-photo { transform: scale(1.02); }
+
+    .product-thumbs {
+      display: flex;
+      gap: 6px;
+      padding: 10px;
+      background: rgba(0,0,0,.03);
+    }
+    .product-thumbs img {
+      width: 68px;
+      height: 68px;
+      object-fit: cover;
+      border-radius: 6px;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: border-color .15s, opacity .15s;
+      opacity: .75;
+    }
+    .product-thumbs img:hover,
+    .product-thumbs img.active {
+      border-color: var(--navy);
+      opacity: 1;
+    }
+
+    .product-info {
+      padding: 52px 48px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .product-info .tag { margin-bottom: 16px; }
+    .product-info h3 {
+      font-size: clamp(1.4rem, 2.5vw, 1.9rem);
+      font-weight: 700;
+      letter-spacing: -.03em;
+      line-height: 1.2;
+      color: var(--gray-800);
+      margin-bottom: 18px;
+    }
+    .product-info p {
+      font-size: .98rem;
+      color: var(--gray-600);
+      line-height: 1.75;
+      margin-bottom: 28px;
+    }
+    .product-features {
+      list-style: none;
+      margin-bottom: 36px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .product-features li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: .93rem;
+      color: var(--gray-700, var(--gray-600));
+    }
+    .product-features li .icon {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: rgba(30,58,95,.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 2px;
+    }
+    .product-features li .icon svg { width: 11px; height: 11px; }
+
+    .product-variants {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 32px;
+    }
+    .variant-chip {
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1.5px solid var(--gray-200);
+      font-size: .8rem;
+      font-weight: 500;
+      color: var(--gray-600);
+      cursor: pointer;
+      transition: all .15s;
+    }
+    .variant-chip:hover,
+    .variant-chip.active {
+      border-color: var(--navy);
+      color: var(--navy);
+      background: rgba(30,58,95,.05);
+    }
+
+    .product-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+
+    /* ── How It's Made ─────────────────────────────── */
+    #process { background: var(--white); }
+
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+    }
+    .process-card {
+      text-align: center;
+      padding: 40px 28px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--gray-200);
+      transition: box-shadow .2s, transform .2s;
+    }
+    .process-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-3px);
+    }
+    .process-icon {
+      width: 56px;
+      height: 56px;
+      margin: 0 auto 20px;
+      background: rgba(30,58,95,.07);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .process-icon svg { width: 28px; height: 28px; color: var(--navy); }
+    .process-card h4 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--gray-800);
+      margin-bottom: 10px;
+      letter-spacing: -.01em;
+    }
+    .process-card p {
+      font-size: .9rem;
+      color: var(--gray-600);
+      line-height: 1.65;
+    }
+
+    /* ── Gallery Strip ─────────────────────────────── */
+    #gallery { background: var(--sand); padding: 72px 0; }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+    .gallery-item {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius);
+      aspect-ratio: 1;
+      cursor: pointer;
+    }
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .4s ease;
+    }
+    .gallery-item:hover img { transform: scale(1.06); }
+    .gallery-item .overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(30,58,95,.55) 0%, transparent 50%);
+      opacity: 0;
+      transition: opacity .3s;
+      display: flex;
+      align-items: flex-end;
+      padding: 14px;
+    }
+    .gallery-item:hover .overlay { opacity: 1; }
+    .gallery-item .overlay span {
+      font-size: .78rem;
+      font-weight: 600;
+      color: white;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+    .gallery-item:first-child {
+      grid-column: span 2;
+      grid-row: span 2;
+      aspect-ratio: auto;
+    }
+
+    /* ── About ─────────────────────────────────────── */
+    #about { background: var(--white); }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .about-image-stack {
+      position: relative;
+      height: 500px;
+    }
+    .about-image-stack img {
+      position: absolute;
+      border-radius: var(--radius-lg);
+      object-fit: cover;
+      box-shadow: var(--shadow-lg);
+    }
+    .about-image-stack img:first-child {
+      width: 80%;
+      height: 80%;
+      top: 0; left: 0;
+    }
+    .about-image-stack img:last-child {
+      width: 55%;
+      height: 55%;
+      bottom: 0; right: 0;
+      border: 4px solid var(--white);
+    }
+    .about-content .tag { margin-bottom: 16px; }
+    .about-content h2 {
+      font-size: clamp(1.7rem, 3vw, 2.3rem);
+      font-weight: 700;
+      letter-spacing: -.03em;
+      line-height: 1.18;
+      color: var(--gray-800);
+      margin-bottom: 20px;
+    }
+    .about-content p {
+      font-size: .98rem;
+      color: var(--gray-600);
+      line-height: 1.78;
+      margin-bottom: 18px;
+    }
+    .about-content p:last-of-type { margin-bottom: 32px; }
+
+    .about-stats {
+      display: flex;
+      gap: 32px;
+      padding-top: 28px;
+      border-top: 1px solid var(--gray-200);
+    }
+    .stat-item { }
+    .stat-num {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: -.04em;
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: .78rem;
+      color: var(--gray-400);
+      font-weight: 500;
+      margin-top: 4px;
+      letter-spacing: .02em;
+    }
+
+    /* ── Custom Orders ─────────────────────────────── */
+    #custom {
+      background: var(--navy);
+      padding: 80px 0;
+    }
+    .custom-inner {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 48px;
+    }
+    .custom-inner h2 {
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 700;
+      letter-spacing: -.03em;
+      color: var(--white);
+      margin-bottom: 10px;
+    }
+    .custom-inner p {
+      font-size: 1rem;
+      color: rgba(255,255,255,.65);
+      max-width: 520px;
+      line-height: 1.7;
+    }
+    .custom-actions { display: flex; gap: 12px; flex-shrink: 0; }
+
+    /* ── Contact ───────────────────────────────────── */
+    #contact { background: var(--gray-100); }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 64px;
+      align-items: start;
+    }
+    .contact-info h3 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: -.02em;
+      color: var(--gray-800);
+      margin-bottom: 14px;
+    }
+    .contact-info p {
+      font-size: .95rem;
+      color: var(--gray-600);
+      line-height: 1.75;
+      margin-bottom: 32px;
+    }
+    .contact-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .contact-links li a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: .92rem;
+      font-weight: 500;
+      color: var(--gray-600);
+      transition: color .15s;
+    }
+    .contact-links li a:hover { color: var(--navy); }
+    .contact-links .icon-wrap {
+      width: 36px; height: 36px;
+      border-radius: 8px;
+      background: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-sm);
+      flex-shrink: 0;
+    }
+    .contact-links .icon-wrap svg { width: 16px; height: 16px; color: var(--navy); }
+
+    .contact-form {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 40px;
+      box-shadow: var(--shadow-sm);
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 20px;
+    }
+    .form-group label {
+      font-size: .82rem;
+      font-weight: 600;
+      color: var(--gray-800);
+      letter-spacing: .01em;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      font-family: var(--font);
+      font-size: .93rem;
+      color: var(--gray-800);
+      background: var(--gray-100);
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius);
+      padding: 11px 14px;
+      outline: none;
+      transition: border-color .15s, box-shadow .15s;
+      width: 100%;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--navy);
+      box-shadow: 0 0 0 3px rgba(30,58,95,.08);
+      background: var(--white);
+    }
+    .form-group textarea { resize: vertical; min-height: 120px; }
+    .form-group select { appearance: none; cursor: pointer; }
+    .form-submit { width: 100%; justify-content: center; font-size: .95rem; padding: 14px; }
+
+    /* ── Footer ────────────────────────────────────── */
+    footer {
+      background: var(--gray-800);
+      color: rgba(255,255,255,.5);
+      padding: 36px 0;
+    }
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .footer-logo {
+      font-weight: 700;
+      font-size: .95rem;
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .footer-copy { font-size: .82rem; }
+    .footer-links {
+      display: flex;
+      gap: 20px;
+      list-style: none;
+    }
+    .footer-links a {
+      font-size: .82rem;
+      color: rgba(255,255,255,.4);
+      transition: color .15s;
+    }
+    .footer-links a:hover { color: var(--white); }
+
+    /* ── Lightbox ──────────────────────────────────── */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.85);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox img {
+      max-width: 90vw;
+      max-height: 88vh;
+      border-radius: var(--radius-lg);
+      box-shadow: 0 32px 80px rgba(0,0,0,.5);
+    }
+    .lightbox-close {
+      position: absolute;
+      top: 20px; right: 24px;
+      width: 40px; height: 40px;
+      background: rgba(255,255,255,.12);
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.2rem;
+      transition: background .15s;
+    }
+    .lightbox-close:hover { background: rgba(255,255,255,.22); }
+
+    /* ── Mobile Nav Drawer ─────────────────────────── */
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      top: var(--nav-h); left: 0; right: 0;
+      background: var(--white);
+      border-bottom: 1px solid var(--gray-200);
+      padding: 20px 24px;
+      z-index: 99;
+      box-shadow: var(--shadow-lg);
+    }
+    .mobile-nav.open { display: block; }
+    .mobile-nav ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .mobile-nav ul li a {
+      display: block;
+      padding: 14px 0;
+      font-size: .95rem;
+      font-weight: 500;
+      color: var(--gray-600);
+      border-bottom: 1px solid var(--gray-200);
+      transition: color .15s;
+    }
+    .mobile-nav ul li:last-child a { border-bottom: none; }
+    .mobile-nav ul li a:hover { color: var(--navy); }
+
+    /* ── Responsive ────────────────────────────────── */
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-visual { display: none; }
+      .hero-content { padding: 60px 24px; max-width: 100%; }
+
+      .product-block,
+      .product-block.reverse {
+        grid-template-columns: 1fr;
+        direction: ltr;
+      }
+      .product-gallery .main-photo { height: 300px; }
+      .product-info { padding: 36px 28px; }
+
+      .process-grid { grid-template-columns: 1fr; gap: 20px; }
+      .gallery-grid { grid-template-columns: 1fr 1fr; }
+      .gallery-item:first-child { grid-column: span 1; grid-row: span 1; }
+
+      .about-grid { grid-template-columns: 1fr; gap: 40px; }
+      .about-image-stack { height: 320px; }
+
+      .custom-inner { grid-template-columns: 1fr; }
+      .custom-actions { flex-direction: row; }
+
+      .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+      .form-row { grid-template-columns: 1fr; }
+
+      .nav-links, .nav-cta { display: none; }
+      .nav-toggle { display: flex; }
+    }
+
+    @media (max-width: 540px) {
+      section { padding: 64px 0; }
+      .gallery-grid { grid-template-columns: 1fr 1fr; gap: 6px; }
+      .hero-badges { gap: 16px; }
+      .about-stats { gap: 20px; }
+      .contact-form { padding: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Navigation ── -->
+  <nav class="nav">
+    <div class="container">
+      <a href="#" class="nav-logo">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+          <rect width="28" height="28" rx="7" fill="#1E3A5F"/>
+          <rect x="6" y="6" width="7" height="7" rx="1.5" fill="white"/>
+          <rect x="15" y="6" width="7" height="7" rx="1.5" fill="#C8A96E"/>
+          <rect x="6" y="15" width="7" height="7" rx="1.5" fill="#C8A96E"/>
+          <rect x="15" y="15" width="7" height="7" rx="1.5" fill="white"/>
+        </svg>
+        LittleDevLab
+      </a>
+      <ul class="nav-links">
+        <li><a href="#products">Products</a></li>
+        <li><a href="#process">How It's Made</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <a href="#contact" class="btn btn-primary nav-cta" style="padding:10px 20px;font-size:.84rem;">Get in Touch</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Nav -->
+  <div class="mobile-nav" id="mobileNav">
+    <ul>
+      <li><a href="#products" class="mobile-link">Products</a></li>
+      <li><a href="#process" class="mobile-link">How It's Made</a></li>
+      <li><a href="#gallery" class="mobile-link">Gallery</a></li>
+      <li><a href="#about" class="mobile-link">About</a></li>
+      <li><a href="#contact" class="mobile-link">Contact</a></li>
+    </ul>
+  </div>
+
+  <!-- ── Hero ── -->
+  <section class="hero" id="home">
+    <div class="hero-content">
+      <p class="hero-eyebrow">SF Bay Area · Made to Order</p>
+      <h1>Precision-designed.<br><em>Purpose-built.</em><br>For everyday life.</h1>
+      <p class="hero-sub">Custom 3D printed home organizers designed from scratch — not downloaded templates. Each piece is engineered to fit your exact coasters, lenses, and life.</p>
+      <div class="hero-actions">
+        <a href="#products" class="btn btn-primary">See Products</a>
+        <a href="#contact" class="btn btn-ghost">Request Custom Order</a>
+      </div>
+      <div class="hero-badges">
+        <div class="hero-badge-item">
+          <div class="hero-badge-num">100%</div>
+          <div class="hero-badge-label">Custom designed</div>
+        </div>
+        <div class="hero-badge-item">
+          <div class="hero-badge-num">PLA+</div>
+          <div class="hero-badge-label">Premium filament</div>
+        </div>
+        <div class="hero-badge-item">
+          <div class="hero-badge-num">∞</div>
+          <div class="hero-badge-label">Color options</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-photo-grid">
+        <img src="images/glasses/glasses-holder-counter.jpg" alt="Glasses and contact lens holder on countertop" />
+        <img src="images/coasters/coaster-round-tan.jpg" alt="Chilewich coaster holder in tan" />
+        <img src="images/coasters/coaster-hex-holder.jpg" alt="Hexagonal Chilewich coaster holder" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Products ── -->
+  <section id="products">
+    <div class="container">
+      <div class="section-header">
+        <span class="tag">Products</span>
+        <h2>Designed for the things you actually use every day</h2>
+        <p>Each product starts as a problem — a cluttered counter, a misplaced lens case — and ends as a clean, permanent solution. Designed in Shapr3D, printed on Bambu Lab.</p>
+      </div>
+
+      <!-- Product 1: Glasses + Contacts Holder -->
+      <div class="product-block" id="glasses-holder">
+        <div class="product-gallery">
+          <img class="main-photo" id="glasses-main" src="images/glasses/glasses-holder-counter.jpg" alt="Glasses and contact lens organizer" />
+          <div class="product-thumbs">
+            <img src="images/glasses/glasses-holder-counter.jpg" alt="Counter view" class="active" onclick="swapPhoto('glasses-main', this.src, this)" />
+            <img src="images/glasses/glasses-holder-side.jpg" alt="Side view" onclick="swapPhoto('glasses-main', this.src, this)" />
+            <img src="images/glasses/glasses-holder-top.jpg" alt="Top view" onclick="swapPhoto('glasses-main', this.src, this)" />
+            <img src="images/glasses/glasses-holder-cabinet.jpg" alt="Under-cabinet mount" onclick="swapPhoto('glasses-main', this.src, this)" />
+          </div>
+        </div>
+        <div class="product-info">
+          <span class="tag">Eyecare Organizer</span>
+          <h3>Glasses + 3 Contact Lens Type Holder</h3>
+          <p>Stop searching for your glasses in the morning. This compact organizer keeps your eyeglasses and three distinct contact lens types — dailies, weeklies, and monthlies — within arm's reach in one minimal footprint. Fits flat on any bathroom counter or mounts cleanly under a cabinet.</p>
+          <ul class="product-features">
+            <li>
+              <span class="icon">
+                <svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="#1E3A5F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              Three separate lens compartments — daily, weekly, and monthly contacts all in their own dedicated slot
+            </li>
+            <li>
+              <span class="icon">
+                <svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="#1E3A5F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              Curved glasses cradle — holds frames securely without stress on the hinges
+            </li>
+            <li>
+              <span class="icon">
+                <svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="#1E3A5F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              Under-cabinet or countertop placement — works either way
+            </li>
+            <li>
+              <span class="icon">
+                <svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="#1E3A5F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              Sized for standard lens packs — blister packs lie flat and load from the front
+            </li>
+          </ul>
+          <div class="product-variants">
+            <span class="tag" style="font-size:.7rem;margin-bottom:8px;display:block;width:100%">Available colors</span>
+            <span class="variant-chip active">Warm White</span>
+            <span class="variant-chip">Matte Black</span>
+            <span class="variant-chip">Light Gray</span>
+            <span class="variant-chip">Custom Color</span>
+          </div>
+          <div class="product-actions">
+            <a href="#contact" class="btn btn-primary">Order This</a>
+            <a href="#contact" class="btn btn-outline">Request a Variation</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product 2: Chilewich Coaster Holders -->
+      <div class="product-block reverse" id="coaster-holder">
+        <div class="product-info">
+          <span class="tag">Table Organizer</span>
+          <h3>Chilewich Coaster Holder</h3>
+          <p>Chilewich coasters deserve a home that matches their quality. These holders are designed specifically around the dimensions of Chilewich woven coasters — not a generic coaster holder, but one that fits your exact coaster shape like it was made for them. (It was.) Available in round and hexagonal profiles to match your coaster style.</p>
+          <ul class="product-features">
+            <li>
+              <span class="icon">
+                <svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="#1E3A5F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              Precision-fit for Chilewich round and hexagonal coasters — snug enough to hold stacks, open enough to grab one easily
+            </li>
+            <li>
+              <span class="icon">
+                <svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="#1E3A5F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              Arch and slot cutouts let the Chilewich texture show through — the coasters become part of the design
+            </li>
+            <li>
+              <span class="icon">
+                <svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="#1E3A5F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              Weighted base holds steady even when pulling the last coaster out
+            </li>
+            <li>
+              <span class="icon">
+                <svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="#1E3A5F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              Two styles: open-arch caddy for dining tables, slim-cuff wrap for side tables
+            </li>
+          </ul>
+          <div class="product-variants">
+            <span class="tag" style="font-size:.7rem;margin-bottom:8px;display:block;width:100%">Shape</span>
+            <span class="variant-chip active">Round</span>
+            <span class="variant-chip">Hexagonal</span>
+            <span class="tag" style="font-size:.7rem;margin-bottom:8px;display:block;width:100%;margin-top:12px;">Color</span>
+            <span class="variant-chip active">Olive / Khaki</span>
+            <span class="variant-chip">Matte Black</span>
+            <span class="variant-chip">Natural Tan</span>
+            <span class="variant-chip">Custom Color</span>
+          </div>
+          <div class="product-actions">
+            <a href="#contact" class="btn btn-primary">Order This</a>
+            <a href="#contact" class="btn btn-outline">Request a Variation</a>
+          </div>
+        </div>
+        <div class="product-gallery">
+          <img class="main-photo" id="coaster-main" src="images/coasters/coaster-round-tan.jpg" alt="Chilewich coaster holder" />
+          <div class="product-thumbs">
+            <img src="images/coasters/coaster-round-tan.jpg" alt="Round holder tan" class="active" onclick="swapPhoto('coaster-main', this.src, this)" />
+            <img src="images/coasters/coaster-cuff-black.jpg" alt="Cuff holder black" onclick="swapPhoto('coaster-main', this.src, this)" />
+            <img src="images/coasters/coaster-cuff-front.jpg" alt="Cuff front" onclick="swapPhoto('coaster-main', this.src, this)" />
+            <img src="images/coasters/coaster-hex-holder.jpg" alt="Hexagonal holder" onclick="swapPhoto('coaster-main', this.src, this)" />
+            <img src="images/coasters/coaster-hex-top.jpg" alt="Hex top view" onclick="swapPhoto('coaster-main', this.src, this)" />
+            <img src="images/coasters/coaster-round-side.jpg" alt="Round side view" onclick="swapPhoto('coaster-main', this.src, this)" />
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── How It's Made ── -->
+  <section id="process">
+    <div class="container">
+      <div class="section-header">
+        <span class="tag">How It's Made</span>
+        <h2>From problem to physical object</h2>
+        <p>Every piece is designed and printed by hand — no drop-shipping, no off-the-shelf files. This is the full stack from idea to your doorstep.</p>
+      </div>
+      <div class="process-grid">
+        <div class="process-card">
+          <div class="process-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/>
+            </svg>
+          </div>
+          <h4>Designed in Shapr3D</h4>
+          <p>Every model is built from scratch using Shapr3D on iPad Pro — parametric 3D CAD, not guesswork. Dimensions are measured against the real product before a single layer is printed.</p>
+        </div>
+        <div class="process-card">
+          <div class="process-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+            </svg>
+          </div>
+          <h4>Sliced & Optimized</h4>
+          <p>Files are prepped in Bambu Studio — layer heights, wall counts, and infill are tuned per part geometry. Functional parts like the glasses cradle get extra perimeters for strength where it counts.</p>
+        </div>
+        <div class="process-card">
+          <div class="process-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+            </svg>
+          </div>
+          <h4>Printed on Bambu Lab</h4>
+          <p>Printed on a Bambu Lab X1 Carbon using PLA+ filament. Fast, accurate, and consistent across every run — what you see in the photos is what arrives in the mail.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Gallery ── -->
+  <section id="gallery">
+    <div class="container">
+      <div class="section-header">
+        <span class="tag">Gallery</span>
+        <h2>All the angles</h2>
+        <p>Click any image to view full size.</p>
+      </div>
+      <div class="gallery-grid">
+        <div class="gallery-item" onclick="openLightbox('images/glasses/glasses-holder-counter.jpg')">
+          <img src="images/glasses/glasses-holder-counter.jpg" alt="Glasses holder on marble counter" loading="lazy" />
+          <div class="overlay"><span>Glasses Holder</span></div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox('images/coasters/coaster-hex-holder.jpg')">
+          <img src="images/coasters/coaster-hex-holder.jpg" alt="Hexagonal coaster holder" loading="lazy" />
+          <div class="overlay"><span>Hex Coaster Holder</span></div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox('images/coasters/coaster-cuff-black.jpg')">
+          <img src="images/coasters/coaster-cuff-black.jpg" alt="Cuff style coaster holder in black" loading="lazy" />
+          <div class="overlay"><span>Cuff Holder · Black</span></div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox('images/glasses/glasses-holder-side.jpg')">
+          <img src="images/glasses/glasses-holder-side.jpg" alt="Glasses holder side angle" loading="lazy" />
+          <div class="overlay"><span>Glasses Holder · Side</span></div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox('images/coasters/coaster-round-side.jpg')">
+          <img src="images/coasters/coaster-round-side.jpg" alt="Round coaster holder side view" loading="lazy" />
+          <div class="overlay"><span>Round Holder · Side</span></div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox('images/glasses/glasses-holder-top.jpg')">
+          <img src="images/glasses/glasses-holder-top.jpg" alt="Glasses holder top view showing all compartments" loading="lazy" />
+          <div class="overlay"><span>Glasses Holder · Top</span></div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox('images/coasters/coaster-hex-top.jpg')">
+          <img src="images/coasters/coaster-hex-top.jpg" alt="Hexagonal coaster holder top view" loading="lazy" />
+          <div class="overlay"><span>Hex Holder · Top</span></div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox('images/coasters/coaster-hex-angle.jpg')">
+          <img src="images/coasters/coaster-hex-angle.jpg" alt="Hexagonal coaster holder angled" loading="lazy" />
+          <div class="overlay"><span>Hex Holder · Angle</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── About ── -->
+  <section id="about">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-image-stack">
+          <img src="images/coasters/coaster-round-tan.jpg" alt="Chilewich coaster holder on walnut table" />
+          <img src="images/glasses/glasses-holder-cabinet.jpg" alt="Glasses holder mounted under cabinet" />
+        </div>
+        <div class="about-content">
+          <span class="tag">About LittleDevLab</span>
+          <h2>Built by someone who couldn't find what they needed, so they made it.</h2>
+          <p>LittleDevLab started the way most good projects do — out of frustration. The glasses and contacts holder came first: an attempt to clear counter clutter without buying a plastic organizer that almost-fit. One model, one print, one problem solved.</p>
+          <p>The Chilewich coaster holders came from the same instinct. The coasters were too nice to leave in a pile, and nothing on the market held the hexagonal shape well. So the holder was designed around the coasters themselves — not the other way around.</p>
+          <p>Based in the SF Bay Area. Every piece is designed, printed, and quality-checked here before it ships. If you have a specific product, shape, or problem you want solved, reach out — that's the fun part.</p>
+          <div class="about-stats">
+            <div class="stat-item">
+              <div class="stat-num">20+</div>
+              <div class="stat-label">Designs printed</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-num">100%</div>
+              <div class="stat-label">Made in Bay Area</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-num">0</div>
+              <div class="stat-label">Template downloads</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Custom Orders CTA ── -->
+  <section id="custom">
+    <div class="container">
+      <div class="custom-inner">
+        <div>
+          <h2>Have something specific in mind?</h2>
+          <p>If you have a product you love but can't find the right holder, stand, or organizer for — there's a good chance it can be designed and printed. Send a message with the details and let's figure it out.</p>
+        </div>
+        <div class="custom-actions">
+          <a href="#contact" class="btn btn-ghost">Start a Custom Order</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Contact ── -->
+  <section id="contact">
+    <div class="container">
+      <div class="section-header">
+        <span class="tag">Contact</span>
+        <h2>Get in touch</h2>
+        <p>Order an existing design, request a custom piece, or just ask a question. Usually respond within 24 hours.</p>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-info">
+          <h3>Let's make something</h3>
+          <p>Whether you want to order one of the products above, need a specific color or size variation, or have a completely new idea — the form is the fastest way to get a conversation started.</p>
+          <ul class="contact-links">
+            <li>
+              <a href="mailto:hello@littledevlab.com">
+                <span class="icon-wrap">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                </span>
+                hello@littledevlab.com
+              </a>
+            </li>
+            <li>
+              <a href="https://www.etsy.com" target="_blank" rel="noopener">
+                <span class="icon-wrap">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 001.93 1.61h9.72a2 2 0 001.93-1.61L23 6H6"/></svg>
+                </span>
+                Shop on Etsy (coming soon)
+              </a>
+            </li>
+            <li>
+              <a href="https://github.com" target="_blank" rel="noopener">
+                <span class="icon-wrap">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+                </span>
+                GitHub
+              </a>
+            </li>
+            <li>
+              <a href="https://linkedin.com" target="_blank" rel="noopener">
+                <span class="icon-wrap">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                </span>
+                LinkedIn
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="contact-form">
+          <form onsubmit="handleSubmit(event)">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" placeholder="Your name" required />
+              </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="you@example.com" required />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="interest">I'm interested in…</label>
+              <select id="interest" name="interest">
+                <option value="">Select a product or topic</option>
+                <option value="glasses-holder">Glasses + Contact Lens Holder</option>
+                <option value="coaster-round">Chilewich Coaster Holder (Round)</option>
+                <option value="coaster-hex">Chilewich Coaster Holder (Hexagonal)</option>
+                <option value="custom">Custom Design Request</option>
+                <option value="other">Something else</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" placeholder="Tell me what you need — quantity, color, any custom details…" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary form-submit">Send Message</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Footer ── -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-logo">
+          <svg width="20" height="20" viewBox="0 0 28 28" fill="none">
+            <rect width="28" height="28" rx="7" fill="#3D6491"/>
+            <rect x="6" y="6" width="7" height="7" rx="1.5" fill="white"/>
+            <rect x="15" y="6" width="7" height="7" rx="1.5" fill="#C8A96E"/>
+            <rect x="6" y="15" width="7" height="7" rx="1.5" fill="#C8A96E"/>
+            <rect x="15" y="15" width="7" height="7" rx="1.5" fill="white"/>
+          </svg>
+          LittleDevLab
+        </div>
+        <p class="footer-copy">© 2025 LittleDevLab. SF Bay Area. All designs are original.</p>
+        <ul class="footer-links">
+          <li><a href="#products">Products</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ── Lightbox ── -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+    <img id="lightbox-img" src="" alt="Full size view" onclick="event.stopPropagation()" />
+  </div>
+
+  <script>
+    // ── Nav toggle ──
+    const navToggle = document.getElementById('navToggle');
+    const mobileNav = document.getElementById('mobileNav');
+    navToggle.addEventListener('click', () => {
+      navToggle.classList.toggle('open');
+      mobileNav.classList.toggle('open');
+    });
+    document.querySelectorAll('.mobile-link').forEach(link => {
+      link.addEventListener('click', () => {
+        navToggle.classList.remove('open');
+        mobileNav.classList.remove('open');
+      });
+    });
+
+    // ── Photo swap ──
+    function swapPhoto(mainId, src, thumb) {
+      const main = document.getElementById(mainId);
+      main.src = src;
+      const thumbs = thumb.parentElement.querySelectorAll('img');
+      thumbs.forEach(t => t.classList.remove('active'));
+      thumb.classList.add('active');
+    }
+
+    // ── Variant chips ──
+    document.querySelectorAll('.variant-chip').forEach(chip => {
+      chip.addEventListener('click', function() {
+        // Only deactivate chips in same group (same parent)
+        this.parentElement.querySelectorAll('.variant-chip').forEach(c => c.classList.remove('active'));
+        this.classList.add('active');
+      });
+    });
+
+    // ── Lightbox ──
+    function openLightbox(src) {
+      document.getElementById('lightbox-img').src = src;
+      document.getElementById('lightbox').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeLightbox();
+    });
+
+    // ── Form ──
+    function handleSubmit(e) {
+      e.preventDefault();
+      const btn = e.target.querySelector('.form-submit');
+      btn.textContent = 'Sent! ✓';
+      btn.style.background = '#2d6a4f';
+      btn.disabled = true;
+      setTimeout(() => {
+        btn.textContent = 'Send Message';
+        btn.style.background = '';
+        btn.disabled = false;
+        e.target.reset();
+      }, 3500);
+    }
+
+    // ── Scroll spy for active nav ──
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-links a');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(link => {
+            link.style.color = '';
+            if (link.getAttribute('href') === '#' + entry.target.id) {
+              link.style.color = 'var(--navy)';
+            }
+          });
+        }
+      });
+    }, { threshold: 0.3 });
+    sections.forEach(s => observer.observe(s));
+  </script>
+</body>
+</html>
