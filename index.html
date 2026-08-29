@@ -5,31 +5,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>LittleDevLab — Custom 3D Printed Home Goods</title>
   <meta name="description" content="Thoughtfully designed, precision 3D printed home organizers. Custom holders for Chilewich coasters and eyeglass + contact lens storage, made in the SF Bay Area." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     /* ── Reset & Base ──────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --navy:     #1E3A5F;
-      --navy-mid: #2A4F7C;
-      --navy-lt:  #3D6491;
-      --accent:   #C8A96E;
-      --sand:     #F5F2ED;
-      --white:    #FFFFFF;
-      --gray-100: #F8F7F5;
-      --gray-200: #EDEAE4;
-      --gray-400: #A8A198;
-      --gray-600: #6B6460;
-      --gray-800: #2E2A26;
-      --radius:   8px;
-      --radius-lg: 16px;
-      --shadow-sm: 0 1px 3px rgba(30,58,95,.08), 0 1px 2px rgba(30,58,95,.06);
-      --shadow-md: 0 4px 16px rgba(30,58,95,.10), 0 2px 6px rgba(30,58,95,.06);
-      --shadow-lg: 0 12px 40px rgba(30,58,95,.14), 0 4px 12px rgba(30,58,95,.08);
-      --font: 'Inter', system-ui, -apple-system, sans-serif;
+      --paper:    #f3ede1;
+      --paper2:   #ece4d4;
+      --ink:      #2c2820;
+      --ink-soft: #55503f;
+      --navy:     #2c2820;
+      --navy-mid: #b0492a;
+      --navy-lt:  #6b6454;
+      --accent:   #b0492a;
+      --sand:     #ece4d4;
+      --white:    #f8f4ea;
+      --gray-100: #efe8da;
+      --gray-200: #e3dac8;
+      --gray-400: #a49a82;
+      --gray-600: #55503f;
+      --gray-800: #2c2820;
+      --radius:   3px;
+      --radius-lg: 6px;
+      --shadow-sm: 0 1px 3px rgba(44,40,32,.10), 0 1px 2px rgba(44,40,32,.08);
+      --shadow-md: 0 4px 16px rgba(44,40,32,.12), 0 2px 6px rgba(44,40,32,.08);
+      --shadow-lg: 0 12px 40px rgba(44,40,32,.16), 0 4px 12px rgba(44,40,32,.10);
+      --font: 'Courier New', ui-monospace, SFMono-Regular, Menlo, monospace;
       --max-w: 1120px;
       --nav-h: 68px;
     }
@@ -54,12 +55,13 @@
       display: inline-block;
       font-size: .72rem;
       font-weight: 600;
-      letter-spacing: .08em;
+      letter-spacing: .1em;
       text-transform: uppercase;
       color: var(--navy);
-      background: rgba(30,58,95,.08);
-      padding: 4px 10px;
-      border-radius: 4px;
+      background: transparent;
+      border: 1.5px solid var(--navy);
+      padding: 3px 10px;
+      border-radius: 3px;
     }
 
     .btn {
@@ -67,8 +69,10 @@
       align-items: center;
       gap: 8px;
       font-family: var(--font);
-      font-size: .9rem;
-      font-weight: 600;
+      font-size: .85rem;
+      font-weight: 700;
+      letter-spacing: .05em;
+      text-transform: uppercase;
       padding: 13px 28px;
       border-radius: var(--radius);
       cursor: pointer;
@@ -188,7 +192,7 @@
       position: absolute;
       inset: 0;
       background:
-        radial-gradient(ellipse 60% 80% at 75% 50%, rgba(200,169,110,.08) 0%, transparent 70%),
+        radial-gradient(ellipse 60% 80% at 75% 50%, rgba(176,73,42,.12) 0%, transparent 70%),
         url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600' viewBox='0 0 600 600'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='1.4' stroke-opacity='0.14'%3E%3Crect x='40' y='40' width='150' height='90' /%3E%3Cline x1='115' y1='40' x2='115' y2='130' /%3E%3Ccircle cx='150' cy='75' r='16' /%3E%3Cline x1='150' y1='55' x2='150' y2='95' stroke-dasharray='4 3' /%3E%3Cline x1='130' y1='75' x2='170' y2='75' stroke-dasharray='4 3' /%3E%3Cpolyline points='40,170 115,170 115,150 190,150 190,215 40,215' /%3E%3Cline x1='150' y1='190' x2='150' y2='210' stroke-dasharray='3 3' /%3E%3Cline x1='163' y1='190' x2='163' y2='210' stroke-dasharray='3 3' /%3E%3Ccircle cx='430' cy='90' r='70' /%3E%3Ccircle cx='430' cy='90' r='40' /%3E%3Ccircle cx='430' cy='90' r='22' /%3E%3Ccircle cx='430' cy='34' r='9' /%3E%3Ccircle cx='479' cy='63' r='9' /%3E%3Ccircle cx='430' cy='146' r='9' /%3E%3Cline x1='430' y1='10' x2='430' y2='170' stroke-dasharray='5 3 1 3' /%3E%3Cline x1='352' y1='90' x2='508' y2='90' stroke-dasharray='5 3 1 3' /%3E%3Crect x='330' y='210' width='40' height='60' /%3E%3Crect x='370' y='195' width='24' height='30' /%3E%3Cline x1='330' y1='218' x2='370' y2='218' /%3E%3Cline x1='330' y1='230' x2='340' y2='220' /%3E%3Cline x1='340' y1='230' x2='350' y2='220' /%3E%3Cline x1='350' y1='230' x2='360' y2='220' /%3E%3Cline x1='360' y1='230' x2='370' y2='220' /%3E%3Cpath d='M60 330 q0 -55 55 -55 q55 0 55 55 v40 h-110 z' /%3E%3Cpath d='M85 370 a30 30 0 0 1 60 0' /%3E%3Ccircle cx='85' cy='320' r='9' /%3E%3Ccircle cx='145' cy='320' r='9' /%3E%3Cline x1='115' y1='275' x2='115' y2='300' stroke-dasharray='3 3' /%3E%3Cpolyline points='190,300 190,370 220,370 220,340 235,340 235,300' /%3E%3Cline x1='202' y1='300' x2='202' y2='370' stroke-dasharray='3 3' /%3E%3Cpath d='M370 330 a30 30 0 1 0 0 60 h90 l25 -30 l-25 -30 z' /%3E%3Ccircle cx='370' cy='360' r='11' /%3E%3Ccircle cx='455' cy='360' r='7' /%3E%3Cline x1='400' y1='330' x2='400' y2='390' /%3E%3Cline x1='420' y1='330' x2='420' y2='390' stroke-dasharray='3 3' /%3E%3Cline x1='250' y1='430' x2='250' y2='470' stroke-dasharray='6 3 1 3' /%3E%3Cline x1='230' y1='450' x2='270' y2='450' stroke-dasharray='6 3 1 3' /%3E%3Ccircle cx='250' cy='450' r='14' /%3E%3Cline x1='500' y1='420' x2='500' y2='470' stroke-dasharray='6 3 1 3' /%3E%3Cline x1='475' y1='445' x2='525' y2='445' stroke-dasharray='6 3 1 3' /%3E%3C/g%3E%3C/svg%3E");
       background-repeat: no-repeat, repeat;
       background-size: cover, 480px 480px;
@@ -387,7 +391,7 @@
       width: 20px;
       height: 20px;
       border-radius: 50%;
-      background: rgba(30,58,95,.1);
+      background: rgba(44,40,32,.1);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -415,7 +419,7 @@
     .variant-chip.active {
       border-color: var(--navy);
       color: var(--navy);
-      background: rgba(30,58,95,.05);
+      background: rgba(44,40,32,.05);
     }
 
     .product-actions { display: flex; gap: 12px; flex-wrap: wrap; }
@@ -443,7 +447,7 @@
       width: 56px;
       height: 56px;
       margin: 0 auto 20px;
-      background: rgba(30,58,95,.07);
+      background: rgba(44,40,32,.07);
       border-radius: 14px;
       display: flex;
       align-items: center;
@@ -488,7 +492,7 @@
     .gallery-item .overlay {
       position: absolute;
       inset: 0;
-      background: linear-gradient(to top, rgba(30,58,95,.55) 0%, transparent 50%);
+      background: linear-gradient(to top, rgba(44,40,32,.55) 0%, transparent 50%);
       opacity: 0;
       transition: opacity .3s;
       display: flex;
@@ -582,8 +586,21 @@
     #custom {
       background: var(--navy);
       padding: 80px 0;
+      position: relative;
+      overflow: hidden;
+    }
+    #custom::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600' viewBox='0 0 600 600'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='1.4' stroke-opacity='0.12'%3E%3Crect x='40' y='40' width='150' height='90' /%3E%3Cline x1='115' y1='40' x2='115' y2='130' /%3E%3Ccircle cx='150' cy='75' r='16' /%3E%3Cline x1='150' y1='55' x2='150' y2='95' stroke-dasharray='4 3' /%3E%3Cline x1='130' y1='75' x2='170' y2='75' stroke-dasharray='4 3' /%3E%3Cpolyline points='40,170 115,170 115,150 190,150 190,215 40,215' /%3E%3Cline x1='150' y1='190' x2='150' y2='210' stroke-dasharray='3 3' /%3E%3Cline x1='163' y1='190' x2='163' y2='210' stroke-dasharray='3 3' /%3E%3Ccircle cx='430' cy='90' r='70' /%3E%3Ccircle cx='430' cy='90' r='40' /%3E%3Ccircle cx='430' cy='90' r='22' /%3E%3Ccircle cx='430' cy='34' r='9' /%3E%3Ccircle cx='479' cy='63' r='9' /%3E%3Ccircle cx='430' cy='146' r='9' /%3E%3Cline x1='430' y1='10' x2='430' y2='170' stroke-dasharray='5 3 1 3' /%3E%3Cline x1='352' y1='90' x2='508' y2='90' stroke-dasharray='5 3 1 3' /%3E%3Cpath d='M370 330 a30 30 0 1 0 0 60 h90 l25 -30 l-25 -30 z' /%3E%3Ccircle cx='370' cy='360' r='11' /%3E%3Ccircle cx='455' cy='360' r='7' /%3E%3C/g%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 480px 480px;
+      pointer-events: none;
     }
     .custom-inner {
+      position: relative;
+      z-index: 1;
       display: grid;
       grid-template-columns: 1fr auto;
       align-items: center;
@@ -695,12 +712,39 @@
     .form-group select:focus,
     .form-group textarea:focus {
       border-color: var(--navy);
-      box-shadow: 0 0 0 3px rgba(30,58,95,.08);
+      box-shadow: 0 0 0 3px rgba(44,40,32,.08);
       background: var(--white);
     }
     .form-group textarea { resize: vertical; min-height: 120px; }
     .form-group select { appearance: none; cursor: pointer; }
     .form-submit { width: 100%; justify-content: center; font-size: .95rem; padding: 14px; }
+
+    /* ── Drafting Title Block ──────────────────────── */
+    .sheet-titleblock { background: var(--paper); padding: 28px 0; }
+    .titleblock {
+      border: 1.5px solid var(--navy);
+      border-radius: var(--radius);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      font-size: .78rem;
+    }
+    .titleblock div {
+      padding: 12px 16px;
+      border-right: 1.5px solid var(--navy);
+    }
+    .titleblock div:last-child { border-right: none; }
+    .titleblock .label {
+      display: block;
+      color: var(--gray-600);
+      font-size: .64rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    @media (max-width: 700px) {
+      .titleblock { grid-template-columns: 1fr 1fr; }
+      .titleblock div:nth-child(2) { border-right: none; }
+    }
 
     /* ── Footer ────────────────────────────────────── */
     footer {
@@ -861,10 +905,10 @@
     <div class="container">
       <a href="#" class="nav-logo">
         <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-          <rect width="28" height="28" rx="7" fill="#1E3A5F"/>
+          <rect width="28" height="28" rx="7" fill="#2C2820"/>
           <rect x="6" y="6" width="7" height="7" rx="1.5" fill="white"/>
-          <rect x="15" y="6" width="7" height="7" rx="1.5" fill="#C8A96E"/>
-          <rect x="6" y="15" width="7" height="7" rx="1.5" fill="#C8A96E"/>
+          <rect x="15" y="6" width="7" height="7" rx="1.5" fill="#B0492A"/>
+          <rect x="6" y="15" width="7" height="7" rx="1.5" fill="#B0492A"/>
           <rect x="15" y="15" width="7" height="7" rx="1.5" fill="white"/>
         </svg>
         LittleDevLab
@@ -955,25 +999,25 @@
           <ul class="product-features">
             <li>
               <span class="icon">
-                <svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="#1E3A5F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="#2C2820" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </span>
               Three separate lens compartments — daily, weekly, and monthly contacts all in their own dedicated slot
             </li>
             <li>
               <span class="icon">
-                <svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="#1E3A5F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="#2C2820" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </span>
               Curved glasses cradle — holds frames securely without stress on the hinges
             </li>
             <li>
               <span class="icon">
-                <svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="#1E3A5F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="#2C2820" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </span>
               Under-cabinet or countertop placement — works either way
             </li>
             <li>
               <span class="icon">
-                <svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="#1E3A5F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="#2C2820" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </span>
               Sized for standard lens packs — blister packs lie flat and load from the front
             </li>
@@ -1001,25 +1045,25 @@
           <ul class="product-features">
             <li>
               <span class="icon">
-                <svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="#1E3A5F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="#2C2820" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </span>
               Precision-fit for Chilewich round and hexagonal coasters — snug enough to hold stacks, open enough to grab one easily
             </li>
             <li>
               <span class="icon">
-                <svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="#1E3A5F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="#2C2820" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </span>
               Arch and slot cutouts let the Chilewich texture show through — the coasters become part of the design
             </li>
             <li>
               <span class="icon">
-                <svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="#1E3A5F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="#2C2820" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </span>
               Weighted base holds steady even when pulling the last coaster out
             </li>
             <li>
               <span class="icon">
-                <svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="#1E3A5F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="#2C2820" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </span>
               Two styles: open-arch caddy for dining tables, slim-cuff wrap for side tables
             </li>
@@ -1269,16 +1313,28 @@
     </div>
   </section>
 
+  <!-- ── Drafting Title Block ── -->
+  <div class="sheet-titleblock">
+    <div class="container">
+      <div class="titleblock">
+        <div><span class="label">Title</span>LittleDevLab</div>
+        <div><span class="label">Material</span>PLA+ · Custom Colors</div>
+        <div><span class="label">Scale</span>Designed to Fit</div>
+        <div><span class="label">Dr. No.</span>littledevlab.com</div>
+      </div>
+    </div>
+  </div>
+
   <!-- ── Footer ── -->
   <footer>
     <div class="container">
       <div class="footer-inner">
         <div class="footer-logo">
           <svg width="20" height="20" viewBox="0 0 28 28" fill="none">
-            <rect width="28" height="28" rx="7" fill="#3D6491"/>
+            <rect width="28" height="28" rx="7" fill="#55503F"/>
             <rect x="6" y="6" width="7" height="7" rx="1.5" fill="white"/>
-            <rect x="15" y="6" width="7" height="7" rx="1.5" fill="#C8A96E"/>
-            <rect x="6" y="15" width="7" height="7" rx="1.5" fill="#C8A96E"/>
+            <rect x="15" y="6" width="7" height="7" rx="1.5" fill="#B0492A"/>
+            <rect x="6" y="15" width="7" height="7" rx="1.5" fill="#B0492A"/>
             <rect x="15" y="15" width="7" height="7" rx="1.5" fill="white"/>
           </svg>
           LittleDevLab
