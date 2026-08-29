@@ -187,7 +187,11 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: radial-gradient(ellipse 60% 80% at 75% 50%, rgba(200,169,110,.08) 0%, transparent 70%);
+      background:
+        radial-gradient(ellipse 60% 80% at 75% 50%, rgba(200,169,110,.08) 0%, transparent 70%),
+        url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600' viewBox='0 0 600 600'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='1.4' stroke-opacity='0.14'%3E%3Crect x='40' y='40' width='150' height='90' /%3E%3Cline x1='115' y1='40' x2='115' y2='130' /%3E%3Ccircle cx='150' cy='75' r='16' /%3E%3Cline x1='150' y1='55' x2='150' y2='95' stroke-dasharray='4 3' /%3E%3Cline x1='130' y1='75' x2='170' y2='75' stroke-dasharray='4 3' /%3E%3Cpolyline points='40,170 115,170 115,150 190,150 190,215 40,215' /%3E%3Cline x1='150' y1='190' x2='150' y2='210' stroke-dasharray='3 3' /%3E%3Cline x1='163' y1='190' x2='163' y2='210' stroke-dasharray='3 3' /%3E%3Ccircle cx='430' cy='90' r='70' /%3E%3Ccircle cx='430' cy='90' r='40' /%3E%3Ccircle cx='430' cy='90' r='22' /%3E%3Ccircle cx='430' cy='34' r='9' /%3E%3Ccircle cx='479' cy='63' r='9' /%3E%3Ccircle cx='430' cy='146' r='9' /%3E%3Cline x1='430' y1='10' x2='430' y2='170' stroke-dasharray='5 3 1 3' /%3E%3Cline x1='352' y1='90' x2='508' y2='90' stroke-dasharray='5 3 1 3' /%3E%3Crect x='330' y='210' width='40' height='60' /%3E%3Crect x='370' y='195' width='24' height='30' /%3E%3Cline x1='330' y1='218' x2='370' y2='218' /%3E%3Cline x1='330' y1='230' x2='340' y2='220' /%3E%3Cline x1='340' y1='230' x2='350' y2='220' /%3E%3Cline x1='350' y1='230' x2='360' y2='220' /%3E%3Cline x1='360' y1='230' x2='370' y2='220' /%3E%3Cpath d='M60 330 q0 -55 55 -55 q55 0 55 55 v40 h-110 z' /%3E%3Cpath d='M85 370 a30 30 0 0 1 60 0' /%3E%3Ccircle cx='85' cy='320' r='9' /%3E%3Ccircle cx='145' cy='320' r='9' /%3E%3Cline x1='115' y1='275' x2='115' y2='300' stroke-dasharray='3 3' /%3E%3Cpolyline points='190,300 190,370 220,370 220,340 235,340 235,300' /%3E%3Cline x1='202' y1='300' x2='202' y2='370' stroke-dasharray='3 3' /%3E%3Cpath d='M370 330 a30 30 0 1 0 0 60 h90 l25 -30 l-25 -30 z' /%3E%3Ccircle cx='370' cy='360' r='11' /%3E%3Ccircle cx='455' cy='360' r='7' /%3E%3Cline x1='400' y1='330' x2='400' y2='390' /%3E%3Cline x1='420' y1='330' x2='420' y2='390' stroke-dasharray='3 3' /%3E%3Cline x1='250' y1='430' x2='250' y2='470' stroke-dasharray='6 3 1 3' /%3E%3Cline x1='230' y1='450' x2='270' y2='450' stroke-dasharray='6 3 1 3' /%3E%3Ccircle cx='250' cy='450' r='14' /%3E%3Cline x1='500' y1='420' x2='500' y2='470' stroke-dasharray='6 3 1 3' /%3E%3Cline x1='475' y1='445' x2='525' y2='445' stroke-dasharray='6 3 1 3' /%3E%3C/g%3E%3C/svg%3E");
+      background-repeat: no-repeat, repeat;
+      background-size: cover, 480px 480px;
       pointer-events: none;
     }
     .hero-content {
@@ -703,8 +707,21 @@
       background: var(--gray-800);
       color: rgba(255,255,255,.5);
       padding: 36px 0;
+      position: relative;
+      overflow: hidden;
+    }
+    footer::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600' viewBox='0 0 600 600'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='1.4' stroke-opacity='0.07'%3E%3Crect x='40' y='40' width='150' height='90' /%3E%3Cline x1='115' y1='40' x2='115' y2='130' /%3E%3Ccircle cx='150' cy='75' r='16' /%3E%3Cline x1='150' y1='55' x2='150' y2='95' stroke-dasharray='4 3' /%3E%3Cline x1='130' y1='75' x2='170' y2='75' stroke-dasharray='4 3' /%3E%3Cpolyline points='40,170 115,170 115,150 190,150 190,215 40,215' /%3E%3Cline x1='150' y1='190' x2='150' y2='210' stroke-dasharray='3 3' /%3E%3Cline x1='163' y1='190' x2='163' y2='210' stroke-dasharray='3 3' /%3E%3Ccircle cx='430' cy='90' r='70' /%3E%3Ccircle cx='430' cy='90' r='40' /%3E%3Ccircle cx='430' cy='90' r='22' /%3E%3Ccircle cx='430' cy='34' r='9' /%3E%3Ccircle cx='479' cy='63' r='9' /%3E%3Ccircle cx='430' cy='146' r='9' /%3E%3Cline x1='430' y1='10' x2='430' y2='170' stroke-dasharray='5 3 1 3' /%3E%3Cline x1='352' y1='90' x2='508' y2='90' stroke-dasharray='5 3 1 3' /%3E%3Crect x='330' y='210' width='40' height='60' /%3E%3Crect x='370' y='195' width='24' height='30' /%3E%3Cline x1='330' y1='218' x2='370' y2='218' /%3E%3Cline x1='330' y1='230' x2='340' y2='220' /%3E%3Cline x1='340' y1='230' x2='350' y2='220' /%3E%3Cline x1='350' y1='230' x2='360' y2='220' /%3E%3Cline x1='360' y1='230' x2='370' y2='220' /%3E%3Cpath d='M60 330 q0 -55 55 -55 q55 0 55 55 v40 h-110 z' /%3E%3Cpath d='M85 370 a30 30 0 0 1 60 0' /%3E%3Ccircle cx='85' cy='320' r='9' /%3E%3Ccircle cx='145' cy='320' r='9' /%3E%3Cline x1='115' y1='275' x2='115' y2='300' stroke-dasharray='3 3' /%3E%3Cpolyline points='190,300 190,370 220,370 220,340 235,340 235,300' /%3E%3Cline x1='202' y1='300' x2='202' y2='370' stroke-dasharray='3 3' /%3E%3Cpath d='M370 330 a30 30 0 1 0 0 60 h90 l25 -30 l-25 -30 z' /%3E%3Ccircle cx='370' cy='360' r='11' /%3E%3Ccircle cx='455' cy='360' r='7' /%3E%3Cline x1='400' y1='330' x2='400' y2='390' /%3E%3Cline x1='420' y1='330' x2='420' y2='390' stroke-dasharray='3 3' /%3E%3Cline x1='250' y1='430' x2='250' y2='470' stroke-dasharray='6 3 1 3' /%3E%3Cline x1='230' y1='450' x2='270' y2='450' stroke-dasharray='6 3 1 3' /%3E%3Ccircle cx='250' cy='450' r='14' /%3E%3Cline x1='500' y1='420' x2='500' y2='470' stroke-dasharray='6 3 1 3' /%3E%3Cline x1='475' y1='445' x2='525' y2='445' stroke-dasharray='6 3 1 3' /%3E%3C/g%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 480px 480px;
+      pointer-events: none;
     }
     .footer-inner {
+      position: relative;
+      z-index: 1;
       display: flex;
       align-items: center;
       justify-content: space-between;
