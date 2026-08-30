@@ -1075,11 +1075,17 @@
             <img src="images/glasses/glasses-holder-side.jpg" alt="Side view" onclick="swapPhoto('glasses-main', this.src, this)" />
             <img src="images/glasses/glasses-holder-top.jpg" alt="Top view" onclick="swapPhoto('glasses-main', this.src, this)" />
             <img src="images/glasses/glasses-holder-cabinet.jpg" alt="Under-cabinet mount" onclick="swapPhoto('glasses-main', this.src, this)" />
+            <img src="images/glasses/15-days-2-lens-white.png" alt="2-Lens 15-day holder, rendered" onclick="swapPhoto('glasses-main', this.src, this)" />
           </div>
         </div>
         <div class="product-info">
           <span class="tag">Eyecare Organizer</span>
-          <h3>Glasses + 3 Contact Lens Type Holder</h3>
+          <h3>Glasses + Contact Lens Holder</h3>
+          <div class="product-variants">
+            <span class="tag" style="font-size:.7rem;margin-bottom:8px;display:block;width:100%">Holder size</span>
+            <span class="variant-chip active" onclick="setGlassesStyle('3lens',this)">3-Lens</span>
+            <span class="variant-chip" onclick="setGlassesStyle('2lens',this)">2-Lens (15-Day)</span>
+          </div>
           <div class="product-variants">
             <span class="tag" style="font-size:.7rem;margin-bottom:8px;display:block;width:100%">Available colors</span>
             <span class="variant-chip active" onclick="tintOnly('glasses-mv','F8F4EA',this)">Warm White</span>
@@ -1087,13 +1093,13 @@
             <span class="variant-chip" onclick="tintOnly('glasses-mv','A49A82',this)">Light Gray</span>
             <span class="variant-chip">Custom Color</span>
           </div>
-          <p>Stop searching for your glasses in the morning. This compact organizer keeps your eyeglasses and three distinct contact lens types — dailies, weeklies, and monthlies — within arm's reach in one minimal footprint. Fits flat on any bathroom counter or mounts cleanly under a cabinet.</p>
+          <p>I wear three different contact lens prescriptions — two in my left eye, one for reading and one for distance, plus one in my right — and dailies ship in strips of five, fused edge to edge. Half-awake and running late, separating one lens from the strip usually meant tearing loose two, and wasting one. This organizer pre-separates about fifteen days per prescription (three strips) into its own compartment, with a cradle for your glasses built in, so the only decision left each morning is which slot to grab. Choose the original 3-Lens version above, or the 2-Lens size for anyone running two prescriptions instead of three.</p>
           <ul class="product-features">
             <li>
               <span class="icon">
                 <svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="#2C2820" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </span>
-              Three separate lens compartments — daily, weekly, and monthly contacts all in their own dedicated slot
+              Individual compartments per prescription — pre-loaded with about 15 days (three 5-day strips), already separated so there's nothing to tear apart while you're half awake
             </li>
             <li>
               <span class="icon">
@@ -1111,7 +1117,7 @@
               <span class="icon">
                 <svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="#2C2820" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </span>
-              Sized for standard lens packs — blister packs lie flat and load from the front
+              3-Lens or 2-Lens — same organizer, sized to how many prescriptions you're juggling
             </li>
           </ul>
           <div class="product-actions">
@@ -1836,6 +1842,23 @@
     }
     function tintOnly(mvId, hex, chipEl) {
       setModelColor(mvId, hex);
+      if (chipEl) { chipEl.parentElement.querySelectorAll('.variant-chip').forEach(c => c.classList.remove('active')); chipEl.classList.add('active'); }
+    }
+
+    // Glasses + Contact Lens Holder: 3-Lens (original) vs 2-Lens (15-Day) swaps model + hero photo
+    const glassesGlbMap = {
+      '3lens': 'images/glasses/three-contacts+glasses.glb',
+      '2lens': 'images/glasses/15-days-2-lens.glb',
+    };
+    const glassesPhotoMap = {
+      '3lens': 'images/glasses/glasses-holder-counter.jpg',
+      '2lens': 'images/glasses/15-days-2-lens-white.png',
+    };
+    function setGlassesStyle(style, chipEl) {
+      const mv = document.getElementById('glasses-mv');
+      if (mv && glassesGlbMap[style]) mv.setAttribute('src', glassesGlbMap[style]);
+      const img = document.getElementById('glasses-main');
+      if (img && glassesPhotoMap[style]) img.src = glassesPhotoMap[style];
       if (chipEl) { chipEl.parentElement.querySelectorAll('.variant-chip').forEach(c => c.classList.remove('active')); chipEl.classList.add('active'); }
     }
 
