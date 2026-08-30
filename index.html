@@ -1065,18 +1065,18 @@
       <div class="product-block" id="glasses-holder">
         <div class="product-gallery">
           <div class="gallery-view-toggle">
-            <button id="glasses-btn-photo" class="active" type="button" onclick="toggle3D('glasses', false)">Photo</button>
-            <button id="glasses-btn-3d" type="button" onclick="toggle3D('glasses', true)">Rotate in 3D</button>
+            <button id="glasses-btn-photo" type="button" onclick="toggle3D('glasses', false)">Photo</button>
+            <button id="glasses-btn-3d" class="active" type="button" onclick="toggle3D('glasses', true)">Rotate in 3D</button>
           </div>
-          <model-viewer id="glasses-mv" class="main-photo main-3d" src="images/glasses/three-contacts+glasses.glb" camera-controls auto-rotate auto-rotate-delay="0" rotation-per-second="18deg" shadow-intensity="1" exposure="1" environment-image="neutral" alt="Interactive 3D model of the glasses and contact lens holder"></model-viewer>
-          <div class="gallery-3d-hint" id="glasses-hint">Drag to rotate &middot; scroll to zoom</div>
-          <img class="main-photo" id="glasses-main" src="images/glasses/glasses-holder-counter.jpg" alt="Glasses and contact lens organizer" />
+          <model-viewer id="glasses-mv" class="main-photo main-3d active" src="images/glasses/15-days-2-lens.glb" camera-controls auto-rotate auto-rotate-delay="0" rotation-per-second="18deg" shadow-intensity="1" exposure="1" environment-image="neutral" alt="Interactive 3D model of the glasses and contact lens holder"></model-viewer>
+          <div class="gallery-3d-hint" id="glasses-hint" style="opacity:1">Drag to rotate &middot; scroll to zoom</div>
+          <img class="main-photo is-3d-hidden" id="glasses-main" src="images/glasses/15-days-2-lens-white.png" alt="Glasses and contact lens organizer" />
           <div class="product-thumbs">
-            <img src="images/glasses/glasses-holder-counter.jpg" alt="Counter view" class="active" onclick="swapPhoto('glasses-main', this.src, this)" />
+            <img src="images/glasses/glasses-holder-counter.jpg" alt="Counter view" onclick="swapPhoto('glasses-main', this.src, this)" />
             <img src="images/glasses/glasses-holder-side.jpg" alt="Side view" onclick="swapPhoto('glasses-main', this.src, this)" />
             <img src="images/glasses/glasses-holder-top.jpg" alt="Top view" onclick="swapPhoto('glasses-main', this.src, this)" />
             <img src="images/glasses/glasses-holder-cabinet.jpg" alt="Under-cabinet mount" onclick="swapPhoto('glasses-main', this.src, this)" />
-            <img src="images/glasses/15-days-2-lens-white.png" alt="2-Lens 15-day holder, rendered" onclick="swapPhoto('glasses-main', this.src, this)" />
+            <img src="images/glasses/15-days-2-lens-white.png" alt="2-Lens 15-day holder, rendered" class="active" onclick="swapPhoto('glasses-main', this.src, this)" />
           </div>
         </div>
         <div class="product-info">
@@ -1084,8 +1084,8 @@
           <h3>Glasses + Contact Lens Holder</h3>
           <div class="product-variants">
             <span class="tag" style="font-size:.7rem;margin-bottom:8px;display:block;width:100%">Holder size</span>
-            <span class="variant-chip active" onclick="setGlassesStyle('3lens',this)">3-Lens</span>
-            <span class="variant-chip" onclick="setGlassesStyle('2lens',this)">2-Lens (15-Day)</span>
+            <span class="variant-chip" onclick="setGlassesStyle('3lens',this)">3-Lens</span>
+            <span class="variant-chip active" onclick="setGlassesStyle('2lens',this)">2-Lens (15-Day)</span>
           </div>
           <div class="product-variants">
             <span class="tag" style="font-size:.7rem;margin-bottom:8px;display:block;width:100%">Available colors</span>
@@ -1205,14 +1205,14 @@
           </div>
           <model-viewer id="gaming-mv" class="main-photo main-3d" src="images/gaming-card-display/gaming-card-display.glb" camera-controls auto-rotate auto-rotate-delay="0" rotation-per-second="18deg" shadow-intensity="1" exposure="1" environment-image="neutral" alt="Interactive 3D model of the trading card display rack"></model-viewer>
           <div class="gallery-3d-hint" id="gaming-hint">Drag to rotate &middot; scroll to zoom</div>
-          <img class="main-photo" id="gaming-main" src="images/gaming-card-display/gaming-card-display-white.png" alt="Trading card display rack, rendered" />
+          <img class="main-photo" id="gaming-main" src="images/gaming-card-display/gaming-card-display-1.jpg" alt="Trading card display rack" />
           <div class="product-thumbs">
-            <img src="images/gaming-card-display/gaming-card-display-white.png" alt="Rendered view" class="active" onclick="swapPhoto('gaming-main', this.src, this)" />
-            <img src="images/gaming-card-display/gaming-card-display-1.jpg" alt="Card display photo 1" onclick="swapPhoto('gaming-main', this.src, this)" />
+            <img src="images/gaming-card-display/gaming-card-display-1.jpg" alt="Card display photo 1" class="active" onclick="swapPhoto('gaming-main', this.src, this)" />
             <img src="images/gaming-card-display/gaming-card-display-2.jpg" alt="Card display photo 2" onclick="swapPhoto('gaming-main', this.src, this)" />
             <img src="images/gaming-card-display/gaming-card-display-3.jpg" alt="Card display photo 3" onclick="swapPhoto('gaming-main', this.src, this)" />
             <img src="images/gaming-card-display/gaming-card-display-4.jpg" alt="Card display photo 4" onclick="swapPhoto('gaming-main', this.src, this)" />
             <img src="images/gaming-card-display/gaming-card-display-5.jpg" alt="Card display photo 5" onclick="swapPhoto('gaming-main', this.src, this)" />
+            <img src="images/gaming-card-display/gaming-card-display-white.png" alt="Rendered view" onclick="swapPhoto('gaming-main', this.src, this)" />
           </div>
         </div>
         <div class="product-info">
@@ -1340,12 +1340,11 @@
           </div>
           <model-viewer id="knife-mv" class="main-photo main-3d" src="images/knives-holder/steak-knife-holder.glb" camera-controls auto-rotate auto-rotate-delay="0" rotation-per-second="18deg" shadow-intensity="1" exposure="1" environment-image="neutral" alt="Interactive 3D model of the steak knife holder"></model-viewer>
           <div class="gallery-3d-hint" id="knife-hint">Drag to rotate &middot; scroll to zoom</div>
-          <img class="main-photo" id="knife-main" src="images/knives-holder/steak-knife-holder-white.png" alt="Steak knife holder, rendered" />
+          <img class="main-photo" id="knife-main" src="images/knives-holder/steak-knife-holder-1.jpeg" alt="Steak knife holder" style="object-position: top;" />
           <div class="product-thumbs">
-            <img src="images/knives-holder/steak-knife-holder-white.png" alt="Rendered view" class="active" onclick="swapPhoto('knife-main', this.src, this)" />
-            <img src="images/knives-holder/steak-knife-holder-1.jpeg" alt="Steak knife holder photo 1" onclick="swapPhoto('knife-main', this.src, this)" />
+            <img src="images/knives-holder/steak-knife-holder-1.jpeg" alt="Steak knife holder photo 1" style="object-position: top;" class="active" onclick="swapPhoto('knife-main', this.src, this)" />
             <img src="images/knives-holder/steak-knife-holder-2.jpeg" alt="Steak knife holder photo 2" onclick="swapPhoto('knife-main', this.src, this)" />
-            <img src="images/knives-holder/steak-knife-holder-3.jpeg" alt="Steak knife holder photo 3" onclick="swapPhoto('knife-main', this.src, this)" />
+            <img src="images/knives-holder/steak-knife-holder-white.png" alt="Rendered view" onclick="swapPhoto('knife-main', this.src, this)" />
           </div>
         </div>
         <div class="product-info">
@@ -1445,13 +1444,13 @@
           </div>
           <model-viewer id="zbiotic-mv" class="main-photo main-3d" src="images/six-pack-gift-zbiotic/zbiotic-six-pack.glb" camera-controls auto-rotate auto-rotate-delay="0" rotation-per-second="18deg" shadow-intensity="1" exposure="1" environment-image="neutral" alt="Interactive 3D model of the ZBiotic gift carrier"></model-viewer>
           <div class="gallery-3d-hint" id="zbiotic-hint">Drag to rotate &middot; scroll to zoom</div>
-          <img class="main-photo" id="zbiotic-main" src="images/six-pack-gift-zbiotic/zbiotic-six-pack-gift-box-white.png" alt="ZBiotic six-pack gift carrier, rendered" />
+          <img class="main-photo" id="zbiotic-main" src="images/six-pack-gift-zbiotic/zbiotic-six-pack-gift-box-1.jpeg" alt="ZBiotic six-pack gift carrier" />
           <div class="product-thumbs">
-            <img src="images/six-pack-gift-zbiotic/zbiotic-six-pack-gift-box-white.png" alt="Rendered view" class="active" onclick="swapPhoto('zbiotic-main', this.src, this)" />
-            <img src="images/six-pack-gift-zbiotic/zbiotic-six-pack-gift-box-1.jpeg" alt="Gift box photo 1" onclick="swapPhoto('zbiotic-main', this.src, this)" />
+            <img src="images/six-pack-gift-zbiotic/zbiotic-six-pack-gift-box-1.jpeg" alt="Gift box photo 1" class="active" onclick="swapPhoto('zbiotic-main', this.src, this)" />
             <img src="images/six-pack-gift-zbiotic/zbiotic-six-pack-gift-box-2.jpeg" alt="Gift box photo 2" onclick="swapPhoto('zbiotic-main', this.src, this)" />
             <img src="images/six-pack-gift-zbiotic/zbiotic-six-pack-gift-box-3.jpeg" alt="Gift box photo 3" onclick="swapPhoto('zbiotic-main', this.src, this)" />
             <img src="images/six-pack-gift-zbiotic/zbiotic-six-pack-gift-box-4.jpeg" alt="Gift box photo 4" onclick="swapPhoto('zbiotic-main', this.src, this)" />
+            <img src="images/six-pack-gift-zbiotic/zbiotic-six-pack-gift-box-white.png" alt="Rendered view" onclick="swapPhoto('zbiotic-main', this.src, this)" />
           </div>
         </div>
       </div>
@@ -1737,6 +1736,7 @@
     function swapPhoto(mainId, src, thumb) {
       const main = document.getElementById(mainId);
       main.src = src;
+      main.style.objectPosition = thumb.style.objectPosition || '';
       const thumbs = thumb.parentElement.querySelectorAll('img');
       thumbs.forEach(t => t.classList.remove('active'));
       thumb.classList.add('active');
