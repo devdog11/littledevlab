@@ -279,6 +279,7 @@
 
     /* ── Section Base ──────────────────────────────── */
     section { padding: 96px 0; }
+    section[id], .product-block[id] { scroll-margin-top: calc(var(--nav-h) + 16px); }
     .section-header {
       text-align: center;
       max-width: 600px;
@@ -1890,6 +1891,32 @@
       });
     }, { threshold: 0.3 });
     sections.forEach(s => observer.observe(s));
+
+    // ── Fix: direct links to a #section can land in the wrong place ──
+    // `scroll-behavior: smooth` turns the browser's initial hash-scroll on
+    // page load into an animation aimed at a fixed pixel target. If this
+    // page's layout is still settling (3D viewers, toggles, images) while
+    // that animation plays, the browser stops at a now-stale position and
+    // never corrects itself. Once everything has truly finished loading,
+    // snap (instantly, no double-animation) to the real position instead.
+    function correctHashScroll() {
+      if (!location.hash) return;
+      let target;
+      try { target = document.querySelector(location.hash); } catch (e) { return; }
+      if (!target) return;
+      const prevBehavior = document.documentElement.style.scrollBehavior;
+      document.documentElement.style.scrollBehavior = 'auto';
+      target.scrollIntoView({ block: 'start' });
+      document.documentElement.style.scrollBehavior = prevBehavior;
+    }
+    window.addEventListener('load', () => {
+      // Double rAF: let any layout from the 'load' event itself (fonts,
+      // late image decodes, custom-element upgrades) finish painting first.
+      requestAnimationFrame(() => requestAnimationFrame(correctHashScroll));
+      // Images/model-viewers can still resize slightly after 'load' fires
+      // (e.g. GLB decode); one more pass shortly after covers that.
+      setTimeout(correctHashScroll, 600);
+    });
   </script>
 </body>
 </html>
