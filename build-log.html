@@ -25,6 +25,10 @@
       --gray-400: #a49a82;
       --gray-600: #55503f;
       --gray-800: #2c2820;
+      /* Build Log's own accent — distinct from the site's ink/rust identity */
+      --bl-navy:      #1e3a5f;
+      --bl-navy-soft: #3c5d82;
+      --bl-gold:      #c8a96e;
       --radius:   3px;
       --radius-lg: 6px;
       --shadow-sm: 0 1px 3px rgba(44,40,32,.10), 0 1px 2px rgba(44,40,32,.08);
@@ -174,7 +178,7 @@
 
     /* ── Page Header ───────────────────────────────── */
     .log-header {
-      background: var(--navy);
+      background: var(--bl-navy);
       padding-top: calc(var(--nav-h) + 64px);
       padding-bottom: 56px;
       position: relative;
@@ -184,15 +188,22 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: radial-gradient(ellipse 60% 80% at 80% 20%, rgba(176,73,42,.14) 0%, transparent 70%);
+      background: radial-gradient(ellipse 60% 80% at 80% 20%, rgba(200,169,110,.16) 0%, transparent 70%);
       pointer-events: none;
+    }
+    .log-header .container {
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      align-items: center;
+      gap: 24px;
+      position: relative;
     }
     .log-eyebrow {
       font-size: .78rem;
       font-weight: 600;
       letter-spacing: .14em;
       text-transform: uppercase;
-      color: var(--accent);
+      color: var(--bl-gold);
       margin-bottom: 16px;
     }
     .log-header h1 {
@@ -210,6 +221,23 @@
       color: rgba(255,255,255,.72);
       max-width: 560px;
     }
+    .log-header-visual {
+      justify-self: center;
+    }
+    .log-header-visual svg { width: 100%; height: auto; max-width: 260px; }
+    @media (max-width: 860px) {
+      .log-header .container { grid-template-columns: 1fr; }
+      .log-header-visual { display: none; }
+    }
+
+    /* ── Header cube drawing ───────────────────────── */
+    .log-header-visual .edge-solid { fill: none; stroke: var(--white); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; opacity: .82; }
+    .log-header-visual .edge-hidden { fill: none; stroke: var(--bl-gold); stroke-width: 1.4; stroke-dasharray: 6 5; stroke-linecap: round; opacity: .55; }
+    .log-header-visual .ext-line { stroke: var(--bl-gold); stroke-width: 1; opacity: .45; }
+    .log-header-visual .dim-line { stroke: var(--bl-gold); stroke-width: 1; opacity: .6; }
+    .log-header-visual .tick { stroke: var(--bl-gold); stroke-width: 1.4; opacity: .6; }
+    .log-header-visual .center-mark { stroke: var(--bl-gold); stroke-width: 1.2; opacity: .8; }
+    .log-header-visual .dim-text { fill: var(--bl-gold); font-size: 11px; letter-spacing: .01em; opacity: .75; }
 
     /* ── Drafting Title Block ──────────────────────── */
     .sheet-titleblock { background: var(--paper); padding: 22px 0; }
@@ -381,10 +409,10 @@
     <div class="container">
       <a href="index.html" class="nav-logo">
         <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-          <rect width="28" height="28" rx="7" fill="#2C2820"/>
+          <rect width="28" height="28" rx="7" fill="#1E3A5F"/>
           <rect x="6" y="6" width="7" height="7" rx="1.5" fill="white"/>
-          <rect x="15" y="6" width="7" height="7" rx="1.5" fill="#B0492A"/>
-          <rect x="6" y="15" width="7" height="7" rx="1.5" fill="#B0492A"/>
+          <rect x="15" y="6" width="7" height="7" rx="1.5" fill="#C8A96E"/>
+          <rect x="6" y="15" width="7" height="7" rx="1.5" fill="#C8A96E"/>
           <rect x="15" y="15" width="7" height="7" rx="1.5" fill="white"/>
         </svg>
         LittleDevLab
@@ -414,9 +442,50 @@
   <!-- ── Page Header ── -->
   <header class="log-header">
     <div class="container">
-      <p class="log-eyebrow">Lab Notebook</p>
-      <h1>Build Log</h1>
-      <p>A running record of what actually shipped on LittleDevLab — site changes, new products, infrastructure moves — logged roughly twice a day, in the order it happened. For deeper "how I built this" write-ups, see Lab Notes (coming soon).</p>
+      <div>
+        <p class="log-eyebrow">Lab Notebook</p>
+        <h1>Build Log</h1>
+        <p>A running record of what actually shipped on LittleDevLab — site changes, new products, infrastructure moves — logged roughly twice a day, in the order it happened. For deeper "how I built this" write-ups, see Lab Notes (coming soon).</p>
+      </div>
+      <div class="log-header-visual" aria-hidden="true">
+        <svg viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg">
+          <g transform="translate(160,160)">
+            <polyline points="0.00,-100.00 86.60,-50.00 86.60,50.00 -0.00,100.00 -86.60,50.00 -86.60,-50.00 0.00,-100.00" class="edge-solid"/>
+            <line x1="0.00" y1="0.00" x2="86.60" y2="-50.00" class="edge-solid"/>
+            <line x1="0.00" y1="0.00" x2="-0.00" y2="100.00" class="edge-solid"/>
+            <line x1="0.00" y1="0.00" x2="-86.60" y2="-50.00" class="edge-solid"/>
+            <line x1="0.00" y1="0.00" x2="0.00" y2="-100.00" class="edge-hidden"/>
+            <line x1="0.00" y1="0.00" x2="86.60" y2="50.00" class="edge-hidden"/>
+            <line x1="0.00" y1="0.00" x2="-86.60" y2="50.00" class="edge-hidden"/>
+            <g class="dim">
+              <line x1="86.60" y1="50.00" x2="99.60" y2="72.52" class="ext-line"/>
+              <line x1="-0.00" y1="100.00" x2="13.00" y2="122.52" class="ext-line"/>
+              <line x1="99.60" y1="72.52" x2="13.00" y2="122.52" class="dim-line"/>
+              <line x1="96.22" y1="71.61" x2="102.98" y2="73.42" class="tick"/>
+              <line x1="9.62" y1="121.61" x2="16.38" y2="123.42" class="tick"/>
+              <text x="56.30" y="97.52" class="dim-text" transform="rotate(330.00 56.30 97.52)" text-anchor="middle" dy="-4">12'-0"</text>
+            </g>
+            <g class="dim">
+              <line x1="-0.00" y1="100.00" x2="-13.00" y2="122.52" class="ext-line"/>
+              <line x1="-86.60" y1="50.00" x2="-99.60" y2="72.52" class="ext-line"/>
+              <line x1="-13.00" y1="122.52" x2="-99.60" y2="72.52" class="dim-line"/>
+              <line x1="-13.91" y1="119.14" x2="-12.09" y2="125.90" class="tick"/>
+              <line x1="-100.51" y1="69.14" x2="-98.69" y2="75.90" class="tick"/>
+              <text x="-56.30" y="97.52" class="dim-text" transform="rotate(30.00 -56.30 97.52)" text-anchor="middle" dy="-4">12'-0"</text>
+            </g>
+            <g class="dim">
+              <line x1="-86.60" y1="50.00" x2="-112.60" y2="50.00" class="ext-line"/>
+              <line x1="-86.60" y1="-50.00" x2="-112.60" y2="-50.00" class="ext-line"/>
+              <line x1="-112.60" y1="50.00" x2="-112.60" y2="-50.00" class="dim-line"/>
+              <line x1="-115.07" y1="52.47" x2="-110.13" y2="47.53" class="tick"/>
+              <line x1="-115.07" y1="-47.53" x2="-110.13" y2="-52.47" class="tick"/>
+              <text x="-112.60" y="0.00" class="dim-text" transform="rotate(-90.00 -112.60 0.00)" text-anchor="middle" dy="-4">12'-0"</text>
+            </g>
+            <line x1="-6.00" y1="0.00" x2="6.00" y2="0.00" class="center-mark"/>
+            <line x1="0.00" y1="-6.00" x2="0.00" y2="6.00" class="center-mark"/>
+          </g>
+        </svg>
+      </div>
     </div>
   </header>
 
@@ -538,10 +607,10 @@
       <div class="footer-inner">
         <div class="footer-logo">
           <svg width="20" height="20" viewBox="0 0 28 28" fill="none">
-            <rect width="28" height="28" rx="7" fill="#55503F"/>
+            <rect width="28" height="28" rx="7" fill="#3C5D82"/>
             <rect x="6" y="6" width="7" height="7" rx="1.5" fill="white"/>
-            <rect x="15" y="6" width="7" height="7" rx="1.5" fill="#B0492A"/>
-            <rect x="6" y="15" width="7" height="7" rx="1.5" fill="#B0492A"/>
+            <rect x="15" y="6" width="7" height="7" rx="1.5" fill="#C8A96E"/>
+            <rect x="6" y="15" width="7" height="7" rx="1.5" fill="#C8A96E"/>
             <rect x="15" y="15" width="7" height="7" rx="1.5" fill="white"/>
           </svg>
           LittleDevLab

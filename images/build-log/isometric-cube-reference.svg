@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 460" font-family="'Courier New', ui-monospace, SFMono-Regular, Menlo, monospace">
+  <style>
+    .sheet-bg { fill: #f3ede1; }
+    .frame { fill: none; stroke: #2c2820; stroke-width: 2; }
+    .edge-solid { fill: none; stroke: #2c2820; stroke-width: 2.2; stroke-linejoin: round; stroke-linecap: round; }
+    .edge-hidden { fill: none; stroke: #a49a82; stroke-width: 1.6; stroke-dasharray: 6 5; stroke-linecap: round; }
+    .ext-line { stroke: #6b6454; stroke-width: 1; }
+    .dim-line { stroke: #6b6454; stroke-width: 1; }
+    .tick { stroke: #6b6454; stroke-width: 1.4; }
+    .center-mark { stroke: #b0492a; stroke-width: 1.2; }
+    .dim-text { fill: #55503f; font-size: 12px; letter-spacing: .01em; }
+    .eyebrow { fill: #b0492a; font-size: 11px; font-weight: 700; letter-spacing: .14em; }
+    .heading { fill: #2c2820; font-size: 20px; font-weight: 700; letter-spacing: -.01em; }
+    .tb-label { fill: #55503f; font-size: 8.5px; letter-spacing: .08em; }
+    .tb-value { fill: #2c2820; font-size: 11.5px; font-weight: 600; }
+    .tb-border { fill: none; stroke: #2c2820; stroke-width: 1.4; }
+  </style>
+
+  <rect x="0" y="0" width="560" height="460" class="sheet-bg"/>
+  <rect x="14" y="14" width="532" height="432" class="frame"/>
+
+  <text x="34" y="52" class="eyebrow">LAB NOTES · 3D DESIGN &amp; PRINT TRACK</text>
+  <text x="34" y="78" class="heading">Isometric Cube — Reference Drawing</text>
+
+  <g transform="translate(280,240)">
+    <polyline points="0.00,-100.00 86.60,-50.00 86.60,50.00 -0.00,100.00 -86.60,50.00 -86.60,-50.00 0.00,-100.00" class="edge-solid"/>
+    <line x1="0.00" y1="0.00" x2="86.60" y2="-50.00" class="edge-solid"/>
+    <line x1="0.00" y1="0.00" x2="-0.00" y2="100.00" class="edge-solid"/>
+    <line x1="0.00" y1="0.00" x2="-86.60" y2="-50.00" class="edge-solid"/>
+    <line x1="0.00" y1="0.00" x2="0.00" y2="-100.00" class="edge-hidden"/>
+    <line x1="0.00" y1="0.00" x2="86.60" y2="50.00" class="edge-hidden"/>
+    <line x1="0.00" y1="0.00" x2="-86.60" y2="50.00" class="edge-hidden"/>
+    <g class="dim">
+    <line x1="86.60" y1="50.00" x2="99.60" y2="72.52" class="ext-line"/>
+    <line x1="-0.00" y1="100.00" x2="13.00" y2="122.52" class="ext-line"/>
+    <line x1="99.60" y1="72.52" x2="13.00" y2="122.52" class="dim-line"/>
+    <line x1="96.22" y1="71.61" x2="102.98" y2="73.42" class="tick"/>
+    <line x1="9.62" y1="121.61" x2="16.38" y2="123.42" class="tick"/>
+    <text x="56.30" y="97.52" class="dim-text" transform="rotate(330.00 56.30 97.52)" text-anchor="middle" dy="-4">12'-0"</text>
+    </g>
+    <g class="dim">
+    <line x1="-0.00" y1="100.00" x2="-13.00" y2="122.52" class="ext-line"/>
+    <line x1="-86.60" y1="50.00" x2="-99.60" y2="72.52" class="ext-line"/>
+    <line x1="-13.00" y1="122.52" x2="-99.60" y2="72.52" class="dim-line"/>
+    <line x1="-13.91" y1="119.14" x2="-12.09" y2="125.90" class="tick"/>
+    <line x1="-100.51" y1="69.14" x2="-98.69" y2="75.90" class="tick"/>
+    <text x="-56.30" y="97.52" class="dim-text" transform="rotate(30.00 -56.30 97.52)" text-anchor="middle" dy="-4">12'-0"</text>
+    </g>
+    <g class="dim">
+    <line x1="-86.60" y1="50.00" x2="-112.60" y2="50.00" class="ext-line"/>
+    <line x1="-86.60" y1="-50.00" x2="-112.60" y2="-50.00" class="ext-line"/>
+    <line x1="-112.60" y1="50.00" x2="-112.60" y2="-50.00" class="dim-line"/>
+    <line x1="-115.07" y1="52.47" x2="-110.13" y2="47.53" class="tick"/>
+    <line x1="-115.07" y1="-47.53" x2="-110.13" y2="-52.47" class="tick"/>
+    <text x="-112.60" y="0.00" class="dim-text" transform="rotate(-90.00 -112.60 0.00)" text-anchor="middle" dy="-4">12'-0"</text>
+    </g>
+    <line x1="-6.00" y1="0.00" x2="6.00" y2="0.00" class="center-mark"/>
+    <line x1="0.00" y1="-6.00" x2="0.00" y2="6.00" class="center-mark"/>
+  </g>
+
+  <!-- title block -->
+  <g transform="translate(14,388)">
+    <rect x="0" y="0" width="532" height="44" class="tb-border"/>
+    <line x1="133" y1="0" x2="133" y2="44" class="tb-border" stroke-width="1"/>
+    <line x1="266" y1="0" x2="266" y2="44" class="tb-border" stroke-width="1"/>
+    <line x1="399" y1="0" x2="399" y2="44" class="tb-border" stroke-width="1"/>
+    <text x="14" y="17" class="tb-label">TITLE</text>
+    <text x="14" y="33" class="tb-value">Isometric Cube</text>
+    <text x="147" y="17" class="tb-label">DIMENSIONS</text>
+    <text x="147" y="33" class="tb-value">12'-0" cube</text>
+    <text x="280" y="17" class="tb-label">SCALE</text>
+    <text x="280" y="33" class="tb-value">NTS</text>
+    <text x="413" y="17" class="tb-label">DR. NO.</text>
+    <text x="413" y="33" class="tb-value">littledevlab.com</text>
+  </g>
+</svg>
