@@ -2,7 +2,23 @@
 
 **Owner:** Tyson Bell
 **Drafted:** August 26, 2026
-**Status:** Outline for review — not yet executed
+**Last updated:** August 30, 2026
+**Status:** Living plan — Phase 0 (hosting) complete, Phase 1 (site v2) well underway
+
+---
+
+## Status Summary (as of 2026-08-30)
+
+In the four days since this plan was drafted, execution has outpaced the original phasing — Phase 0 and a good chunk of Phase 1 are done:
+
+- **Hosting migration (Phase 0) — done.** Repo moved to GitHub, Cloudflare Pages project created, and `.github/workflows/deploy.yml` auto-deploys `main` on every push. littledevlab.com is live off GoDaddy.
+- **Site redesign — done.** Retheme to a drafting-blueprint palette (paper/ink/rust, monospace type, title-block header/footer strip) shipped 8/29.
+- **Product catalog — grown from 2 to 6.** Added Trading Card Display, Hunter Douglas Remote Wall Mount family, Steak Knife Holder, and ZBiotic Six-Pack Gift Carrier alongside the original glasses holder and coasters. Steak knife holder now also offers Classic Birch and Black Walnut color options.
+- **Product pages — now interactive.** Each product embeds a `<model-viewer>` 3D preview plus black/white (and material) color-variant renders; variant/color chips moved above the fold across all products. An anchor-link scroll bug on direct page loads was fixed along the way.
+- **New: Build Log workstream (Section 8).** Started a `build-log/` folder of short, dated markdown entries — roughly 2 per day — logging what shipped and why. This is the seed for a future `/build-log` (or similar) page on the site: a public stream of "what changed today," separate from the deeper milestone posts planned for Lab Notes.
+- **Still spec-only / not started:** Agentic framework formalization (Workstream C), the five skill-track Lab Notes posts (Workstream D), Surf 2 Remodel page + back-office toolkit (Workstream E), and both pilots (Sections 11–12).
+
+See Section 10 for the full, dated decision log.
 
 ---
 
@@ -34,7 +50,7 @@ One site, one shared infrastructure:
 |---|---|
 | Home | Innovator intro + current focus + featured build |
 | Lab Notes | Blog-style log — one post per skill milestone (5 tracks below) |
-| Products | Existing 3D print catalog (glasses/lens holder, coasters) — already built |
+| Products | 3D print catalog — 6 products live: glasses/lens holder, Chilewich coasters, trading card display, Hunter Douglas remote mount family, steak knife holder, ZBiotic gift carrier — each with interactive `<model-viewer>` 3D preview and color-variant chips |
 | Projects | Larger case studies: home remodel AI workflow, home automation setup, agent pipelines you've built |
 | Surf 2 Remodel (`/surf_2_remodel`) | One dedicated page introducing the contractor's business — kept visually distinct (own header/color accent) but hosted as part of littledevlab.com, no separate site |
 | About / Contact | Who you are, what "LittleDevLab" means, contact form |
@@ -44,6 +60,8 @@ One site, one shared infrastructure:
 ---
 
 ## 4. Workstream B — Hosting: Getting Off GoDaddy
+
+**Status: Done (2026-08-28).** Repo is on GitHub, the Cloudflare Pages project is live, and `.github/workflows/deploy.yml` deploys `main` automatically via `wrangler-action` — typical deploy time under a minute. GoDaddy is no longer in the loop.
 
 GoDaddy shared hosting is neither free nor particularly secure by default (shared server, historically a target for mass-compromise campaigns via outdated PHP/plugins). Since the site is static HTML, you don't need a traditional host at all — you need a CDN-backed static host, which is both free and more secure by construction.
 
@@ -122,33 +140,62 @@ Design constraint: the contractor is excellent at the trade, not business ops; h
 
 ---
 
-## 8. Phased Roadmap
+## 8. Workstream F — Build Log (Daily Changelog)
 
-| Phase | Focus | Rough scope |
-|---|---|---|
-| **0 — Foundation** | Move littledevlab.com to Cloudflare Pages + GitHub; set up the repo as the "lab notebook" | 1 weekend |
-| **1 — Site v2** | Rebuild IA (Lab Notes, Projects, `/surf_2_remodel` placeholder page); publish first 3D-print retrospective posts using existing photos, hand-written HTML | 1–2 weeks |
-| **2 — Agentic framework** | Formalize the Claude/Cowork trigger → draft → review → publish pattern + GitHub Actions auto-deploy; write the "how this pipeline works" post | 1–2 weeks |
-| **3 — Evals + Python track** | Install promptfoo/DeepEval, run first eval suite against something real (site copy, or a contractor form validator), publish results | 1–2 weeks |
-| **4 — Home automation track** | Document current Home Assistant setup, ship one new automation via scripted pipeline | Ongoing |
-| **5 — AI remodel track** | Pick one real or hypothetical remodel, run it through Live Home 3D + SketchUp AI Render, document the prompt-engineering workflow | 1–2 weeks |
-| **6 — Surf 2 Remodel page + Wave** | Build the `/surf_2_remodel` page + contact form; set up Wave for invoicing | 1 weekend + iteration |
-| **7 — Contractor back office** | Add Joist, then Zoho Expense for the wife's receipt workflow, with a short training walkthrough | Ongoing |
-| **8 — Eleventy migration (when needed)** | Once Lab Notes passes ~10 hand-written posts, migrate the blog structure to Eleventy without changing the free static hosting setup | Trigger-based, not scheduled |
+**Status: Started 2026-08-30.**
+
+Separate from Lab Notes (Workstream A/D — deep, milestone-driven posts written once a skill track produces something worth teaching), the Build Log is a lightweight, frequent record of what actually shipped, day to day, on the site and the lab overall. It's the raw material a returning reader (or future Eleventy migration) can turn into a "recent activity" stream, and it doubles as an honest running record for this plan itself.
+
+**Folder:** `build-log/` at the repo root (versioned in git, unlike the private `Progress Story`/`Objects Source` folders in Sections 11–12, since these entries are meant to become public-facing).
+
+**Format:** one markdown file per entry, named `YYYY-MM-DD-NN-slug.md` (NN increments for multiple same-day entries), each with a short frontmatter block (`date`, `time`, `title`, `tags`, `commit`) and 2–4 sentences of plain narrative. See `build-log/README.md` for the full convention.
+
+**Cadence:** roughly 2 entries per day for now — one per natural work session, not one per commit. Small related commits (e.g., a retheme plus its texture follow-up) collapse into a single entry.
+
+**Backfill:** the four days of work since this plan was drafted (2026-08-27 through 2026-08-30) have been logged retroactively from git history to seed the folder — see the six entries currently in `build-log/`.
+
+**Next step (not yet built):** a dedicated page — most likely `littledevlab.com/build-log` — that renders this folder as a reverse-chronological stream. Until that page exists, the folder is the source of truth and the entries are readable directly on GitHub.
+
+---
+
+## 9. Phased Roadmap
+
+| Phase | Focus | Rough scope | Status |
+|---|---|---|---|
+| **0 — Foundation** | Move littledevlab.com to Cloudflare Pages + GitHub; set up the repo as the "lab notebook" | 1 weekend | **Done (2026-08-28)** |
+| **1 — Site v2** | Rebuild IA (Lab Notes, Projects, `/surf_2_remodel` placeholder page); publish first 3D-print retrospective posts using existing photos, hand-written HTML | 1–2 weeks | **In progress** — retheme, interactive 3D viewers, and 4 new products shipped; Lab Notes/Projects IA and `/surf_2_remodel` placeholder not started |
+| **1.5 — Build Log** *(added 2026-08-30)* | Stand up `build-log/` folder + convention as a lightweight daily changelog, ahead of a dedicated page | Ongoing | **Started (2026-08-30)** |
+| **2 — Agentic framework** | Formalize the Claude/Cowork trigger → draft → review → publish pattern + GitHub Actions auto-deploy; write the "how this pipeline works" post | 1–2 weeks | Not started |
+| **3 — Evals + Python track** | Install promptfoo/DeepEval, run first eval suite against something real (site copy, or a contractor form validator), publish results | 1–2 weeks | Not started |
+| **4 — Home automation track** | Document current Home Assistant setup, ship one new automation via scripted pipeline | Ongoing | Not started |
+| **5 — AI remodel track** | Pick one real or hypothetical remodel, run it through Live Home 3D + SketchUp AI Render, document the prompt-engineering workflow | 1–2 weeks | Not started |
+| **6 — Surf 2 Remodel page + Wave** | Build the `/surf_2_remodel` page + contact form; set up Wave for invoicing | 1 weekend + iteration | Not started |
+| **7 — Contractor back office** | Add Joist, then Zoho Expense for the wife's receipt workflow, with a short training walkthrough | Ongoing | Not started |
+| **8 — Eleventy migration (when needed)** | Once Lab Notes passes ~10 hand-written posts, migrate the blog structure to Eleventy without changing the free static hosting setup | Trigger-based, not scheduled | Not started |
 
 Phases 3–5 can run in parallel once Phase 2's pattern exists — they're independent content tracks sharing the same framework. Phase 6–7 (Surf 2 Remodel) is decoupled from your personal skill tracks and can start any time bandwidth allows, though it now lives in the same repo/deploy pipeline since it's a page, not a separate site.
 
 ---
 
-## 9. Decisions Confirmed (2026-08-26)
+## 10. Decisions Confirmed
+
+**2026-08-26**
 
 1. **Contractor presence:** No separate site. `littledevlab.com/surf_2_remodel` is a single page within the existing site — same repo, same hosting, same deploy pipeline. Simplifies Workstream E considerably (no second Cloudflare Pages project, no second domain).
 2. **Lab Notes tooling:** Hand-written HTML posts for now. **Eleventy** is the confirmed next step once that becomes tedious (~10 posts as the rough trigger) — chosen because it stays plain static output, so it doesn't disturb the free hosting setup in Workstream B.
 3. **Orchestration:** Claude/Cowork only for now. No n8n or other no-code automation tool being stood up at this stage — added back to the plan only if a genuinely unattended, scheduled task shows up that doesn't fit a review-in-the-loop pattern.
 
+**2026-08-30**
+
+4. **Hosting executed:** Phase 0 completed exactly per the Workstream B recommendation — Cloudflare Pages + GitHub Actions, GoDaddy fully out of the loop.
+5. **Visual identity set:** Site retheme to a drafting-blueprint palette (paper/ink/rust, monospace type, title-block strip) — this is now the site's established look, not just a proposal.
+6. **Interactive product pages adopted ahead of schedule:** `<model-viewer>` 3D embeds and color/material variant chips are live on all 6 products now, rather than waiting for the Section 12 pipeline to generate them. The manual pattern being used today is effectively the template that pipeline will need to automate later.
+7. **Build Log started:** New `build-log/` folder + convention (Section 8) — a daily/twice-daily changelog, distinct from milestone Lab Notes posts, with a future dedicated site page as the next step.
+8. **Product catalog decision:** New products get added to the existing hand-coded `.product-block` pattern for now (steak knife holder, trading card display, Hunter Douglas mounts, ZBiotic carrier all shipped this way) — the templated Section 12 generator remains a "when it gets tedious" upgrade, same posture as the Eleventy trigger in decision 2.
+
 ---
 
-## 10. Pilot: Daily Progress Story Agent
+## 11. Pilot: Daily Progress Story Agent
 
 This is the first real agentic pipeline for the project (not just AI-assisted) — it has a self-directed loop and a feedback signal it acts on without you in between. Chosen as the pilot because it uses existing raw material (3D print photos) and directly exercises Workstream C's "trigger → agent draft → review → publish" pattern from the inside, with the review happening *after* publish via reader feedback rather than before.
 
@@ -178,7 +225,7 @@ Keeping curated-but-unused photos out of the deployed repo matters because a pub
 
 ---
 
-## 11. Pilot: Folder-Driven Product Site Generator
+## 12. Pilot: Folder-Driven Product Site Generator
 
 Generalizes the two hand-built product blocks (glasses/lens holder, Chilewich coasters) into a repeatable pipeline: drop a folder of photos + a 3D model file, get a published product page. This is the mechanism that scales the site as new prints get made, rather than hand-coding each new product block.
 
@@ -202,9 +249,9 @@ Lives outside the deployed repo, same reasoning as `Progress Story` — raw CAD 
 6. **Publish** — commit, push, Cloudflare Pages auto-deploys (once Workstream B's hosting move is complete).
 7. **Optional stretch** — convert `.3mf`/`.step` to `.glb` and embed with the `<model-viewer>` web component so visitors can rotate the actual model instead of just viewing photos. Not needed for v1.
 
-**Trigger:** since n8n isn't in the current toolset (Section 9, decision 3), the practical version is a scheduled Cowork task (`schedule` skill) that periodically checks `Objects Source/` for new slugs, runs steps 1–4 automatically, and messages Tyson for the Step 5 review gate rather than publishing unattended.
+**Trigger:** since n8n isn't in the current toolset (Section 10, decision 3), the practical version is a scheduled Cowork task (`schedule` skill) that periodically checks `Objects Source/` for new slugs, runs steps 1–4 automatically, and messages Tyson for the Step 5 review gate rather than publishing unattended.
 
-**Status:** Spec only — not yet built. Next step is creating the `Objects Source/` folder and one test product to build the pipeline against.
+**Status:** Spec only — not yet built. As of 2026-08-30, the manual precursor exists: all 6 live products already use `<model-viewer>` + variant chips (Section 10, decision 6), which is the visual/template pattern this pipeline needs to automate. Next step is still creating the `Objects Source/` folder and one test product to build the actual ingestion pipeline against.
 
 ---
 

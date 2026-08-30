@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Build Log — LittleDevLab</title>
+  <meta name="description" content="A running record of what shipped on LittleDevLab — site changes, new products, and infrastructure moves — logged roughly twice a day." />
+  <style>
+    /* ── Reset & Base ──────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --paper:    #f3ede1;
+      --paper2:   #ece4d4;
+      --ink:      #2c2820;
+      --ink-soft: #55503f;
+      --navy:     #2c2820;
+      --navy-mid: #b0492a;
+      --navy-lt:  #6b6454;
+      --accent:   #b0492a;
+      --sand:     #ece4d4;
+      --white:    #f8f4ea;
+      --gray-100: #efe8da;
+      --gray-200: #e3dac8;
+      --gray-400: #a49a82;
+      --gray-600: #55503f;
+      --gray-800: #2c2820;
+      --radius:   3px;
+      --radius-lg: 6px;
+      --shadow-sm: 0 1px 3px rgba(44,40,32,.10), 0 1px 2px rgba(44,40,32,.08);
+      --shadow-md: 0 4px 16px rgba(44,40,32,.12), 0 2px 6px rgba(44,40,32,.08);
+      --font: 'Courier New', ui-monospace, SFMono-Regular, Menlo, monospace;
+      --max-w: 1120px;
+      --nav-h: 68px;
+    }
+
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      font-family: var(--font);
+      color: var(--gray-800);
+      background: var(--white);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img { display: block; max-width: 100%; height: auto; }
+    a { color: inherit; text-decoration: none; }
+
+    .container { max-width: var(--max-w); margin: 0 auto; padding: 0 24px; }
+
+    .tag {
+      display: inline-block;
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--navy);
+      background: transparent;
+      border: 1.5px solid var(--navy);
+      padding: 3px 10px;
+      border-radius: 3px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font);
+      font-size: .85rem;
+      font-weight: 700;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      padding: 13px 28px;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: all .2s ease;
+      border: 2px solid transparent;
+    }
+    .btn-outline {
+      background: transparent;
+      color: var(--navy);
+      border-color: var(--navy);
+    }
+    .btn-outline:hover {
+      background: var(--navy);
+      color: var(--white);
+      transform: translateY(-1px);
+    }
+
+    /* ── Navigation ────────────────────────────────── */
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--nav-h);
+      background: rgba(255,255,255,.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--gray-200);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+    }
+    .nav .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--navy);
+      letter-spacing: -.01em;
+    }
+    .nav-logo svg { flex-shrink: 0; }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: .88rem;
+      font-weight: 500;
+      color: var(--gray-600);
+      transition: color .15s;
+    }
+    .nav-links a:hover, .nav-links a.current { color: var(--navy); }
+    .nav-links a.current { font-weight: 700; }
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .nav-toggle span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--navy);
+      border-radius: 2px;
+      transition: all .25s;
+    }
+    .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-toggle.open span:nth-child(2) { opacity: 0; }
+    .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .mobile-nav {
+      position: fixed;
+      top: var(--nav-h); left: 0; right: 0;
+      background: var(--white);
+      border-bottom: 1px solid var(--gray-200);
+      transform: translateY(-8px);
+      opacity: 0;
+      pointer-events: none;
+      transition: all .2s ease;
+      z-index: 99;
+    }
+    .mobile-nav.open { transform: translateY(0); opacity: 1; pointer-events: auto; }
+    .mobile-nav ul { list-style: none; padding: 12px 24px 20px; }
+    .mobile-nav li { border-top: 1px solid var(--gray-200); }
+    .mobile-nav a { display: block; padding: 14px 0; font-size: .95rem; }
+
+    @media (max-width: 860px) {
+      .nav-links { display: none; }
+      .nav-toggle { display: flex; }
+    }
+
+    /* ── Page Header ───────────────────────────────── */
+    .log-header {
+      background: var(--navy);
+      padding-top: calc(var(--nav-h) + 64px);
+      padding-bottom: 56px;
+      position: relative;
+      overflow: hidden;
+    }
+    .log-header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 80% at 80% 20%, rgba(176,73,42,.14) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .log-eyebrow {
+      font-size: .78rem;
+      font-weight: 600;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+    .log-header h1 {
+      font-size: clamp(2rem, 3.6vw, 2.8rem);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -.03em;
+      color: var(--white);
+      margin-bottom: 16px;
+      max-width: 640px;
+    }
+    .log-header p {
+      font-size: 1.02rem;
+      line-height: 1.7;
+      color: rgba(255,255,255,.72);
+      max-width: 560px;
+    }
+
+    /* ── Drafting Title Block ──────────────────────── */
+    .sheet-titleblock { background: var(--paper); padding: 22px 0; }
+    .titleblock {
+      border: 1.5px solid var(--navy);
+      border-radius: var(--radius);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      font-size: .78rem;
+    }
+    .titleblock div {
+      padding: 12px 16px;
+      border-right: 1.5px solid var(--navy);
+    }
+    .titleblock div:last-child { border-right: none; }
+    .titleblock .label {
+      display: block;
+      color: var(--gray-600);
+      font-size: .64rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    @media (max-width: 700px) {
+      .titleblock { grid-template-columns: 1fr 1fr; }
+      .titleblock div:nth-child(2) { border-right: none; }
+    }
+
+    /* ── Log Stream ────────────────────────────────── */
+    .log-stream { padding: 72px 0 96px; }
+    .log-stream-inner {
+      max-width: 760px;
+      margin: 0 auto;
+      position: relative;
+    }
+    .log-stream-inner::before {
+      content: '';
+      position: absolute;
+      left: 7px;
+      top: 10px;
+      bottom: 10px;
+      width: 1.5px;
+      background: var(--gray-200);
+    }
+    .log-day-label {
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--gray-400);
+      margin: 40px 0 16px 32px;
+    }
+    .log-day-label:first-child { margin-top: 0; }
+    .log-entry {
+      position: relative;
+      padding-left: 32px;
+      margin-bottom: 32px;
+    }
+    .log-entry::before {
+      content: '';
+      position: absolute;
+      left: 2px;
+      top: 6px;
+      width: 13px;
+      height: 13px;
+      border-radius: 50%;
+      background: var(--white);
+      border: 2.5px solid var(--accent);
+    }
+    .log-entry-card {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-lg);
+      padding: 22px 26px;
+      box-shadow: var(--shadow-sm);
+    }
+    .log-entry-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    .log-entry-time {
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .06em;
+      color: var(--gray-400);
+    }
+    .log-entry-tag {
+      font-size: .64rem;
+      font-weight: 600;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      color: var(--navy-lt);
+      background: var(--gray-100);
+      border-radius: 3px;
+      padding: 2px 8px;
+    }
+    .log-entry h3 {
+      font-size: 1.08rem;
+      font-weight: 700;
+      letter-spacing: -.01em;
+      color: var(--gray-800);
+      margin-bottom: 8px;
+    }
+    .log-entry p {
+      font-size: .92rem;
+      color: var(--gray-600);
+      line-height: 1.65;
+    }
+    .log-entry-commit {
+      display: inline-block;
+      margin-top: 10px;
+      font-size: .74rem;
+      color: var(--gray-400);
+    }
+
+    .log-cta {
+      text-align: center;
+      margin-top: 56px;
+      padding-top: 40px;
+      border-top: 1px solid var(--gray-200);
+    }
+    .log-cta p {
+      font-size: .9rem;
+      color: var(--gray-600);
+      margin-bottom: 18px;
+    }
+
+    /* ── Footer ────────────────────────────────────── */
+    footer {
+      background: var(--gray-800);
+      color: rgba(255,255,255,.5);
+      padding: 36px 0;
+    }
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      color: var(--white);
+      font-size: .95rem;
+    }
+    .footer-copy { font-size: .82rem; }
+    .footer-links { display: flex; gap: 20px; list-style: none; }
+    .footer-links a { font-size: .82rem; transition: color .15s; }
+    .footer-links a:hover { color: var(--white); }
+
+    @media (max-width: 540px) {
+      .log-header { padding-bottom: 40px; }
+      .log-stream { padding: 56px 0 72px; }
+      .log-entry-card { padding: 18px 18px; }
+      .footer-inner { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Navigation ── -->
+  <nav class="nav">
+    <div class="container">
+      <a href="index.html" class="nav-logo">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+          <rect width="28" height="28" rx="7" fill="#2C2820"/>
+          <rect x="6" y="6" width="7" height="7" rx="1.5" fill="white"/>
+          <rect x="15" y="6" width="7" height="7" rx="1.5" fill="#B0492A"/>
+          <rect x="6" y="15" width="7" height="7" rx="1.5" fill="#B0492A"/>
+          <rect x="15" y="15" width="7" height="7" rx="1.5" fill="white"/>
+        </svg>
+        LittleDevLab
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html#products">Products</a></li>
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="build-log.html" class="current">Build Log</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Nav -->
+  <div class="mobile-nav" id="mobileNav">
+    <ul>
+      <li><a href="index.html#products" class="mobile-link">Products</a></li>
+      <li><a href="index.html#about" class="mobile-link">About</a></li>
+      <li><a href="build-log.html" class="mobile-link">Build Log</a></li>
+      <li><a href="index.html#contact" class="mobile-link">Contact</a></li>
+    </ul>
+  </div>
+
+  <!-- ── Page Header ── -->
+  <header class="log-header">
+    <div class="container">
+      <p class="log-eyebrow">Lab Notebook</p>
+      <h1>Build Log</h1>
+      <p>A running record of what actually shipped on LittleDevLab — site changes, new products, infrastructure moves — logged roughly twice a day, in the order it happened. For deeper "how I built this" write-ups, see Lab Notes (coming soon).</p>
+    </div>
+  </header>
+
+  <!-- ── Drafting Title Block ── -->
+  <div class="sheet-titleblock">
+    <div class="container">
+      <div class="titleblock">
+        <div><span class="label">Title</span>Build Log</div>
+        <div><span class="label">Cadence</span>~2 Entries / Day</div>
+        <div><span class="label">Source</span>build-log/*.md</div>
+        <div><span class="label">Dr. No.</span>littledevlab.com/build-log</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Log Stream ── -->
+  <section class="log-stream">
+    <div class="container">
+      <div class="log-stream-inner">
+
+        <p class="log-day-label">August 30, 2026</p>
+
+        <div class="log-entry">
+          <div class="log-entry-card">
+            <div class="log-entry-meta">
+              <span class="log-entry-time">3:45 PM</span>
+              <span class="log-entry-tag">Products</span>
+              <span class="log-entry-tag">Design</span>
+              <span class="log-entry-tag">Docs</span>
+            </div>
+            <h3>Polish pass — bug fix, colors, above-the-fold cleanup, README</h3>
+            <p>A cluster of smaller fixes rounded out the day: fixed an anchor-link scroll bug on direct page loads, added Classic Birch and Black Walnut color options to the steak knife holder, moved every product's variant/color buttons above the fold so visitors don't have to scroll to customize, swapped in a properly-modeled 1-Gang Hunter Douglas mount with real install reference photos, and added a top-level README documenting the stack and structure for the first time.</p>
+            <span class="log-entry-commit">commit a1712f1</span>
+          </div>
+        </div>
+
+        <div class="log-entry">
+          <div class="log-entry-card">
+            <div class="log-entry-meta">
+              <span class="log-entry-time">4:42 AM</span>
+              <span class="log-entry-tag">Products</span>
+              <span class="log-entry-tag">Engineering</span>
+            </div>
+            <h3>Product pages go interactive</h3>
+            <p>Every product block now embeds a <code>&lt;model-viewer&gt;</code> 3D preview alongside black/white color-variant renders, and the page went from static markup to dynamic — variant chips swap images and renders in place. This is effectively a manual, one-off version of the pattern the planned Folder-Driven Product Site Generator is meant to eventually automate.</p>
+            <span class="log-entry-commit">commit 261d36e</span>
+          </div>
+        </div>
+
+        <p class="log-day-label">August 29, 2026</p>
+
+        <div class="log-entry">
+          <div class="log-entry-card">
+            <div class="log-entry-meta">
+              <span class="log-entry-time">11:59 PM</span>
+              <span class="log-entry-tag">Products</span>
+              <span class="log-entry-tag">3D Print</span>
+            </div>
+            <h3>Catalog grows from 2 products to 6</h3>
+            <p>Added four new products in one push: the trading card display, the Hunter Douglas remote wall mount family, the steak knife holder, and the ZBiotic six-pack gift carrier. The catalog more than triples overnight — this is the raw material the "how I designed this" Lab Notes posts will eventually draw from.</p>
+            <span class="log-entry-commit">commit 754953e</span>
+          </div>
+        </div>
+
+        <div class="log-entry">
+          <div class="log-entry-card">
+            <div class="log-entry-meta">
+              <span class="log-entry-time">10:19 PM</span>
+              <span class="log-entry-tag">Design</span>
+            </div>
+            <h3>Retheme to the drafting-blueprint look</h3>
+            <p>Gave the site its identity: a paper/ink/rust palette, monospace type, and a title-block header/footer strip that reads like an engineering drawing rather than a generic product page. Added a blueprint drafting-line texture to the hero and footer to reinforce it — this is now the established visual direction for the whole site.</p>
+            <span class="log-entry-commit">commit 7ba8072</span>
+          </div>
+        </div>
+
+        <p class="log-day-label">August 28, 2026</p>
+
+        <div class="log-entry">
+          <div class="log-entry-card">
+            <div class="log-entry-meta">
+              <span class="log-entry-time">12:28 AM</span>
+              <span class="log-entry-tag">Infra</span>
+              <span class="log-entry-tag">Hosting</span>
+            </div>
+            <h3>Off GoDaddy — Cloudflare Pages + GitHub Actions live</h3>
+            <p>Phase 0 done in one sitting: added a GitHub Actions workflow that deploys the static site to Cloudflare Pages via <code>wrangler-action</code> on every push to <code>main</code>, then created the actual Cloudflare Pages project so the first deploy had somewhere to land. littledevlab.com no longer depends on GoDaddy shared hosting — push to <code>main</code> and it's live in under a minute.</p>
+            <span class="log-entry-commit">commit b8db569</span>
+          </div>
+        </div>
+
+        <p class="log-day-label">August 27, 2026</p>
+
+        <div class="log-entry">
+          <div class="log-entry-card">
+            <div class="log-entry-meta">
+              <span class="log-entry-time">11:15 PM</span>
+              <span class="log-entry-tag">Infra</span>
+              <span class="log-entry-tag">Repo</span>
+            </div>
+            <h3>Repo is live — existing site and working plan committed</h3>
+            <p>First commit: the existing product site (glasses/lens holder, coasters), all product photos, and the initial Working Plan Outline are now under version control. This is the starting line for the whole rebuild — everything from here on is a diff against this commit.</p>
+            <span class="log-entry-commit">commit 9fcce41</span>
+          </div>
+        </div>
+
+        <div class="log-cta">
+          <p>Entries live as markdown in <code>build-log/</code> in the repo — this page is a hand-rendered view of that folder for now.</p>
+          <a href="index.html" class="btn btn-outline">Back to LittleDevLab</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Footer ── -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-logo">
+          <svg width="20" height="20" viewBox="0 0 28 28" fill="none">
+            <rect width="28" height="28" rx="7" fill="#55503F"/>
+            <rect x="6" y="6" width="7" height="7" rx="1.5" fill="white"/>
+            <rect x="15" y="6" width="7" height="7" rx="1.5" fill="#B0492A"/>
+            <rect x="6" y="15" width="7" height="7" rx="1.5" fill="#B0492A"/>
+            <rect x="15" y="15" width="7" height="7" rx="1.5" fill="white"/>
+          </svg>
+          LittleDevLab
+        </div>
+        <p class="footer-copy">© 2025 LittleDevLab. SF Bay Area. All designs are original.</p>
+        <ul class="footer-links">
+          <li><a href="index.html#products">Products</a></li>
+          <li><a href="build-log.html">Build Log</a></li>
+          <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const navToggle = document.getElementById('navToggle');
+    const mobileNav = document.getElementById('mobileNav');
+    navToggle.addEventListener('click', () => {
+      navToggle.classList.toggle('open');
+      mobileNav.classList.toggle('open');
+    });
+    document.querySelectorAll('.mobile-link').forEach(link => {
+      link.addEventListener('click', () => {
+        navToggle.classList.remove('open');
+        mobileNav.classList.remove('open');
+      });
+    });
+  </script>
+</body>
+</html>
