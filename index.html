@@ -433,6 +433,72 @@
       margin-bottom: 22px;
     }
 
+    /* ── Interactive 3D viewer ─────────────────────── */
+    .product-gallery { position: relative; }
+    .gallery-view-toggle {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      z-index: 6;
+      display: flex;
+      gap: 6px;
+    }
+    .gallery-view-toggle button {
+      background: rgba(243,237,225,.94);
+      border: 1.5px solid var(--navy);
+      border-radius: var(--radius);
+      padding: 7px 13px;
+      font-family: var(--font);
+      font-size: .68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      cursor: pointer;
+      color: var(--ink);
+      transition: all .15s;
+    }
+    .gallery-view-toggle button:hover { border-color: var(--accent); color: var(--accent); }
+    .gallery-view-toggle button.active {
+      background: var(--navy);
+      color: var(--paper);
+      border-color: var(--navy);
+    }
+    model-viewer.main-3d { display: none; --poster-color: transparent; background: var(--gray-100); }
+    model-viewer.main-3d.active { display: block; }
+    .main-photo.is-3d-hidden { display: none; }
+    .gallery-3d-hint {
+      position: absolute;
+      bottom: 14px;
+      left: 14px;
+      z-index: 6;
+      background: rgba(44,40,32,.75);
+      color: var(--paper);
+      font-size: .66rem;
+      letter-spacing: .04em;
+      padding: 5px 10px;
+      border-radius: var(--radius);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity .3s;
+    }
+
+    /* ── Scroll reveal ──────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1);
+    }
+    .reveal.in-view { opacity: 1; transform: translateY(0); }
+
+    /* ── Hover motion ───────────────────────────────── */
+    .product-thumbs img { transition: transform .2s, border-color .15s, opacity .15s; }
+    .product-thumbs img:hover { transform: translateY(-3px) scale(1.06); }
+    .btn { transition: transform .15s, box-shadow .15s, background .15s, color .15s; }
+    .btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+    .variant-chip { transition: all .15s, transform .15s; }
+    .variant-chip:hover { transform: translateY(-1px); }
+    .product-gallery .main-photo, model-viewer.main-3d { transition: opacity .25s; }
+
     /* ── How It's Made ─────────────────────────────── */
     #process { background: var(--white); }
 
@@ -906,6 +972,7 @@
       .contact-form { padding: 24px; }
     }
   </style>
+  <script type="module" src="https://unpkg.com/@google/model-viewer@3.5.0/dist/model-viewer.min.js"></script>
 </head>
 <body>
 
@@ -993,6 +1060,12 @@
       <!-- Product 1: Glasses + Contacts Holder -->
       <div class="product-block" id="glasses-holder">
         <div class="product-gallery">
+          <div class="gallery-view-toggle">
+            <button id="glasses-btn-photo" class="active" type="button" onclick="toggle3D('glasses', false)">Photo</button>
+            <button id="glasses-btn-3d" type="button" onclick="toggle3D('glasses', true)">Rotate in 3D</button>
+          </div>
+          <model-viewer id="glasses-mv" class="main-photo main-3d" src="images/glasses/three-contacts+glasses.glb" camera-controls auto-rotate auto-rotate-delay="0" rotation-per-second="18deg" shadow-intensity="1" exposure="1" environment-image="neutral" alt="Interactive 3D model of the glasses and contact lens holder"></model-viewer>
+          <div class="gallery-3d-hint" id="glasses-hint">Drag to rotate &middot; scroll to zoom</div>
           <img class="main-photo" id="glasses-main" src="images/glasses/glasses-holder-counter.jpg" alt="Glasses and contact lens organizer" />
           <div class="product-thumbs">
             <img src="images/glasses/glasses-holder-counter.jpg" alt="Counter view" class="active" onclick="swapPhoto('glasses-main', this.src, this)" />
@@ -1033,9 +1106,9 @@
           </ul>
           <div class="product-variants">
             <span class="tag" style="font-size:.7rem;margin-bottom:8px;display:block;width:100%">Available colors</span>
-            <span class="variant-chip active">Warm White</span>
-            <span class="variant-chip">Matte Black</span>
-            <span class="variant-chip">Light Gray</span>
+            <span class="variant-chip active" onclick="tintOnly('glasses-mv','F8F4EA',this)">Warm White</span>
+            <span class="variant-chip" onclick="tintOnly('glasses-mv','1C1A16',this)">Matte Black</span>
+            <span class="variant-chip" onclick="tintOnly('glasses-mv','A49A82',this)">Light Gray</span>
             <span class="variant-chip">Custom Color</span>
           </div>
           <div class="product-actions">
@@ -1079,12 +1152,12 @@
           </ul>
           <div class="product-variants">
             <span class="tag" style="font-size:.7rem;margin-bottom:8px;display:block;width:100%">Shape</span>
-            <span class="variant-chip active">Round</span>
-            <span class="variant-chip">Hexagonal</span>
+            <span class="variant-chip active" onclick="setCoasterShape('round',this)">Round</span>
+            <span class="variant-chip" onclick="setCoasterShape('hexagonal',this)">Hexagonal</span>
             <span class="tag" style="font-size:.7rem;margin-bottom:8px;display:block;width:100%;margin-top:12px;">Color</span>
-            <span class="variant-chip active">Olive / Khaki</span>
-            <span class="variant-chip">Matte Black</span>
-            <span class="variant-chip">Natural Tan</span>
+            <span class="variant-chip active" onclick="tintOnly('coaster-mv','6B6454',this)">Olive / Khaki</span>
+            <span class="variant-chip" onclick="tintOnly('coaster-mv','1C1A16',this)">Matte Black</span>
+            <span class="variant-chip" onclick="tintOnly('coaster-mv','C9B896',this)">Natural Tan</span>
             <span class="variant-chip">Custom Color</span>
           </div>
           <div class="product-actions">
@@ -1093,6 +1166,12 @@
           </div>
         </div>
         <div class="product-gallery">
+          <div class="gallery-view-toggle">
+            <button id="coaster-btn-photo" class="active" type="button" onclick="toggle3D('coaster', false)">Photo</button>
+            <button id="coaster-btn-3d" type="button" onclick="toggle3D('coaster', true)">Rotate in 3D</button>
+          </div>
+          <model-viewer id="coaster-mv" class="main-photo main-3d" src="images/coasters/chilewich-round.glb" camera-controls auto-rotate auto-rotate-delay="0" rotation-per-second="18deg" shadow-intensity="1" exposure="1" environment-image="neutral" alt="Interactive 3D model of the Chilewich coaster holder"></model-viewer>
+          <div class="gallery-3d-hint" id="coaster-hint">Drag to rotate &middot; scroll to zoom</div>
           <img class="main-photo" id="coaster-main" src="images/coasters/coaster-round-tan.jpg" alt="Chilewich coaster holder" />
           <div class="product-thumbs">
             <img src="images/coasters/coaster-round-tan.jpg" alt="Round holder tan" class="active" onclick="swapPhoto('coaster-main', this.src, this)" />
@@ -1108,9 +1187,15 @@
       <!-- Product 3: Gaming Card Display -->
       <div class="product-block" id="gaming-card-display">
         <div class="product-gallery">
-          <img class="main-photo" id="gaming-main" src="images/gaming-card-display/gaming-card-display-photoreal.png" alt="Trading card display rack, rendered" />
+          <div class="gallery-view-toggle">
+            <button id="gaming-btn-photo" class="active" type="button" onclick="toggle3D('gaming', false)">Photo</button>
+            <button id="gaming-btn-3d" type="button" onclick="toggle3D('gaming', true)">Rotate in 3D</button>
+          </div>
+          <model-viewer id="gaming-mv" class="main-photo main-3d" src="images/gaming-card-display/gaming-card-display.glb" camera-controls auto-rotate auto-rotate-delay="0" rotation-per-second="18deg" shadow-intensity="1" exposure="1" environment-image="neutral" alt="Interactive 3D model of the trading card display rack"></model-viewer>
+          <div class="gallery-3d-hint" id="gaming-hint">Drag to rotate &middot; scroll to zoom</div>
+          <img class="main-photo" id="gaming-main" src="images/gaming-card-display/gaming-card-display-white.png" alt="Trading card display rack, rendered" />
           <div class="product-thumbs">
-            <img src="images/gaming-card-display/gaming-card-display-photoreal.png" alt="Rendered view" class="active" onclick="swapPhoto('gaming-main', this.src, this)" />
+            <img src="images/gaming-card-display/gaming-card-display-white.png" alt="Rendered view" class="active" onclick="swapPhoto('gaming-main', this.src, this)" />
             <img src="images/gaming-card-display/gaming-card-display-1.jpg" alt="Card display photo 1" onclick="swapPhoto('gaming-main', this.src, this)" />
             <img src="images/gaming-card-display/gaming-card-display-2.jpg" alt="Card display photo 2" onclick="swapPhoto('gaming-main', this.src, this)" />
             <img src="images/gaming-card-display/gaming-card-display-3.jpg" alt="Card display photo 3" onclick="swapPhoto('gaming-main', this.src, this)" />
@@ -1151,8 +1236,8 @@
           </ul>
           <div class="product-variants">
             <span class="tag" style="font-size:.7rem;margin-bottom:8px;display:block;width:100%">Available colors</span>
-            <span class="variant-chip active">Warm White</span>
-            <span class="variant-chip">Matte Black</span>
+            <span class="variant-chip active" onclick="setProductColor('gaming','white','F8F4EA',this)">Warm White</span>
+            <span class="variant-chip" onclick="setProductColor('gaming','black','1C1A16',this)">Matte Black</span>
             <span class="variant-chip">Custom Color</span>
           </div>
           <div class="product-actions">
@@ -1197,11 +1282,16 @@
           </ul>
           <div class="product-variants">
             <span class="tag" style="font-size:.7rem;margin-bottom:8px;display:block;width:100%">Mount style</span>
-            <span class="variant-chip active" onclick="swapPhoto('hd-main','images/hunter-douglass/hunter-douglas-wall-mount-3m-claw-photoreal.png',this)">3M Claw</span>
-            <span class="variant-chip" onclick="swapPhoto('hd-main','images/hunter-douglass/hunter-douglas-1-gang-derived-photoreal.png',this)">1-Gang (preliminary)</span>
-            <span class="variant-chip" onclick="swapPhoto('hd-main','images/hunter-douglass/hunter-douglas-2-gang-photoreal.png',this)">2-Gang</span>
+            <span class="variant-chip active" onclick="setHdStyle('wall-mount-3m-claw',this)">3M Claw</span>
+            <span class="variant-chip" onclick="setHdStyle('1-gang-derived',this)">1-Gang (preliminary)</span>
+            <span class="variant-chip" onclick="setHdStyle('2-gang',this)">2-Gang</span>
             <span class="variant-chip" style="opacity:.5;cursor:default;" title="Model file pending">3-Gang (coming soon)</span>
             <span class="variant-chip" style="opacity:.5;cursor:default;" title="Model file pending">4-Gang (coming soon)</span>
+          </div>
+          <div class="product-variants">
+            <span class="tag" style="font-size:.7rem;margin-bottom:8px;display:block;width:100%">Color</span>
+            <span class="variant-chip active" onclick="setHdColor('white',this)">Warm White</span>
+            <span class="variant-chip" onclick="setHdColor('black',this)">Matte Black</span>
           </div>
           <p style="font-size:.78rem;color:var(--gray-600);margin-top:-20px;margin-bottom:28px;line-height:1.6;">
             <em>Note: the 1-Gang shown is a preliminary model, estimated by trimming the 2-Gang design down to a single switch opening — it hasn't been built or fit-tested yet. 3-Gang and 4-Gang will go live once those model files are ready.</em>
@@ -1212,12 +1302,18 @@
           </div>
         </div>
         <div class="product-gallery">
-          <img class="main-photo" id="hd-main" src="images/hunter-douglass/hunter-douglas-wall-mount-3m-claw-photoreal.png" alt="Hunter Douglas remote wall mount, 3M claw version" />
+          <div class="gallery-view-toggle">
+            <button id="hd-btn-photo" class="active" type="button" onclick="toggle3D('hd', false)">Photo</button>
+            <button id="hd-btn-3d" type="button" onclick="toggle3D('hd', true)">Rotate in 3D</button>
+          </div>
+          <model-viewer id="hd-mv" class="main-photo main-3d" src="images/hunter-douglass/hunter-douglas-wall-mount-3m-claw.glb" camera-controls auto-rotate auto-rotate-delay="0" rotation-per-second="18deg" shadow-intensity="1" exposure="1" environment-image="neutral" alt="Interactive 3D model of the Hunter Douglas remote mount"></model-viewer>
+          <div class="gallery-3d-hint" id="hd-hint">Drag to rotate &middot; scroll to zoom</div>
+          <img class="main-photo" id="hd-main" src="images/hunter-douglass/hunter-douglas-wall-mount-3m-claw-white.png" alt="Hunter Douglas remote wall mount, 3M claw version" />
           <div class="product-thumbs">
-            <img src="images/hunter-douglass/hunter-douglas-wall-mount-3m-claw-photoreal.png" alt="3M Claw mount" class="active" onclick="swapPhoto('hd-main', this.src, this)" />
+            <img src="images/hunter-douglass/hunter-douglas-wall-mount-3m-claw-white.png" alt="3M Claw mount" class="active" onclick="swapPhoto('hd-main', this.src, this)" />
             <img src="images/hunter-douglass/hunter-douglas-1-gang-derived-render.png" alt="1-Gang mount, render version (preliminary)" onclick="swapPhoto('hd-main', this.src, this)" />
-            <img src="images/hunter-douglass/hunter-douglas-1-gang-derived-photoreal.png" alt="1-Gang mount, photoreal version (preliminary)" onclick="swapPhoto('hd-main', this.src, this)" />
-            <img src="images/hunter-douglass/hunter-douglas-2-gang-photoreal.png" alt="2-Gang mount" onclick="swapPhoto('hd-main', this.src, this)" />
+            <img src="images/hunter-douglass/hunter-douglas-1-gang-derived-white.png" alt="1-Gang mount, photoreal version (preliminary)" onclick="swapPhoto('hd-main', this.src, this)" />
+            <img src="images/hunter-douglass/hunter-douglas-2-gang-white.png" alt="2-Gang mount" onclick="swapPhoto('hd-main', this.src, this)" />
           </div>
         </div>
       </div>
@@ -1225,9 +1321,15 @@
       <!-- Product 5: Steak Knife Holder -->
       <div class="product-block" id="steak-knife-holder">
         <div class="product-gallery">
-          <img class="main-photo" id="knife-main" src="images/knives-holder/steak-knife-holder-photoreal.png" alt="Steak knife holder, rendered" />
+          <div class="gallery-view-toggle">
+            <button id="knife-btn-photo" class="active" type="button" onclick="toggle3D('knife', false)">Photo</button>
+            <button id="knife-btn-3d" type="button" onclick="toggle3D('knife', true)">Rotate in 3D</button>
+          </div>
+          <model-viewer id="knife-mv" class="main-photo main-3d" src="images/knives-holder/steak-knife-holder.glb" camera-controls auto-rotate auto-rotate-delay="0" rotation-per-second="18deg" shadow-intensity="1" exposure="1" environment-image="neutral" alt="Interactive 3D model of the steak knife holder"></model-viewer>
+          <div class="gallery-3d-hint" id="knife-hint">Drag to rotate &middot; scroll to zoom</div>
+          <img class="main-photo" id="knife-main" src="images/knives-holder/steak-knife-holder-white.png" alt="Steak knife holder, rendered" />
           <div class="product-thumbs">
-            <img src="images/knives-holder/steak-knife-holder-photoreal.png" alt="Rendered view" class="active" onclick="swapPhoto('knife-main', this.src, this)" />
+            <img src="images/knives-holder/steak-knife-holder-white.png" alt="Rendered view" class="active" onclick="swapPhoto('knife-main', this.src, this)" />
             <img src="images/knives-holder/steak-knife-holder-1.jpeg" alt="Steak knife holder photo 1" onclick="swapPhoto('knife-main', this.src, this)" />
             <img src="images/knives-holder/steak-knife-holder-2.jpeg" alt="Steak knife holder photo 2" onclick="swapPhoto('knife-main', this.src, this)" />
             <img src="images/knives-holder/steak-knife-holder-3.jpeg" alt="Steak knife holder photo 3" onclick="swapPhoto('knife-main', this.src, this)" />
@@ -1266,8 +1368,8 @@
           </ul>
           <div class="product-variants">
             <span class="tag" style="font-size:.7rem;margin-bottom:8px;display:block;width:100%">Available colors</span>
-            <span class="variant-chip active">Matte Black</span>
-            <span class="variant-chip">Warm White</span>
+            <span class="variant-chip active" onclick="setProductColor('knife','black','1C1A16',this)">Matte Black</span>
+            <span class="variant-chip" onclick="setProductColor('knife','white','F8F4EA',this)">Warm White</span>
             <span class="variant-chip">Custom Color</span>
           </div>
           <div class="product-actions">
@@ -1312,8 +1414,8 @@
           </ul>
           <div class="product-variants">
             <span class="tag" style="font-size:.7rem;margin-bottom:8px;display:block;width:100%">Available colors</span>
-            <span class="variant-chip active">Warm White</span>
-            <span class="variant-chip">Matte Black</span>
+            <span class="variant-chip active" onclick="setProductColor('zbiotic','white','F8F4EA',this)">Warm White</span>
+            <span class="variant-chip" onclick="setProductColor('zbiotic','black','1C1A16',this)">Matte Black</span>
             <span class="variant-chip">Custom Color</span>
           </div>
           <div class="product-actions">
@@ -1322,9 +1424,15 @@
           </div>
         </div>
         <div class="product-gallery">
-          <img class="main-photo" id="zbiotic-main" src="images/six-pack-gift-zbiotic/zbiotic-six-pack-gift-box-photoreal.png" alt="ZBiotic six-pack gift carrier, rendered" />
+          <div class="gallery-view-toggle">
+            <button id="zbiotic-btn-photo" class="active" type="button" onclick="toggle3D('zbiotic', false)">Photo</button>
+            <button id="zbiotic-btn-3d" type="button" onclick="toggle3D('zbiotic', true)">Rotate in 3D</button>
+          </div>
+          <model-viewer id="zbiotic-mv" class="main-photo main-3d" src="images/six-pack-gift-zbiotic/zbiotic-six-pack.glb" camera-controls auto-rotate auto-rotate-delay="0" rotation-per-second="18deg" shadow-intensity="1" exposure="1" environment-image="neutral" alt="Interactive 3D model of the ZBiotic gift carrier"></model-viewer>
+          <div class="gallery-3d-hint" id="zbiotic-hint">Drag to rotate &middot; scroll to zoom</div>
+          <img class="main-photo" id="zbiotic-main" src="images/six-pack-gift-zbiotic/zbiotic-six-pack-gift-box-white.png" alt="ZBiotic six-pack gift carrier, rendered" />
           <div class="product-thumbs">
-            <img src="images/six-pack-gift-zbiotic/zbiotic-six-pack-gift-box-photoreal.png" alt="Rendered view" class="active" onclick="swapPhoto('zbiotic-main', this.src, this)" />
+            <img src="images/six-pack-gift-zbiotic/zbiotic-six-pack-gift-box-white.png" alt="Rendered view" class="active" onclick="swapPhoto('zbiotic-main', this.src, this)" />
             <img src="images/six-pack-gift-zbiotic/zbiotic-six-pack-gift-box-1.jpeg" alt="Gift box photo 1" onclick="swapPhoto('zbiotic-main', this.src, this)" />
             <img src="images/six-pack-gift-zbiotic/zbiotic-six-pack-gift-box-2.jpeg" alt="Gift box photo 2" onclick="swapPhoto('zbiotic-main', this.src, this)" />
             <img src="images/six-pack-gift-zbiotic/zbiotic-six-pack-gift-box-3.jpeg" alt="Gift box photo 3" onclick="swapPhoto('zbiotic-main', this.src, this)" />
@@ -1618,6 +1726,117 @@
     }
 
     // ── Variant chips ──
+    // ---- Interactive 3D viewers ----
+    function toggle3D(key, show) {
+      const mv = document.getElementById(key + '-mv');
+      const img = document.getElementById(key + '-main');
+      const btn3d = document.getElementById(key + '-btn-3d');
+      const btnPhoto = document.getElementById(key + '-btn-photo');
+      const hint = document.getElementById(key + '-hint');
+      if (!mv || !img) return;
+      if (show) {
+        mv.classList.add('active');
+        img.classList.add('is-3d-hidden');
+        if (btn3d) btn3d.classList.add('active');
+        if (btnPhoto) btnPhoto.classList.remove('active');
+        if (hint) hint.style.opacity = '1';
+      } else {
+        mv.classList.remove('active');
+        img.classList.remove('is-3d-hidden');
+        if (btn3d) btn3d.classList.remove('active');
+        if (btnPhoto) btnPhoto.classList.add('active');
+        if (hint) hint.style.opacity = '0';
+      }
+    }
+
+    function setModelColor(mvId, hex) {
+      const mv = document.getElementById(mvId);
+      if (!mv) return;
+      const applyColor = () => {
+        try {
+          const mats = mv.model && mv.model.materials;
+          if (!mats || !mats.length) return;
+          const r = parseInt(hex.substr(0,2),16)/255;
+          const g = parseInt(hex.substr(2,2),16)/255;
+          const b = parseInt(hex.substr(4,2),16)/255;
+          mats.forEach(m => { if (m.pbrMetallicRoughness) m.pbrMetallicRoughness.setBaseColorFactor([r,g,b,1]); });
+        } catch(e) { /* model not ready yet */ }
+      };
+      if (mv.loaded) applyColor();
+      else mv.addEventListener('load', applyColor, {once:true});
+    }
+
+    // Products with a rendered flat photo per color (swap image + tint the 3D view)
+    const colorProducts = {
+      'gaming':  'images/gaming-card-display/gaming-card-display',
+      'knife':   'images/knives-holder/steak-knife-holder',
+      'zbiotic': 'images/six-pack-gift-zbiotic/zbiotic-six-pack-gift-box',
+    };
+    function setProductColor(key, colorSlug, hex, chipEl) {
+      const base = colorProducts[key];
+      if (base) {
+        const img = document.getElementById(key + '-main');
+        if (img) img.src = base + '-' + colorSlug + '.png';
+      }
+      setModelColor(key + '-mv', hex);
+      if (chipEl) {
+        chipEl.parentElement.querySelectorAll('.variant-chip').forEach(c => c.classList.remove('active'));
+        chipEl.classList.add('active');
+      }
+    }
+
+    // Hunter Douglas: mount style + color combine into one filename
+    const hdState = { style: 'wall-mount-3m-claw', color: 'white' };
+    const hdGlbMap = {
+      'wall-mount-3m-claw': 'images/hunter-douglass/hunter-douglas-wall-mount-3m-claw.glb',
+      '2-gang': 'images/hunter-douglass/hunter-douglas-2-gang.glb',
+      '1-gang-derived': 'images/hunter-douglass/hunter-douglas-1-gang-DERIVED-PRELIMINARY.glb',
+    };
+    function hdUpdate() {
+      const img = document.getElementById('hd-main');
+      if (img) img.src = 'images/hunter-douglass/hunter-douglas-' + hdState.style + '-' + hdState.color + '.png';
+      const mv = document.getElementById('hd-mv');
+      if (mv && hdGlbMap[hdState.style]) mv.setAttribute('src', hdGlbMap[hdState.style]);
+      setModelColor('hd-mv', hdState.color === 'black' ? '1C1A16' : 'F8F4EA');
+    }
+    function setHdStyle(style, chipEl) {
+      hdState.style = style;
+      hdUpdate();
+      if (chipEl) { chipEl.parentElement.querySelectorAll('.variant-chip').forEach(c => c.classList.remove('active')); chipEl.classList.add('active'); }
+    }
+    function setHdColor(color, chipEl) {
+      hdState.color = color;
+      hdUpdate();
+      if (chipEl) { chipEl.parentElement.querySelectorAll('.variant-chip').forEach(c => c.classList.remove('active')); chipEl.classList.add('active'); }
+    }
+
+    // Coasters: shape swaps real photo + GLB; color is a live 3D tint only
+    // (these are real customer photos in their actual filament color, so we
+    // don't fake a photo - clicking a color just previews it on the 3D model)
+    function setCoasterShape(shape, chipEl) {
+      const img = document.getElementById('coaster-main');
+      const mv = document.getElementById('coaster-mv');
+      if (shape === 'round') {
+        if (img) img.src = 'images/coasters/coaster-round-tan.jpg';
+        if (mv) mv.setAttribute('src', 'images/coasters/chilewich-round.glb');
+      } else {
+        if (img) img.src = 'images/coasters/coaster-hex-holder.jpg';
+        if (mv) mv.setAttribute('src', 'images/coasters/chilewich-hexagonal.glb');
+      }
+      if (chipEl) { chipEl.parentElement.querySelectorAll('.variant-chip').forEach(c => c.classList.remove('active')); chipEl.classList.add('active'); }
+    }
+    function tintOnly(mvId, hex, chipEl) {
+      setModelColor(mvId, hex);
+      if (chipEl) { chipEl.parentElement.querySelectorAll('.variant-chip').forEach(c => c.classList.remove('active')); chipEl.classList.add('active'); }
+    }
+
+    // ---- Scroll reveal ----
+    document.querySelectorAll('.product-block, .section-header, .about-content, .process-step, .sheet-titleblock, #contact .container > *').forEach(el => el.classList.add('reveal'));
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in-view'); revealObserver.unobserve(e.target); } });
+    }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
     document.querySelectorAll('.variant-chip').forEach(chip => {
       chip.addEventListener('click', function() {
         // Only deactivate chips in same group (same parent)
