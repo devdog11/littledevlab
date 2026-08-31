@@ -662,6 +662,26 @@
       letter-spacing: .02em;
     }
 
+    /* ── Lab Journey ── */
+    .journey-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .journey-image {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+      height: 420px;
+    }
+    .journey-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .journey-links { display: flex; gap: 12px; flex-wrap: wrap; }
+    @media (max-width: 900px) {
+      .journey-grid { grid-template-columns: 1fr; gap: 40px; }
+      .journey-image { height: 320px; }
+    }
+
     /* ── Custom Orders ─────────────────────────────── */
     #custom {
       background: var(--navy);
@@ -977,6 +997,29 @@
       .contact-form { padding: 24px; }
     }
 
+
+    /* ── Per-section nav accent colors ── */
+    :root {
+      --products-accent: #b8873d;
+      --journey-accent: #8b4030;
+    }
+    .nav-container { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+    .nav-item-dropdown[data-accent="home"] > a:hover,
+    .nav-item-dropdown[data-accent="home"]:focus-within > a { color: var(--accent); }
+    .nav-item-dropdown[data-accent="products"] > a:hover,
+    .nav-item-dropdown[data-accent="products"]:focus-within > a { color: var(--products-accent); }
+    .nav-item-dropdown[data-accent="journey"] > a:hover,
+    .nav-item-dropdown[data-accent="journey"]:focus-within > a { color: var(--journey-accent); }
+    .nav-item-dropdown[data-accent] .nav-dropdown-menu { border-top: 3px solid var(--gray-200); }
+    .nav-item-dropdown[data-accent="home"] .nav-dropdown-menu { border-top-color: var(--accent); }
+    .nav-item-dropdown[data-accent="products"] .nav-dropdown-menu { border-top-color: var(--products-accent); }
+    .nav-item-dropdown[data-accent="journey"] .nav-dropdown-menu { border-top-color: var(--journey-accent); }
+    .nav-dropdown-menu a.current { color: var(--ink); font-weight: 600; }
+    .mobile-link-toggle[data-accent="home"].open { color: var(--accent); }
+    .mobile-link-toggle[data-accent="products"].open { color: var(--products-accent); }
+    .mobile-link-toggle[data-accent="journey"].open { color: var(--journey-accent); }
+    .mobile-link.current { color: var(--accent); font-weight: 600; }
+
     /* ── Products nav dropdown ── */
     .nav-item-dropdown { position: relative; }
     .nav-dropdown-menu {
@@ -1076,23 +1119,32 @@
         LittleDevLab
       </a>
       <ul class="nav-links">
-        <li class="nav-item-dropdown">
-          <a href="products.html">Products</a>
+        <li class="nav-item-dropdown" data-accent="home">
+          <a href="index.html">Home</a>
           <div class="nav-dropdown-menu">
-            <a href="products.html#glasses-holder">Glasses + Contact Lens Holder</a>
-            <a href="products.html#coaster-holder">Chilewich Coaster Holder</a>
-            <a href="products.html#gaming-card-display">Trading Card Display Rack</a>
-            <a href="products.html#hunter-douglas-mount">Hunter Douglas Remote Wall Mount</a>
-            <a href="products.html#steak-knife-holder">Steak Knife Holder</a>
-            <a href="products.html#zbiotic-gift-box">ZBiotic Six-Pack Gift Carrier</a>
+          <a href="#about">About</a>
+          <a href="#gallery">Gallery</a>
+          <a href="#process">How It's Made</a>
           </div>
         </li>
-        <li><a href="products.html#gallery">Gallery</a></li>
-        <li><a href="#process">How It's Made</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="build-log.html">Build Log</a></li>
-        <li><a href="lab-notes/index.html">Lab Notes</a></li>
-        <li><a href="#contact">Contact</a></li>
+        <li class="nav-item-dropdown" data-accent="products">
+          <a href="products.html">Products</a>
+          <div class="nav-dropdown-menu">
+          <a href="products.html#glasses-holder">Glasses + Contact Lens Holder</a>
+          <a href="products.html#coaster-holder">Chilewich Coaster Holder</a>
+          <a href="products.html#gaming-card-display">Trading Card Display Rack</a>
+          <a href="products.html#hunter-douglas-mount">Hunter Douglas Remote Wall Mount</a>
+          <a href="products.html#steak-knife-holder">Steak Knife Holder</a>
+          <a href="products.html#zbiotic-gift-box">ZBiotic Six-Pack Gift Carrier</a>
+          </div>
+        </li>
+        <li class="nav-item-dropdown" data-accent="journey">
+          <a href="lab-notes/index.html">Lab Journey</a>
+          <div class="nav-dropdown-menu">
+          <a href="lab-notes/index.html">Lab Notes</a>
+          <a href="build-log.html">Build Log</a>
+          </div>
+        </li>
       </ul>
       <a href="#contact" class="btn btn-primary nav-cta" style="padding:10px 20px;font-size:.84rem;">Get in Touch</a>
       <button class="nav-toggle" id="navToggle" aria-label="Menu">
@@ -1103,13 +1155,24 @@
 
   <!-- Mobile Nav -->
   <div class="mobile-nav" id="mobileNav">
-    <ul>
+      <ul>
       <li>
-        <button type="button" class="mobile-link-toggle" id="mobileProductsToggle">
+        <button type="button" class="mobile-link-toggle" data-toggle="mobile-home-submenu" data-accent="home">
+          Home
+          <svg width="10" height="10" viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="mobile-submenu" id="mobile-home-submenu">
+          <a href="#about" class="mobile-link">About</a>
+          <a href="#gallery" class="mobile-link">Gallery</a>
+          <a href="#process" class="mobile-link">How It's Made</a>
+        </div>
+      </li>
+      <li>
+        <button type="button" class="mobile-link-toggle" data-toggle="mobile-products-submenu" data-accent="products">
           Products
           <svg width="10" height="10" viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
-        <div class="mobile-submenu" id="mobileProductsSubmenu">
+        <div class="mobile-submenu" id="mobile-products-submenu">
           <a href="products.html#glasses-holder" class="mobile-link">Glasses + Contact Lens Holder</a>
           <a href="products.html#coaster-holder" class="mobile-link">Chilewich Coaster Holder</a>
           <a href="products.html#gaming-card-display" class="mobile-link">Trading Card Display Rack</a>
@@ -1118,13 +1181,18 @@
           <a href="products.html#zbiotic-gift-box" class="mobile-link">ZBiotic Six-Pack Gift Carrier</a>
         </div>
       </li>
-      <li><a href="products.html#gallery" class="mobile-link">Gallery</a></li>
-      <li><a href="#process" class="mobile-link">How It's Made</a></li>
-      <li><a href="#about" class="mobile-link">About</a></li>
-      <li><a href="build-log.html" class="mobile-link">Build Log</a></li>
-      <li><a href="lab-notes/index.html" class="mobile-link">Lab Notes</a></li>
-      <li><a href="#contact" class="mobile-link">Contact</a></li>
-    </ul>
+      <li>
+        <button type="button" class="mobile-link-toggle" data-toggle="mobile-journey-submenu" data-accent="journey">
+          Lab Journey
+          <svg width="10" height="10" viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="mobile-submenu" id="mobile-journey-submenu">
+          <a href="lab-notes/index.html" class="mobile-link">Lab Notes</a>
+          <a href="build-log.html" class="mobile-link">Build Log</a>
+        </div>
+      </li>
+        <li><a href="#contact" class="mobile-link">Get in Touch</a></li>
+      </ul>
   </div>
 
   <!-- ── Hero ── -->
@@ -1234,6 +1302,55 @@
     </div>
   </section>
 
+  <!-- ── Gallery ── -->
+  <section id="gallery">
+    <div class="container">
+      <div class="section-header">
+        <span class="tag">Gallery</span>
+        <h2>All the angles</h2>
+        <p>Click any image to view full size.</p>
+      </div>
+      <div class="gallery-grid">
+        <div class="gallery-item" onclick="openLightbox('images/glasses/glasses-holder-counter.jpg')">
+          <img src="images/glasses/glasses-holder-counter.jpg" alt="Glasses holder on marble counter" loading="lazy" />
+          <div class="overlay"><span>Glasses Holder</span></div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox('images/coasters/coaster-hex-holder.jpg')">
+          <img src="images/coasters/coaster-hex-holder.jpg" alt="Hexagonal coaster holder" loading="lazy" />
+          <div class="overlay"><span>Hex Coaster Holder</span></div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox('images/coasters/coaster-cuff-black.jpg')">
+          <img src="images/coasters/coaster-cuff-black.jpg" alt="Cuff style coaster holder in black" loading="lazy" />
+          <div class="overlay"><span>Cuff Holder · Black</span></div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox('images/glasses/glasses-holder-side.jpg')">
+          <img src="images/glasses/glasses-holder-side.jpg" alt="Glasses holder side angle" loading="lazy" />
+          <div class="overlay"><span>Glasses Holder · Side</span></div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox('images/coasters/coaster-round-side.jpg')">
+          <img src="images/coasters/coaster-round-side.jpg" alt="Round coaster holder side view" loading="lazy" />
+          <div class="overlay"><span>Round Holder · Side</span></div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox('images/glasses/glasses-holder-top.jpg')">
+          <img src="images/glasses/glasses-holder-top.jpg" alt="Glasses holder top view showing all compartments" loading="lazy" />
+          <div class="overlay"><span>Glasses Holder · Top</span></div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox('images/coasters/coaster-hex-top.jpg')">
+          <img src="images/coasters/coaster-hex-top.jpg" alt="Hexagonal coaster holder top view" loading="lazy" />
+          <div class="overlay"><span>Hex Holder · Top</span></div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox('images/coasters/coaster-hex-angle.jpg')">
+          <img src="images/coasters/coaster-hex-angle.jpg" alt="Hexagonal coaster holder angled" loading="lazy" />
+          <div class="overlay"><span>Hex Holder · Angle</span></div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox('images/gaming-card-display/card-holder-left.png')">
+          <img src="images/gaming-card-display/card-holder-left.png" alt="Trading card display rack loaded with booster packs" loading="lazy" />
+          <div class="overlay"><span>Trading Card Display Rack</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ── Custom Orders CTA ── -->
   <section id="custom">
     <div class="container">
@@ -1244,6 +1361,27 @@
         </div>
         <div class="custom-actions">
           <a href="#contact" class="btn btn-ghost">Start a Custom Order</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Lab Journey ── -->
+  <section id="lab-journey">
+    <div class="container">
+      <div class="journey-grid">
+        <div class="journey-image">
+          <img src="images/profile/3DPrint_Tyson.jpg" alt="Tyson at the Bambu Lab X1 Carbon printer that makes every LittleDevLab piece" loading="lazy" />
+        </div>
+        <div class="about-content">
+          <span class="tag">Lab Journey</span>
+          <h2>Building this in public, one skill at a time</h2>
+          <p>LittleDevLab is the shop, but it's also the lab. Every page here doubles as practice for the skills behind AI/Data Architect work — prompt and context engineering, agentic workflows, and the judgment calls that come with directing an AI coworker on a live production site.</p>
+          <p><strong>Build Log</strong> is the day-to-day record — what shipped on the site, logged roughly twice a day, in plain terms. <strong>Lab Notes</strong> is the slower reflection — what actually got learned building it, wins and dead ends included.</p>
+          <div class="journey-links">
+            <a href="lab-notes/index.html" class="btn btn-ghost">Read Lab Notes</a>
+            <a href="build-log.html" class="btn btn-ghost">View Build Log</a>
+          </div>
         </div>
       </div>
     </div>
@@ -1359,11 +1497,10 @@
         </div>
         <p class="footer-copy">© 2025 LittleDevLab. SF Bay Area. All designs are original.</p>
         <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
           <li><a href="products.html">Products</a></li>
-          <li><a href="#about">About</a></li>
-          <li><a href="build-log.html">Build Log</a></li>
-          <li><a href="lab-notes/index.html">Lab Notes</a></li>
-          <li><a href="#contact">Contact</a></li>
+          <li><a href="lab-notes/index.html">Lab Journey</a></li>
+          <li><a href="#contact">Get in Touch</a></li>
         </ul>
       </div>
     </div>
@@ -1390,15 +1527,14 @@
       });
     });
 
-    // ── Mobile Products submenu toggle ──
-    const mobileProductsToggle = document.getElementById('mobileProductsToggle');
-    const mobileProductsSubmenu = document.getElementById('mobileProductsSubmenu');
-    if (mobileProductsToggle && mobileProductsSubmenu) {
-      mobileProductsToggle.addEventListener('click', () => {
-        mobileProductsSubmenu.classList.toggle('open');
-        mobileProductsToggle.classList.toggle('open');
+    // ── Mobile dropdown submenu toggles (Home / Products / Lab Journey) ──
+    document.querySelectorAll('.mobile-link-toggle[data-toggle]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const submenu = document.getElementById(btn.getAttribute('data-toggle'));
+        if (submenu) submenu.classList.toggle('open');
+        btn.classList.toggle('open');
       });
-    }
+    });
 
     // ── Photo swap ──
     function swapPhoto(mainId, src, thumb) {
@@ -1561,19 +1697,53 @@
       if (e.key === 'Escape') closeLightbox();
     });
 
-    // ── Form ──
+    // ── Form: real send via FormSubmit (no backend needed) ──
+    // First-ever submission triggers a one-time confirmation email to
+    // hello@littledevlab.com from FormSubmit - click it once and every
+    // submission after that lands in the inbox automatically. If the
+    // request itself fails (offline, blocked, etc.) we fall back to
+    // opening the visitor's own email client with the message pre-filled,
+    // so a message is never silently lost.
     function handleSubmit(e) {
       e.preventDefault();
-      const btn = e.target.querySelector('.form-submit');
-      btn.textContent = 'Sent! ✓';
-      btn.style.background = '#2d6a4f';
+      const form = e.target;
+      const btn = form.querySelector('.form-submit');
+      const originalText = btn.textContent;
+      btn.textContent = 'Sending…';
       btn.disabled = true;
-      setTimeout(() => {
-        btn.textContent = 'Send Message';
-        btn.style.background = '';
-        btn.disabled = false;
-        e.target.reset();
-      }, 3500);
+
+      const payload = {
+        name: form.name.value,
+        email: form.email.value,
+        interest: form.interest.selectedOptions[0] ? form.interest.selectedOptions[0].text : '',
+        message: form.message.value,
+        _subject: 'New message from littledevlab.com',
+        _template: 'table',
+      };
+
+      fetch('https://formsubmit.co/ajax/hello@littledevlab.com', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(payload),
+      })
+        .then(res => {
+          if (!res.ok) throw new Error('FormSubmit request failed');
+          btn.textContent = 'Sent! ✓';
+          btn.style.background = '#2d6a4f';
+          form.reset();
+        })
+        .catch(() => {
+          const body = `${payload.message}\n\n— ${payload.name} (${payload.email})\nInterested in: ${payload.interest || 'n/a'}`;
+          window.location.href = 'mailto:hello@littledevlab.com?subject=' + encodeURIComponent(payload._subject) + '&body=' + encodeURIComponent(body);
+          btn.textContent = 'Opening email…';
+        })
+        .finally(() => {
+          setTimeout(() => {
+            btn.textContent = originalText;
+            btn.style.background = '';
+            btn.disabled = false;
+          }, 3500);
+        });
     }
 
     // ── Scroll spy for active nav ──

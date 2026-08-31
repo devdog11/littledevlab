@@ -977,6 +977,29 @@
       .contact-form { padding: 24px; }
     }
 
+
+    /* ── Per-section nav accent colors ── */
+    :root {
+      --products-accent: #b8873d;
+      --journey-accent: #8b4030;
+    }
+    .nav-container { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+    .nav-item-dropdown[data-accent="home"] > a:hover,
+    .nav-item-dropdown[data-accent="home"]:focus-within > a { color: var(--accent); }
+    .nav-item-dropdown[data-accent="products"] > a:hover,
+    .nav-item-dropdown[data-accent="products"]:focus-within > a { color: var(--products-accent); }
+    .nav-item-dropdown[data-accent="journey"] > a:hover,
+    .nav-item-dropdown[data-accent="journey"]:focus-within > a { color: var(--journey-accent); }
+    .nav-item-dropdown[data-accent] .nav-dropdown-menu { border-top: 3px solid var(--gray-200); }
+    .nav-item-dropdown[data-accent="home"] .nav-dropdown-menu { border-top-color: var(--accent); }
+    .nav-item-dropdown[data-accent="products"] .nav-dropdown-menu { border-top-color: var(--products-accent); }
+    .nav-item-dropdown[data-accent="journey"] .nav-dropdown-menu { border-top-color: var(--journey-accent); }
+    .nav-dropdown-menu a.current { color: var(--ink); font-weight: 600; }
+    .mobile-link-toggle[data-accent="home"].open { color: var(--accent); }
+    .mobile-link-toggle[data-accent="products"].open { color: var(--products-accent); }
+    .mobile-link-toggle[data-accent="journey"].open { color: var(--journey-accent); }
+    .mobile-link.current { color: var(--accent); font-weight: 600; }
+
     /* ── Products nav dropdown ── */
     .nav-item-dropdown { position: relative; }
     .nav-dropdown-menu {
@@ -1076,23 +1099,32 @@
         LittleDevLab
       </a>
       <ul class="nav-links">
-        <li class="nav-item-dropdown">
-          <a href="#products">Products</a>
+        <li class="nav-item-dropdown" data-accent="home">
+          <a href="index.html">Home</a>
           <div class="nav-dropdown-menu">
-            <a href="#glasses-holder">Glasses + Contact Lens Holder</a>
-            <a href="#coaster-holder">Chilewich Coaster Holder</a>
-            <a href="#gaming-card-display">Trading Card Display Rack</a>
-            <a href="#hunter-douglas-mount">Hunter Douglas Remote Wall Mount</a>
-            <a href="#steak-knife-holder">Steak Knife Holder</a>
-            <a href="#zbiotic-gift-box">ZBiotic Six-Pack Gift Carrier</a>
+          <a href="index.html#about">About</a>
+          <a href="index.html#gallery">Gallery</a>
+          <a href="index.html#process">How It's Made</a>
           </div>
         </li>
-        <li><a href="#gallery">Gallery</a></li>
-        <li><a href="index.html#process">How It's Made</a></li>
-        <li><a href="index.html#about">About</a></li>
-        <li><a href="build-log.html">Build Log</a></li>
-        <li><a href="lab-notes/index.html">Lab Notes</a></li>
-        <li><a href="index.html#contact">Contact</a></li>
+        <li class="nav-item-dropdown" data-accent="products">
+          <a href="#products">Products</a>
+          <div class="nav-dropdown-menu">
+          <a href="#glasses-holder">Glasses + Contact Lens Holder</a>
+          <a href="#coaster-holder">Chilewich Coaster Holder</a>
+          <a href="#gaming-card-display">Trading Card Display Rack</a>
+          <a href="#hunter-douglas-mount">Hunter Douglas Remote Wall Mount</a>
+          <a href="#steak-knife-holder">Steak Knife Holder</a>
+          <a href="#zbiotic-gift-box">ZBiotic Six-Pack Gift Carrier</a>
+          </div>
+        </li>
+        <li class="nav-item-dropdown" data-accent="journey">
+          <a href="lab-notes/index.html">Lab Journey</a>
+          <div class="nav-dropdown-menu">
+          <a href="lab-notes/index.html">Lab Notes</a>
+          <a href="build-log.html">Build Log</a>
+          </div>
+        </li>
       </ul>
       <a href="index.html#contact" class="btn btn-primary nav-cta" style="padding:10px 20px;font-size:.84rem;">Get in Touch</a>
       <button class="nav-toggle" id="navToggle" aria-label="Menu">
@@ -1103,13 +1135,24 @@
 
   <!-- Mobile Nav -->
   <div class="mobile-nav" id="mobileNav">
-    <ul>
+      <ul>
       <li>
-        <button type="button" class="mobile-link-toggle" id="mobileProductsToggle">
+        <button type="button" class="mobile-link-toggle" data-toggle="mobile-home-submenu" data-accent="home">
+          Home
+          <svg width="10" height="10" viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="mobile-submenu" id="mobile-home-submenu">
+          <a href="index.html#about" class="mobile-link">About</a>
+          <a href="index.html#gallery" class="mobile-link">Gallery</a>
+          <a href="index.html#process" class="mobile-link">How It's Made</a>
+        </div>
+      </li>
+      <li>
+        <button type="button" class="mobile-link-toggle" data-toggle="mobile-products-submenu" data-accent="products">
           Products
           <svg width="10" height="10" viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
-        <div class="mobile-submenu" id="mobileProductsSubmenu">
+        <div class="mobile-submenu" id="mobile-products-submenu">
           <a href="#glasses-holder" class="mobile-link">Glasses + Contact Lens Holder</a>
           <a href="#coaster-holder" class="mobile-link">Chilewich Coaster Holder</a>
           <a href="#gaming-card-display" class="mobile-link">Trading Card Display Rack</a>
@@ -1118,13 +1161,18 @@
           <a href="#zbiotic-gift-box" class="mobile-link">ZBiotic Six-Pack Gift Carrier</a>
         </div>
       </li>
-      <li><a href="#gallery" class="mobile-link">Gallery</a></li>
-      <li><a href="index.html#process" class="mobile-link">How It's Made</a></li>
-      <li><a href="index.html#about" class="mobile-link">About</a></li>
-      <li><a href="build-log.html" class="mobile-link">Build Log</a></li>
-      <li><a href="lab-notes/index.html" class="mobile-link">Lab Notes</a></li>
-      <li><a href="index.html#contact" class="mobile-link">Contact</a></li>
-    </ul>
+      <li>
+        <button type="button" class="mobile-link-toggle" data-toggle="mobile-journey-submenu" data-accent="journey">
+          Lab Journey
+          <svg width="10" height="10" viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="mobile-submenu" id="mobile-journey-submenu">
+          <a href="lab-notes/index.html" class="mobile-link">Lab Notes</a>
+          <a href="build-log.html" class="mobile-link">Build Log</a>
+        </div>
+      </li>
+        <li><a href="index.html#contact" class="mobile-link">Get in Touch</a></li>
+      </ul>
   </div>
 
   <!-- ── Products ── -->
@@ -1138,7 +1186,7 @@
 
       <div class="products-landing-grid">
         <a class="products-landing-tile tone-sand" href="#glasses-holder">
-          <img src="images/glasses/15-days-2-lens-white.png" alt="Glasses + Contact Lens Holder" loading="lazy" />
+          <img src="images/glasses/glasses-holder-counter.jpg" alt="Glasses + Contact Lens Holder" loading="lazy" />
           <span>Glasses + Contact Lens Holder</span>
         </a>
         <a class="products-landing-tile tone-gray" href="#coaster-holder">
@@ -1146,11 +1194,11 @@
           <span>Chilewich Coaster Holder</span>
         </a>
         <a class="products-landing-tile tone-sand" href="#gaming-card-display">
-          <img src="images/gaming-card-display/gaming-card-display-1.jpg" alt="Trading Card Display Rack" loading="lazy" />
+          <img src="images/gaming-card-display/card-holder-left.png" alt="Trading Card Display Rack" loading="lazy" />
           <span>Trading Card Display Rack</span>
         </a>
         <a class="products-landing-tile tone-gray" href="#hunter-douglas-mount">
-          <img src="images/hunter-douglass/hunter-douglas-wall-mount-3m-claw-white.png" alt="Hunter Douglas Remote Wall Mount" loading="lazy" />
+          <img src="images/hunter-douglass/hunter-douglas-wall-mount-3m-claw-photoreal.png" alt="Hunter Douglas Remote Wall Mount" loading="lazy" />
           <span>Hunter Douglas Remote Wall Mount</span>
         </a>
         <a class="products-landing-tile tone-sand" href="#steak-knife-holder">
@@ -1307,9 +1355,12 @@
           </div>
           <model-viewer id="gaming-mv" class="main-photo main-3d" src="images/gaming-card-display/gaming-card-display.glb" camera-controls auto-rotate auto-rotate-delay="0" rotation-per-second="18deg" shadow-intensity="1" exposure="1" environment-image="neutral" alt="Interactive 3D model of the trading card display rack"></model-viewer>
           <div class="gallery-3d-hint" id="gaming-hint">Drag to rotate &middot; scroll to zoom</div>
-          <img class="main-photo" id="gaming-main" src="images/gaming-card-display/gaming-card-display-1.jpg" alt="Trading card display rack" />
+          <img class="main-photo" id="gaming-main" src="images/gaming-card-display/card-holder-left.png" alt="Trading card display rack loaded with booster packs" />
           <div class="product-thumbs">
-            <img src="images/gaming-card-display/gaming-card-display-1.jpg" alt="Card display photo 1" class="active" onclick="swapPhoto('gaming-main', this.src, this)" />
+            <img src="images/gaming-card-display/card-holder-left.png" alt="Card holder, loaded, angle 1" class="active" onclick="swapPhoto('gaming-main', this.src, this)" />
+            <img src="images/gaming-card-display/card-holder-right.png" alt="Card holder, loaded, angle 2" onclick="swapPhoto('gaming-main', this.src, this)" />
+            <img src="images/gaming-card-display/card-holder-pulled-out.jpg" alt="Card holder with a pack pulled out" onclick="swapPhoto('gaming-main', this.src, this)" />
+            <img src="images/gaming-card-display/gaming-card-display-1.jpg" alt="Card display photo 1" onclick="swapPhoto('gaming-main', this.src, this)" />
             <img src="images/gaming-card-display/gaming-card-display-2.jpg" alt="Card display photo 2" onclick="swapPhoto('gaming-main', this.src, this)" />
             <img src="images/gaming-card-display/gaming-card-display-3.jpg" alt="Card display photo 3" onclick="swapPhoto('gaming-main', this.src, this)" />
             <img src="images/gaming-card-display/gaming-card-display-4.jpg" alt="Card display photo 4" onclick="swapPhoto('gaming-main', this.src, this)" />
@@ -1561,51 +1612,6 @@
     </div>
   </section>
 
-  <!-- ── Gallery ── -->
-  <section id="gallery">
-    <div class="container">
-      <div class="section-header">
-        <span class="tag">Gallery</span>
-        <h2>All the angles</h2>
-        <p>Click any image to view full size.</p>
-      </div>
-      <div class="gallery-grid">
-        <div class="gallery-item" onclick="openLightbox('images/glasses/glasses-holder-counter.jpg')">
-          <img src="images/glasses/glasses-holder-counter.jpg" alt="Glasses holder on marble counter" loading="lazy" />
-          <div class="overlay"><span>Glasses Holder</span></div>
-        </div>
-        <div class="gallery-item" onclick="openLightbox('images/coasters/coaster-hex-holder.jpg')">
-          <img src="images/coasters/coaster-hex-holder.jpg" alt="Hexagonal coaster holder" loading="lazy" />
-          <div class="overlay"><span>Hex Coaster Holder</span></div>
-        </div>
-        <div class="gallery-item" onclick="openLightbox('images/coasters/coaster-cuff-black.jpg')">
-          <img src="images/coasters/coaster-cuff-black.jpg" alt="Cuff style coaster holder in black" loading="lazy" />
-          <div class="overlay"><span>Cuff Holder · Black</span></div>
-        </div>
-        <div class="gallery-item" onclick="openLightbox('images/glasses/glasses-holder-side.jpg')">
-          <img src="images/glasses/glasses-holder-side.jpg" alt="Glasses holder side angle" loading="lazy" />
-          <div class="overlay"><span>Glasses Holder · Side</span></div>
-        </div>
-        <div class="gallery-item" onclick="openLightbox('images/coasters/coaster-round-side.jpg')">
-          <img src="images/coasters/coaster-round-side.jpg" alt="Round coaster holder side view" loading="lazy" />
-          <div class="overlay"><span>Round Holder · Side</span></div>
-        </div>
-        <div class="gallery-item" onclick="openLightbox('images/glasses/glasses-holder-top.jpg')">
-          <img src="images/glasses/glasses-holder-top.jpg" alt="Glasses holder top view showing all compartments" loading="lazy" />
-          <div class="overlay"><span>Glasses Holder · Top</span></div>
-        </div>
-        <div class="gallery-item" onclick="openLightbox('images/coasters/coaster-hex-top.jpg')">
-          <img src="images/coasters/coaster-hex-top.jpg" alt="Hexagonal coaster holder top view" loading="lazy" />
-          <div class="overlay"><span>Hex Holder · Top</span></div>
-        </div>
-        <div class="gallery-item" onclick="openLightbox('images/coasters/coaster-hex-angle.jpg')">
-          <img src="images/coasters/coaster-hex-angle.jpg" alt="Hexagonal coaster holder angled" loading="lazy" />
-          <div class="overlay"><span>Hex Holder · Angle</span></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- ── Drafting Title Block ── -->
   <div class="sheet-titleblock">
     <div class="container">
@@ -1635,11 +1641,10 @@
         </div>
         <p class="footer-copy">© 2025 LittleDevLab. SF Bay Area. All designs are original.</p>
         <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
           <li><a href="#products">Products</a></li>
-          <li><a href="index.html#about">About</a></li>
-          <li><a href="build-log.html">Build Log</a></li>
-          <li><a href="lab-notes/index.html">Lab Notes</a></li>
-          <li><a href="index.html#contact">Contact</a></li>
+          <li><a href="lab-notes/index.html">Lab Journey</a></li>
+          <li><a href="index.html#contact">Get in Touch</a></li>
         </ul>
       </div>
     </div>
@@ -1667,14 +1672,14 @@
     });
 
     // ── Mobile Products submenu toggle ──
-    const mobileProductsToggle = document.getElementById('mobileProductsToggle');
-    const mobileProductsSubmenu = document.getElementById('mobileProductsSubmenu');
-    if (mobileProductsToggle && mobileProductsSubmenu) {
-      mobileProductsToggle.addEventListener('click', () => {
-        mobileProductsSubmenu.classList.toggle('open');
-        mobileProductsToggle.classList.toggle('open');
+    // ── Mobile dropdown submenu toggles (Home / Products / Lab Journey) ──
+    document.querySelectorAll('.mobile-link-toggle[data-toggle]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const submenu = document.getElementById(btn.getAttribute('data-toggle'));
+        if (submenu) submenu.classList.toggle('open');
+        btn.classList.toggle('open');
       });
-    }
+    });
 
     // ── Photo swap ──
     function swapPhoto(mainId, src, thumb) {

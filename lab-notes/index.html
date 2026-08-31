@@ -13,11 +13,14 @@
       --ink-soft: #55503f;
       --accent: #b0492a;
       --sand: #ece4d4;
+      --white: #f8f4ea;
       --gray-100: #efe8da;
       --gray-200: #e3dac8;
       --gray-400: #a49a82;
+      --gray-800: #2c2820;
       --radius: 3px;
       --radius-lg: 6px;
+      --shadow-md: 0 4px 16px rgba(44,40,32,.12), 0 2px 6px rgba(44,40,32,.08);
       --max-w: 760px;
     }
     html { scroll-behavior: smooth; font-size: 16px; }
@@ -36,11 +39,124 @@
       border-bottom: 1px solid var(--gray-200);
       padding: 18px 0;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      position: relative;
     }
     header.site-nav .container { display: flex; align-items: center; justify-content: space-between; }
-    header.site-nav .logo { font-weight: 700; color: var(--ink); font-size: .95rem; letter-spacing: -.01em; }
-    header.site-nav nav a { color: var(--ink-soft); font-size: .84rem; margin-left: 18px; }
-    header.site-nav nav a:hover { color: var(--accent); }
+    .nav-logo { display: flex; align-items: center; gap: 8px; font-weight: 700; color: var(--ink); font-size: .95rem; letter-spacing: -.01em; }
+    .nav-links { display: flex; align-items: center; gap: 22px; list-style: none; }
+    .nav-links a { color: var(--ink-soft); font-size: .84rem; }
+    .nav-links a:hover { color: var(--accent); }
+    .nav-cta {
+      background: var(--accent);
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: var(--radius);
+      font-size: .82rem;
+      font-weight: 600;
+      margin-left: 8px;
+    }
+    .nav-cta:hover { opacity: .88; text-decoration: none; }
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .nav-toggle span { display: block; width: 22px; height: 2px; background: var(--ink); border-radius: 2px; transition: all .25s; }
+    .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-toggle.open span:nth-child(2) { opacity: 0; }
+    .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .mobile-nav { display: none; border-top: 1px solid var(--gray-200); margin-top: 16px; padding-top: 4px; }
+    .mobile-nav.open { display: block; }
+    .mobile-nav > ul { list-style: none; }
+    .mobile-nav > ul > li { border-top: 1px solid var(--gray-200); }
+    .mobile-nav > ul > li:first-child { border-top: none; }
+    .mobile-nav a, .mobile-nav .mobile-link-toggle { display: block; padding: 12px 0; font-size: .88rem; color: var(--ink-soft); }
+    @media (max-width: 700px) {
+      .nav-links, header.site-nav .nav-cta { display: none; }
+      .nav-toggle { display: flex; }
+    }
+
+    /* ── Nav dropdown (Home / Products / Lab Journey) ── */
+    .nav-item-dropdown { position: relative; }
+    .nav-dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      padding: 8px;
+      min-width: 240px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateX(-50%) translateY(4px);
+      transition: opacity .15s, transform .15s, visibility .15s;
+      z-index: 20;
+    }
+    .nav-item-dropdown:hover .nav-dropdown-menu,
+    .nav-item-dropdown:focus-within .nav-dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(0);
+    }
+    .nav-dropdown-menu a {
+      display: block;
+      padding: 8px 12px;
+      font-size: .84rem;
+      border-radius: var(--radius);
+      white-space: nowrap;
+      color: var(--gray-800);
+    }
+    .nav-dropdown-menu a:hover { background: var(--gray-100); }
+    .mobile-link-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font: inherit;
+      color: inherit;
+      text-align: left;
+      padding: 0;
+    }
+    .mobile-link-toggle svg { transition: transform .2s; flex-shrink: 0; }
+    .mobile-link-toggle.open svg { transform: rotate(180deg); }
+    .mobile-submenu {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .2s ease;
+    }
+    .mobile-submenu.open { max-height: 400px; }
+    .mobile-submenu a { display: block; padding: 10px 0 10px 16px; font-size: .92rem; opacity: .85; }
+
+    /* ── Per-section nav accent colors ── */
+    :root {
+      --products-accent: #b8873d;
+      --journey-accent: #8b4030;
+    }
+    .nav-container { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+    .nav-item-dropdown[data-accent="home"] > a:hover,
+    .nav-item-dropdown[data-accent="home"]:focus-within > a { color: var(--accent); }
+    .nav-item-dropdown[data-accent="products"] > a:hover,
+    .nav-item-dropdown[data-accent="products"]:focus-within > a { color: var(--products-accent); }
+    .nav-item-dropdown[data-accent="journey"] > a:hover,
+    .nav-item-dropdown[data-accent="journey"]:focus-within > a { color: var(--journey-accent); }
+    .nav-item-dropdown[data-accent] .nav-dropdown-menu { border-top: 3px solid var(--gray-200); }
+    .nav-item-dropdown[data-accent="home"] .nav-dropdown-menu { border-top-color: var(--accent); }
+    .nav-item-dropdown[data-accent="products"] .nav-dropdown-menu { border-top-color: var(--products-accent); }
+    .nav-item-dropdown[data-accent="journey"] .nav-dropdown-menu { border-top-color: var(--journey-accent); }
+    .nav-dropdown-menu a.current { color: var(--ink); font-weight: 600; }
+    .mobile-link-toggle[data-accent="home"].open { color: var(--accent); }
+    .mobile-link-toggle[data-accent="products"].open { color: var(--products-accent); }
+    .mobile-link-toggle[data-accent="journey"].open { color: var(--journey-accent); }
+    .mobile-link.current { color: var(--accent); font-weight: 600; }
     .tag {
       display: inline-block;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -126,13 +242,86 @@
 <body>
   <header class="site-nav">
     <div class="container">
-      <a href="../index.html" class="logo">LittleDevLab</a>
-      <nav>
-        <a href="index.html">Lab Notes</a>
-        <a href="../products.html">Products</a>
-        <a href="../build-log.html">Build Log</a>
-        <a href="../index.html#contact">Contact</a>
-      </nav>
+      <a href="../index.html" class="nav-logo"><svg width="24" height="24" viewBox="0 0 28 28">
+          <rect width="28" height="28" rx="7" fill="#2C2820"/>
+          <circle cx="14" cy="14" r="8" fill="none" stroke="white" stroke-width="1.6"/>
+          <path d="M 6 14 A 8 3 0 0 1 22 14" fill="none" stroke="#B0492A" stroke-width="1.3" stroke-linecap="round" stroke-dasharray="2.2 2"/>
+          <path d="M 6 14 A 8 3 0 0 0 22 14" fill="none" stroke="#B0492A" stroke-width="1.3" stroke-linecap="round"/>
+          <line x1="12.4" y1="14" x2="15.6" y2="14" stroke="#B0492A" stroke-width="1"/>
+          <line x1="14" y1="12.4" x2="14" y2="15.6" stroke="#B0492A" stroke-width="1"/>
+        </svg>LittleDevLab</a>
+        <ul class="nav-links">
+          <li class="nav-item-dropdown" data-accent="home">
+            <a href="../index.html">Home</a>
+            <div class="nav-dropdown-menu">
+            <a href="../index.html#about">About</a>
+            <a href="../index.html#gallery">Gallery</a>
+            <a href="../index.html#process">How It's Made</a>
+            </div>
+          </li>
+          <li class="nav-item-dropdown" data-accent="products">
+            <a href="../products.html">Products</a>
+            <div class="nav-dropdown-menu">
+            <a href="../products.html#glasses-holder">Glasses + Contact Lens Holder</a>
+            <a href="../products.html#coaster-holder">Chilewich Coaster Holder</a>
+            <a href="../products.html#gaming-card-display">Trading Card Display Rack</a>
+            <a href="../products.html#hunter-douglas-mount">Hunter Douglas Remote Wall Mount</a>
+            <a href="../products.html#steak-knife-holder">Steak Knife Holder</a>
+            <a href="../products.html#zbiotic-gift-box">ZBiotic Six-Pack Gift Carrier</a>
+            </div>
+          </li>
+          <li class="nav-item-dropdown" data-accent="journey">
+            <a href="index.html">Lab Journey</a>
+            <div class="nav-dropdown-menu">
+            <a href="index.html" class="current">Lab Notes</a>
+            <a href="../build-log.html">Build Log</a>
+            </div>
+          </li>
+        </ul>
+      <a href="../index.html#contact" class="nav-cta">Get in Touch</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="mobile-nav" id="mobileNav">
+      <ul>
+      <li>
+        <button type="button" class="mobile-link-toggle" data-toggle="mobile-home-submenu" data-accent="home">
+          Home
+          <svg width="10" height="10" viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="mobile-submenu" id="mobile-home-submenu">
+          <a href="../index.html#about" class="mobile-link">About</a>
+          <a href="../index.html#gallery" class="mobile-link">Gallery</a>
+          <a href="../index.html#process" class="mobile-link">How It's Made</a>
+        </div>
+      </li>
+      <li>
+        <button type="button" class="mobile-link-toggle" data-toggle="mobile-products-submenu" data-accent="products">
+          Products
+          <svg width="10" height="10" viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="mobile-submenu" id="mobile-products-submenu">
+          <a href="../products.html#glasses-holder" class="mobile-link">Glasses + Contact Lens Holder</a>
+          <a href="../products.html#coaster-holder" class="mobile-link">Chilewich Coaster Holder</a>
+          <a href="../products.html#gaming-card-display" class="mobile-link">Trading Card Display Rack</a>
+          <a href="../products.html#hunter-douglas-mount" class="mobile-link">Hunter Douglas Remote Wall Mount</a>
+          <a href="../products.html#steak-knife-holder" class="mobile-link">Steak Knife Holder</a>
+          <a href="../products.html#zbiotic-gift-box" class="mobile-link">ZBiotic Six-Pack Gift Carrier</a>
+        </div>
+      </li>
+      <li>
+        <button type="button" class="mobile-link-toggle" data-toggle="mobile-journey-submenu" data-accent="journey">
+          Lab Journey
+          <svg width="10" height="10" viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="mobile-submenu" id="mobile-journey-submenu">
+          <a href="index.html" class="mobile-link current">Lab Notes</a>
+          <a href="../build-log.html" class="mobile-link">Build Log</a>
+        </div>
+      </li>
+        <li><a href="../index.html#contact" class="mobile-link">Get in Touch</a></li>
+      </ul>
     </div>
   </header>
 
@@ -165,5 +354,24 @@
     </div>
   </footer>
 
+
+  <script>
+    const navToggle = document.getElementById('navToggle');
+    const mobileNav = document.getElementById('mobileNav');
+    if (navToggle && mobileNav) {
+      navToggle.addEventListener('click', () => {
+        navToggle.classList.toggle('open');
+        mobileNav.classList.toggle('open');
+      });
+    }
+    // ── Mobile dropdown submenu toggles (Home / Products / Lab Journey) ──
+    document.querySelectorAll('.mobile-link-toggle[data-toggle]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const submenu = document.getElementById(btn.getAttribute('data-toggle'));
+        if (submenu) submenu.classList.toggle('open');
+        btn.classList.toggle('open');
+      });
+    });
+  </script>
 </body>
 </html>
