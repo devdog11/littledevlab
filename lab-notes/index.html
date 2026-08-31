@@ -231,6 +231,69 @@
       text-align: center;
     }
     footer a { color: var(--ink-soft); margin: 0 8px; }
+    .lab-header {
+      background: var(--ink);
+      padding-top: 56px;
+      padding-bottom: 48px;
+      position: relative;
+      overflow: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+    .lab-header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 80% at 80% 20%, rgba(176,73,42,.22) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .lab-header-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: 1fr 240px;
+      align-items: center;
+      gap: 24px;
+      position: relative;
+    }
+    .lab-eyebrow {
+      font-size: .78rem;
+      font-weight: 600;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+    .lab-header h1 {
+      font-family: Georgia, 'Iowan Old Style', 'Palatino Linotype', serif;
+      font-size: clamp(2rem, 3.6vw, 2.8rem);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -.02em;
+      color: var(--white);
+      margin-bottom: 16px;
+      max-width: 640px;
+    }
+    .lab-header p {
+      font-size: 1.02rem;
+      line-height: 1.7;
+      color: rgba(248,244,234,.75);
+      max-width: 560px;
+    }
+    .lab-header-visual { justify-self: center; }
+    .lab-header-visual svg { width: 100%; height: auto; max-width: 200px; }
+    .lab-header-visual .edge-solid { fill: none; stroke: var(--white); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; opacity: .82; }
+    .lab-header-visual .edge-hidden { fill: none; stroke: var(--accent); stroke-width: 1.4; stroke-dasharray: 6 5; stroke-linecap: round; opacity: .55; }
+    .lab-header-visual .ext-line { stroke: var(--accent); stroke-width: 1; opacity: .45; }
+    .lab-header-visual .dim-line { stroke: var(--accent); stroke-width: 1; opacity: .6; }
+    .lab-header-visual .tick { stroke: var(--accent); stroke-width: 1.4; opacity: .6; }
+    .lab-header-visual .center-mark { stroke: var(--accent); stroke-width: 1.2; opacity: .8; }
+    .lab-header-visual .dim-text { fill: var(--accent); font-size: 11px; letter-spacing: .01em; opacity: .75; }
+    @media (max-width: 860px) {
+      .lab-header-inner { grid-template-columns: 1fr; }
+      .lab-header-visual { display: none; }
+      .lab-header { padding-bottom: 32px; }
+    }
     .post-list { list-style: none; margin-top: 32px; }
     .post-list li { padding: 20px 0; border-bottom: 1px solid var(--gray-200); }
     .post-list li:first-child { padding-top: 0; }
@@ -325,12 +388,57 @@
     </div>
   </header>
 
+  <header class="lab-header">
+    <div class="lab-header-inner">
+      <div>
+        <p class="lab-eyebrow">Lab Notebook</p>
+        <h1>Lab Notes</h1>
+        <p>A running log of what I'm actually learning while building LittleDevLab — agentic AI, 3D design/print, Python, home automation, and AI-assisted home remodeling — documented as I go.</p>
+      </div>
+      <div class="lab-header-visual" aria-hidden="true">
+        <svg viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg">
+          <g transform="translate(160,160)">
+            <polyline points="0.00,-100.00 86.60,-50.00 86.60,50.00 -0.00,100.00 -86.60,50.00 -86.60,-50.00 0.00,-100.00" class="edge-solid"/>
+            <line x1="0.00" y1="0.00" x2="86.60" y2="-50.00" class="edge-solid"/>
+            <line x1="0.00" y1="0.00" x2="-0.00" y2="100.00" class="edge-solid"/>
+            <line x1="0.00" y1="0.00" x2="-86.60" y2="-50.00" class="edge-solid"/>
+            <line x1="0.00" y1="0.00" x2="0.00" y2="-100.00" class="edge-hidden"/>
+            <line x1="0.00" y1="0.00" x2="86.60" y2="50.00" class="edge-hidden"/>
+            <line x1="0.00" y1="0.00" x2="-86.60" y2="50.00" class="edge-hidden"/>
+            <g class="dim">
+              <line x1="86.60" y1="50.00" x2="99.60" y2="72.52" class="ext-line"/>
+              <line x1="-0.00" y1="100.00" x2="13.00" y2="122.52" class="ext-line"/>
+              <line x1="99.60" y1="72.52" x2="13.00" y2="122.52" class="dim-line"/>
+              <line x1="96.22" y1="71.61" x2="102.98" y2="73.42" class="tick"/>
+              <line x1="9.62" y1="121.61" x2="16.38" y2="123.42" class="tick"/>
+              <text x="56.30" y="97.52" class="dim-text" transform="rotate(330.00 56.30 97.52)" text-anchor="middle" dy="-4">12'-0"</text>
+            </g>
+            <g class="dim">
+              <line x1="-0.00" y1="100.00" x2="-13.00" y2="122.52" class="ext-line"/>
+              <line x1="-86.60" y1="50.00" x2="-99.60" y2="72.52" class="ext-line"/>
+              <line x1="-13.00" y1="122.52" x2="-99.60" y2="72.52" class="dim-line"/>
+              <line x1="-13.91" y1="119.14" x2="-12.09" y2="125.90" class="tick"/>
+              <line x1="-100.51" y1="69.14" x2="-98.69" y2="75.90" class="tick"/>
+              <text x="-56.30" y="97.52" class="dim-text" transform="rotate(30.00 -56.30 97.52)" text-anchor="middle" dy="-4">12'-0"</text>
+            </g>
+            <g class="dim">
+              <line x1="-86.60" y1="50.00" x2="-112.60" y2="50.00" class="ext-line"/>
+              <line x1="-86.60" y1="-50.00" x2="-112.60" y2="-50.00" class="ext-line"/>
+              <line x1="-112.60" y1="50.00" x2="-112.60" y2="-50.00" class="dim-line"/>
+              <line x1="-115.07" y1="52.47" x2="-110.13" y2="47.53" class="tick"/>
+              <line x1="-115.07" y1="-47.53" x2="-110.13" y2="-52.47" class="tick"/>
+              <text x="-112.60" y="0.00" class="dim-text" transform="rotate(-90.00 -112.60 0.00)" text-anchor="middle" dy="-4">12'-0"</text>
+            </g>
+            <line x1="-6.00" y1="0.00" x2="6.00" y2="0.00" class="center-mark"/>
+            <line x1="0.00" y1="-6.00" x2="0.00" y2="6.00" class="center-mark"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </header>
+
   <main>
     <div class="container">
-      <span class="tag">Lab Notes</span>
-      <h1>Lab Notes</h1>
-      <p class="lede">A running log of what I'm actually learning while building LittleDevLab — agentic AI, 3D design/print, Python, home automation, and AI-assisted home remodeling — documented as I go.</p>
-
       <ul class="post-list">
         <li>
           <span class="tag">Agentic AI Skills</span>

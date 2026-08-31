@@ -1719,6 +1719,7 @@
         message: form.message.value,
         _subject: 'New message from littledevlab.com',
         _template: 'table',
+        _replyto: form.email.value,
       };
 
       fetch('https://formsubmit.co/ajax/hello@littledevlab.com', {
