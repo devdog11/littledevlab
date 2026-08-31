@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hands-On Labs Are How Solution Architects Actually Learn Agentic AI — Lab Notes</title>
+  <meta name="description" content="Why hands-on labs beat prompting-only for Solution Architects moving from AI products to agentic AI, and the ingestion/hallucination lesson from a NotebookLM experiment." />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --paper: #f8f4ea;
+      --ink: #2c2820;
+      --ink-soft: #55503f;
+      --accent: #b0492a;
+      --sand: #ece4d4;
+      --gray-100: #efe8da;
+      --gray-200: #e3dac8;
+      --gray-400: #a49a82;
+      --radius: 3px;
+      --radius-lg: 6px;
+      --max-w: 760px;
+    }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      font-family: Georgia, 'Iowan Old Style', 'Palatino Linotype', serif;
+      color: var(--ink);
+      background: var(--paper);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    img { display: block; max-width: 100%; height: auto; }
+    .container { max-width: var(--max-w); margin: 0 auto; padding: 0 24px; }
+    header.site-nav {
+      border-bottom: 1px solid var(--gray-200);
+      padding: 18px 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+    header.site-nav .container { display: flex; align-items: center; justify-content: space-between; }
+    header.site-nav .logo { font-weight: 700; color: var(--ink); font-size: .95rem; letter-spacing: -.01em; }
+    header.site-nav nav a { color: var(--ink-soft); font-size: .84rem; margin-left: 18px; }
+    header.site-nav nav a:hover { color: var(--accent); }
+    .tag {
+      display: inline-block;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: var(--sand);
+      padding: 4px 10px;
+      border-radius: var(--radius);
+    }
+    .post-meta {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: .8rem;
+      color: var(--ink-soft);
+      margin-top: 10px;
+    }
+    main { padding: 56px 0 80px; }
+    h1 {
+      font-size: 2rem;
+      line-height: 1.25;
+      margin: 16px 0 6px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-weight: 700;
+      letter-spacing: -.01em;
+    }
+    h2 {
+      font-size: 1.3rem;
+      margin: 40px 0 14px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-weight: 700;
+      color: var(--ink);
+    }
+    h3 {
+      font-size: 1.05rem;
+      margin: 28px 0 10px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-weight: 700;
+      color: var(--ink);
+    }
+    p { margin-bottom: 18px; font-size: 1.05rem; }
+    .lede { font-size: 1.15rem; color: var(--ink-soft); }
+    .callout {
+      background: var(--sand);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 16px 20px;
+      margin: 28px 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: .92rem;
+      color: var(--ink-soft);
+    }
+    .placeholder {
+      display: block;
+      background: var(--gray-100);
+      border: 1px dashed var(--gray-400);
+      border-radius: var(--radius);
+      padding: 12px 16px;
+      margin: 10px 0 18px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: .88rem;
+      color: var(--ink-soft);
+      font-style: italic;
+    }
+    footer {
+      border-top: 1px solid var(--gray-200);
+      padding: 28px 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: .8rem;
+      color: var(--ink-soft);
+      text-align: center;
+    }
+    footer a { color: var(--ink-soft); margin: 0 8px; }
+    .post-list { list-style: none; margin-top: 32px; }
+    .post-list li { padding: 20px 0; border-bottom: 1px solid var(--gray-200); }
+    .post-list li:first-child { padding-top: 0; }
+    .post-list h3 { margin: 8px 0 6px; }
+    .post-list .excerpt { color: var(--ink-soft); font-size: .95rem; margin: 0; }
+
+  </style>
+</head>
+<body>
+  <header class="site-nav">
+    <div class="container">
+      <a href="../index.html" class="logo">LittleDevLab</a>
+      <nav>
+        <a href="index.html">Lab Notes</a>
+        <a href="../products.html">Products</a>
+        <a href="../build-log.html">Build Log</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <span class="tag">Agentic AI Skills</span>
+      <h1>Hands-On Labs Are How Solution Architects Actually Learn Agentic AI</h1>
+      <p class="post-meta">August 31, 2026 &middot; Lab Notes</p>
+
+      <p class="lede">Enterprise Solution Architects pride themselves on being leaders in their core technology &mdash; but the job also means spending real cycles learning new tech, and the proliferation of AI has made that harder, not easier. So how do you run your business, stay on top of your stack, and still get deep enough into something new that you&rsquo;re comfortable putting it in front of a customer?</p>
+
+      <p>My answer: hands-on labs. Pick one AI product, actually explore its ecosystem, and play with different models inside it &mdash; rather than stopping at prompting a single tool well. Most SAs aren&rsquo;t programmers, but the bar is moving past &ldquo;prompt an AI product effectively&rdquo; toward leveraging an AI platform: agentic AI, not just AI-assisted work.</p>
+
+      <h2>Where I started: NotebookLM</h2>
+      <p>Personally, I started with NotebookLM (Gemini). It&rsquo;s an interesting entry point precisely because it demands a real understanding of AI ingestion before it gives you anything useful &mdash; a notebook is only as good as what, and how, you feed it.</p>
+
+      <h2>What I watched go wrong</h2>
+      <p>I watched plenty of people dump countless documents into a notebook &mdash; personal archives, corporate repositories &mdash; chasing a quick win against the sheer noise of enterprise product docs, Distinguished Architect and Tier 2 architect write-ups, and general SA &ldquo;noise.&rdquo; The problem showed up fast: uncurated content led to massive hallucination. Feed a model a pile of unvetted documents and it will confidently synthesize an answer from the worst of them right alongside the best.</p>
+
+      <h2>The fix: curate before you ingest</h2>
+      <p>That&rsquo;s the actual opportunity &mdash; not one AI product, but combining several. First, scrub the content. Validate that a document is even accurate before it goes in. If you can&rsquo;t find or confirm the author, have your product team validate it instead of trusting it on faith. From there &mdash;</p>
+
+      <div class="callout">This is where my original draft trails off &mdash; the next step was &ldquo;leverage the platform to clean&hellip;&rdquo; and I want to finish it with the actual tools and steps I used, not a guess. More on the cleaning pipeline soon.</div>
+
+    </div>
+  </main>
+  <footer>
+    <div class="container">
+      <p>&copy; 2026 LittleDevLab &middot; SF Bay Area &middot; <a href="index.html">All Lab Notes</a> &middot; <a href="../index.html">Home</a></p>
+    </div>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Real Work of Agentic AI Is Prompt and Context Engineering — Lab Notes</title>
+  <meta name="description" content="Breaking down prompt and context engineering — system instructions, retrieved documents, tool descriptions, permissions, output schemas — as the actual skill behind agentic AI." />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --paper: #f8f4ea;
+      --ink: #2c2820;
+      --ink-soft: #55503f;
+      --accent: #b0492a;
+      --sand: #ece4d4;
+      --gray-100: #efe8da;
+      --gray-200: #e3dac8;
+      --gray-400: #a49a82;
+      --radius: 3px;
+      --radius-lg: 6px;
+      --max-w: 760px;
+    }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      font-family: Georgia, 'Iowan Old Style', 'Palatino Linotype', serif;
+      color: var(--ink);
+      background: var(--paper);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    img { display: block; max-width: 100%; height: auto; }
+    .container { max-width: var(--max-w); margin: 0 auto; padding: 0 24px; }
+    header.site-nav {
+      border-bottom: 1px solid var(--gray-200);
+      padding: 18px 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+    header.site-nav .container { display: flex; align-items: center; justify-content: space-between; }
+    header.site-nav .logo { font-weight: 700; color: var(--ink); font-size: .95rem; letter-spacing: -.01em; }
+    header.site-nav nav a { color: var(--ink-soft); font-size: .84rem; margin-left: 18px; }
+    header.site-nav nav a:hover { color: var(--accent); }
+    .tag {
+      display: inline-block;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: var(--sand);
+      padding: 4px 10px;
+      border-radius: var(--radius);
+    }
+    .post-meta {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: .8rem;
+      color: var(--ink-soft);
+      margin-top: 10px;
+    }
+    main { padding: 56px 0 80px; }
+    h1 {
+      font-size: 2rem;
+      line-height: 1.25;
+      margin: 16px 0 6px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-weight: 700;
+      letter-spacing: -.01em;
+    }
+    h2 {
+      font-size: 1.3rem;
+      margin: 40px 0 14px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-weight: 700;
+      color: var(--ink);
+    }
+    h3 {
+      font-size: 1.05rem;
+      margin: 28px 0 10px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-weight: 700;
+      color: var(--ink);
+    }
+    p { margin-bottom: 18px; font-size: 1.05rem; }
+    .lede { font-size: 1.15rem; color: var(--ink-soft); }
+    .callout {
+      background: var(--sand);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 16px 20px;
+      margin: 28px 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: .92rem;
+      color: var(--ink-soft);
+    }
+    .placeholder {
+      display: block;
+      background: var(--gray-100);
+      border: 1px dashed var(--gray-400);
+      border-radius: var(--radius);
+      padding: 12px 16px;
+      margin: 10px 0 18px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: .88rem;
+      color: var(--ink-soft);
+      font-style: italic;
+    }
+    footer {
+      border-top: 1px solid var(--gray-200);
+      padding: 28px 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: .8rem;
+      color: var(--ink-soft);
+      text-align: center;
+    }
+    footer a { color: var(--ink-soft); margin: 0 8px; }
+    .post-list { list-style: none; margin-top: 32px; }
+    .post-list li { padding: 20px 0; border-bottom: 1px solid var(--gray-200); }
+    .post-list li:first-child { padding-top: 0; }
+    .post-list h3 { margin: 8px 0 6px; }
+    .post-list .excerpt { color: var(--ink-soft); font-size: .95rem; margin: 0; }
+
+  </style>
+</head>
+<body>
+  <header class="site-nav">
+    <div class="container">
+      <a href="../index.html" class="logo">LittleDevLab</a>
+      <nav>
+        <a href="index.html">Lab Notes</a>
+        <a href="../products.html">Products</a>
+        <a href="../build-log.html">Build Log</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <span class="tag">Agentic AI Skills</span>
+      <h1>The Real Work of Agentic AI Is Prompt and Context Engineering</h1>
+      <p class="post-meta">August 31, 2026 &middot; Lab Notes</p>
+
+      <p class="lede">I could probably build this site myself. I could even go into my ServiceNow instance and build the API integration by hand. But with Claude working alongside me, agentic AI just gets me to the end goal faster &mdash; way faster. The part that&rsquo;s actually mine to learn isn&rsquo;t the execution, it&rsquo;s how I shape the request that produces it: prompt engineering, and underneath that, context engineering.</p>
+
+      <p>Here&rsquo;s the breakdown I&rsquo;m working through, one concept at a time. Each of these needs a real example pulled from my own work before I&rsquo;d call this post finished &mdash; so consider this the skeleton, not the final piece.</p>
+
+      <h3>Context Engineering</h3>
+      <p>Everything the model sees before it answers, assembled on purpose: not just the prompt, but the system instructions, retrieved documents, tool descriptions, and conversation history working together. Prompt engineering shapes the ask; context engineering shapes everything the ask is answered against.</p>
+      <div class="placeholder">[NEEDS YOUR EXAMPLE — replace before publishing: one real instance of context engineering from your own work.]</div>
+
+      <h3>System Instructions</h3>
+      <p>The standing rules that shape every response in a session, independent of what's actually asked — tone, scope, what the agent is and isn't allowed to do by default.</p>
+      <div class="placeholder">[NEEDS YOUR EXAMPLE — replace before publishing: one real instance of system instructions from your own work.]</div>
+
+      <h3>User Input</h3>
+      <p>The literal request. How much structure or ambiguity is left in it changes what comes back — a vague ask gets a generic answer, a specific one gets a usable one.</p>
+      <div class="placeholder">[NEEDS YOUR EXAMPLE — replace before publishing: one real instance of user input from your own work.]</div>
+
+      <h3>Conversation State</h3>
+      <p>What the model retains from earlier turns. Handled well, it keeps a long session coherent; handled poorly, it drags stale or irrelevant context forward into a new ask.</p>
+      <div class="placeholder">[NEEDS YOUR EXAMPLE — replace before publishing: one real instance of conversation state from your own work.]</div>
+
+      <h3>Retrieved Documents</h3>
+      <p>External material pulled into context (RAG). This is exactly where the NotebookLM ingestion lesson lands — what you retrieve, and how well it's curated, sets the ceiling on accuracy.</p>
+      <div class="placeholder">[NEEDS YOUR EXAMPLE — replace before publishing: one real instance of retrieved documents from your own work.]</div>
+
+      <h3>Tool Descriptions</h3>
+      <p>How clearly a tool's purpose and parameters are described determines whether an agent picks the right tool and uses it correctly — an ambiguous description produces confidently wrong tool calls.</p>
+      <div class="placeholder">[NEEDS YOUR EXAMPLE — replace before publishing: one real instance of tool descriptions from your own work.]</div>
+
+      <h3>Examples</h3>
+      <p>Few-shot examples inside a prompt steer output format and tone more reliably than instructions alone — showing beats telling.</p>
+      <div class="placeholder">[NEEDS YOUR EXAMPLE — replace before publishing: one real instance of examples from your own work.]</div>
+
+      <h3>Permissions</h3>
+      <p>What the agent is actually allowed to do: read vs. write, which systems, and where a human has to approve before something goes live. This is exactly the layer the ServiceNow change-request workflow lives in.</p>
+      <div class="placeholder">[NEEDS YOUR EXAMPLE — replace before publishing: one real instance of permissions from your own work.]</div>
+
+      <h3>Output Schemas</h3>
+      <p>Constraining a response to a defined structure — a form, a ticket update, a specific JSON shape — so a downstream system can consume it without a human reformatting it first.</p>
+      <div class="placeholder">[NEEDS YOUR EXAMPLE — replace before publishing: one real instance of output schemas from your own work.]</div>
+
+    </div>
+  </main>
+  <footer>
+    <div class="container">
+      <p>&copy; 2026 LittleDevLab &middot; SF Bay Area &middot; <a href="index.html">All Lab Notes</a> &middot; <a href="../index.html">Home</a></p>
+    </div>
+  </footer>
+
+</body>
+</html>
