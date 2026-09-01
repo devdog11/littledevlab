@@ -331,18 +331,42 @@
       border-radius: var(--radius);
       box-shadow: 0 10px 28px rgba(44,40,32,.14);
       transition: transform .5s ease;
+      cursor: zoom-in;
     }
     .product-gallery:hover .main-photo { transform: scale(1.02); }
 
+    .gallery-zoom-hint {
+      position: absolute;
+      bottom: 14px;
+      right: 14px;
+      z-index: 6;
+      background: rgba(44,40,32,.75);
+      color: var(--paper);
+      font-size: .66rem;
+      letter-spacing: .04em;
+      padding: 5px 10px;
+      border-radius: var(--radius);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity .2s;
+    }
+    .product-gallery:hover .gallery-zoom-hint { opacity: 1; }
+
+    .product-thumbs-wrap { position: relative; }
     .product-thumbs {
       display: flex;
       gap: 6px;
       padding: 10px;
       background: rgba(0,0,0,.03);
+      overflow-x: auto;
+      flex-wrap: nowrap;
+      scroll-behavior: smooth;
+      scrollbar-width: thin;
     }
     .product-thumbs img {
       width: 68px;
       height: 68px;
+      flex-shrink: 0;
       object-fit: cover;
       border-radius: 6px;
       cursor: pointer;
@@ -354,6 +378,26 @@
     .product-thumbs img.active {
       border-color: var(--navy);
       opacity: 1;
+    }
+    .thumb-scroll-zone {
+      position: absolute;
+      top: 10px;
+      bottom: 10px;
+      width: 34px;
+      z-index: 5;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--ink);
+      font-size: .9rem;
+      background: linear-gradient(90deg, rgba(243,237,225,.95), rgba(243,237,225,0));
+    }
+    .thumb-scroll-zone.left { left: 0; }
+    .thumb-scroll-zone.right { right: 0; transform: scaleX(-1); }
+    .product-thumbs-wrap.scrollable-left .thumb-scroll-zone.left,
+    .product-thumbs-wrap.scrollable-right .thumb-scroll-zone.right {
+      display: flex;
     }
 
     .product-info {
@@ -1220,21 +1264,26 @@
           </div>
           <model-viewer id="gaming-mv" class="main-photo main-3d active" src="images/gaming-card-display/gaming-card-display.glb" camera-controls auto-rotate auto-rotate-delay="0" rotation-per-second="18deg" shadow-intensity="1" exposure="1" environment-image="neutral" alt="Interactive 3D model of the trading card display rack"></model-viewer>
           <div class="gallery-3d-hint" id="gaming-hint" style="opacity:1">Drag to rotate &middot; scroll to zoom</div>
-          <img class="main-photo is-3d-hidden" id="gaming-main" src="images/gaming-card-display/gaming-card-display-3.jpg" alt="Trading card display rack stocked with Magic: The Gathering booster packs at a game shop counter" />
-          <div class="product-thumbs">
-            <img src="images/gaming-card-display/gaming-card-display-3.jpg" alt="Card holder at a game shop counter, stocked" class="active" onclick="swapPhoto('gaming-main', this.src, this)" />
-            <img src="images/gaming-card-display/card-holder-left.png" alt="Card holder, loaded, angle 1" onclick="swapPhoto('gaming-main', this.src, this)" />
-            <img src="images/gaming-card-display/card-holder-right.png" alt="Card holder, loaded, angle 2" onclick="swapPhoto('gaming-main', this.src, this)" />
-            <img src="images/gaming-card-display/card-holder-pulled-out.jpg" alt="Card holder with a pack pulled out" onclick="swapPhoto('gaming-main', this.src, this)" />
-            <img src="images/gaming-card-display/gaming-card-display-5.jpg" alt="Multiple card holders in retail use at a game shop" onclick="swapPhoto('gaming-main', this.src, this)" />
-            <img src="images/gaming-card-display/gaming-card-display-1.jpg" alt="Card display photo 1" onclick="swapPhoto('gaming-main', this.src, this)" />
-            <img src="images/gaming-card-display/gaming-card-display-2.jpg" alt="Card display photo 2" onclick="swapPhoto('gaming-main', this.src, this)" />
-            <img src="images/gaming-card-display/gaming-card-display-4.jpg" alt="Card display photo 4" onclick="swapPhoto('gaming-main', this.src, this)" />
-            <img src="images/gaming-card-display/gaming-card-display-white.png" alt="Rendered view" onclick="swapPhoto('gaming-main', this.src, this)" />
+          <img class="main-photo is-3d-hidden" id="gaming-main" src="images/gaming-card-display/gaming-card-display-3.jpg" alt="Trading card display rack stocked with Magic: The Gathering booster packs at a game shop counter" onclick="openLightbox(this.src)" />
+          <div class="gallery-zoom-hint">Click to enlarge</div>
+          <div class="product-thumbs-wrap">
+            <div class="thumb-scroll-zone left" onmouseenter="startThumbScroll(this,-1)" onmouseleave="stopThumbScroll(this)">&#10094;</div>
+            <div class="product-thumbs" onscroll="updateThumbScrollZones(this)">
+              <img src="images/gaming-card-display/gaming-card-display-3.jpg" alt="Card holder at a game shop counter, stocked" class="active" onclick="swapPhoto('gaming-main', this.src, this)" />
+              <img src="images/gaming-card-display/card-holder-left.png" alt="Card holder, loaded, angle 1" onclick="swapPhoto('gaming-main', this.src, this)" />
+              <img src="images/gaming-card-display/card-holder-right.png" alt="Card holder, loaded, angle 2" onclick="swapPhoto('gaming-main', this.src, this)" />
+              <img src="images/gaming-card-display/card-holder-pulled-out.jpg" alt="Card holder with a pack pulled out" onclick="swapPhoto('gaming-main', this.src, this)" />
+              <img src="images/gaming-card-display/gaming-card-display-5.jpg" alt="Multiple card holders in retail use at a game shop" onclick="swapPhoto('gaming-main', this.src, this)" />
+              <img src="images/gaming-card-display/gaming-card-display-1.jpg" alt="Card display photo 1" onclick="swapPhoto('gaming-main', this.src, this)" />
+              <img src="images/gaming-card-display/gaming-card-display-2.jpg" alt="Card display photo 2" onclick="swapPhoto('gaming-main', this.src, this)" />
+              <img src="images/gaming-card-display/gaming-card-display-4.jpg" alt="Card display photo 4" onclick="swapPhoto('gaming-main', this.src, this)" />
+              <img src="images/gaming-card-display/gaming-card-display-white.png" alt="Rendered view" onclick="swapPhoto('gaming-main', this.src, this)" />
+            </div>
+            <div class="thumb-scroll-zone right" onmouseenter="startThumbScroll(this,1)" onmouseleave="stopThumbScroll(this)">&#10094;</div>
           </div>
         </div>
         <div class="product-info">
-          <span class="tag">Collectible Display</span>
+          <span class="tag">Retail Display Box</span>
           <h3>Trading Card Display Rack</h3>
           <div class="price">$25</div>
           <div class="product-variants">
@@ -1243,31 +1292,43 @@
             <span class="variant-chip" onclick="setProductColor('gaming','black','1C1A16',this)">Matte Black</span>
             <span class="variant-chip">Custom Color</span>
           </div>
-          <p>Loose cards end up in a binder where nobody sees them or a drawer where they get bent. This angled rack gives trading cards, character cards, and sleeved cards a stand-up display — individual slots keep every card separated and upright, so the ones worth showing off actually get seen.</p>
+          <p>Tired of flimsy, mismatched packaging eating up space in your display case? This TCG booster pack display box is a durable replacement for the shipping boxes booster packs normally come in — built specifically for the retail display of trading card booster packs. Each box holds a full case of packs, angled back for maximum visibility, so every pack stays easy to see, grab, and restock. Uniform and side-by-side, they help game stores, hobby shops, comic shops, card shops, convention booths, and pop-up events get more product into every display case, right in front of customers.</p>
           <ul class="product-features">
             <li>
               <span class="icon">
                 <svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="#2C2820" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </span>
-              Individual angled slots — no leaning, no cards sliding into each other
+              Full booster box capacity — holds an entire box of trading card packs in a smaller, uniform footprint
             </li>
             <li>
               <span class="icon">
                 <svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="#2C2820" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </span>
-              Weighted, deep base keeps top-heavy cards from tipping forward
+              Angled, front-facing display keeps every pack visible and easy to browse
             </li>
             <li>
               <span class="icon">
                 <svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="#2C2820" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </span>
-              Fits standard-size trading cards and most rigid protective sleeves
+              Space-saving, uniform design — sits side by side with no wasted space, unlike mismatched shipping boxes
             </li>
             <li>
               <span class="icon">
                 <svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="#2C2820" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </span>
-              Compact footprint — line two or three up on a shelf
+              2×–3× more display capacity than standard shipping boxes in the same shelf space
+            </li>
+            <li>
+              <span class="icon">
+                <svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="#2C2820" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              Nests in pairs for compact, efficient backroom storage
+            </li>
+            <li>
+              <span class="icon">
+                <svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="#2C2820" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              Fast to reorganize — pull, move, or rearrange stock without spilling packs or damaging boxes
             </li>
           </ul>
           <div class="product-actions">
@@ -1286,13 +1347,18 @@
           </div>
           <model-viewer id="glasses-mv" class="main-photo main-3d active" src="images/glasses/15-days-2-lens.glb" camera-controls auto-rotate auto-rotate-delay="0" rotation-per-second="18deg" shadow-intensity="1" exposure="1" environment-image="neutral" alt="Interactive 3D model of the glasses and contact lens holder"></model-viewer>
           <div class="gallery-3d-hint" id="glasses-hint" style="opacity:1">Drag to rotate &middot; scroll to zoom</div>
-          <img class="main-photo is-3d-hidden" id="glasses-main" src="images/glasses/15-days-2-lens-white.png" alt="Glasses and contact lens organizer" />
-          <div class="product-thumbs">
-            <img src="images/glasses/glasses-holder-counter.jpg" alt="Counter view" onclick="swapPhoto('glasses-main', this.src, this)" />
-            <img src="images/glasses/glasses-holder-side.jpg" alt="Side view" onclick="swapPhoto('glasses-main', this.src, this)" />
-            <img src="images/glasses/glasses-holder-top.jpg" alt="Top view" onclick="swapPhoto('glasses-main', this.src, this)" />
-            <img src="images/glasses/glasses-holder-cabinet.jpg" alt="Under-cabinet mount" onclick="swapPhoto('glasses-main', this.src, this)" />
-            <img src="images/glasses/15-days-2-lens-white.png" alt="2-Lens 15-day holder, rendered" class="active" onclick="swapPhoto('glasses-main', this.src, this)" />
+          <img class="main-photo is-3d-hidden" id="glasses-main" src="images/glasses/15-days-2-lens-white.png" alt="Glasses and contact lens organizer" onclick="openLightbox(this.src)" />
+          <div class="gallery-zoom-hint">Click to enlarge</div>
+          <div class="product-thumbs-wrap">
+            <div class="thumb-scroll-zone left" onmouseenter="startThumbScroll(this,-1)" onmouseleave="stopThumbScroll(this)">&#10094;</div>
+            <div class="product-thumbs" onscroll="updateThumbScrollZones(this)">
+              <img src="images/glasses/glasses-holder-counter.jpg" alt="Counter view" onclick="swapPhoto('glasses-main', this.src, this)" />
+              <img src="images/glasses/glasses-holder-side.jpg" alt="Side view" onclick="swapPhoto('glasses-main', this.src, this)" />
+              <img src="images/glasses/glasses-holder-top.jpg" alt="Top view" onclick="swapPhoto('glasses-main', this.src, this)" />
+              <img src="images/glasses/glasses-holder-cabinet.jpg" alt="Under-cabinet mount" onclick="swapPhoto('glasses-main', this.src, this)" />
+              <img src="images/glasses/15-days-2-lens-white.png" alt="2-Lens 15-day holder, rendered" class="active" onclick="swapPhoto('glasses-main', this.src, this)" />
+            </div>
+            <div class="thumb-scroll-zone right" onmouseenter="startThumbScroll(this,1)" onmouseleave="stopThumbScroll(this)">&#10094;</div>
           </div>
         </div>
         <div class="product-info">
@@ -1400,14 +1466,19 @@
           </div>
           <model-viewer id="coaster-mv" class="main-photo main-3d active" src="images/coasters/chilewich-round.glb" camera-controls auto-rotate auto-rotate-delay="0" rotation-per-second="18deg" shadow-intensity="1" exposure="1" environment-image="neutral" alt="Interactive 3D model of the Chilewich coaster holder"></model-viewer>
           <div class="gallery-3d-hint" id="coaster-hint" style="opacity:1">Drag to rotate &middot; scroll to zoom</div>
-          <img class="main-photo is-3d-hidden" id="coaster-main" src="images/coasters/coaster-round-tan.jpg" alt="Chilewich coaster holder" />
-          <div class="product-thumbs">
-            <img src="images/coasters/coaster-round-tan.jpg" alt="Round holder tan" class="active" onclick="swapPhoto('coaster-main', this.src, this)" />
-            <img src="images/coasters/coaster-cuff-black.jpg" alt="Cuff holder black" onclick="swapPhoto('coaster-main', this.src, this)" />
-            <img src="images/coasters/coaster-cuff-front.jpg" alt="Cuff front" onclick="swapPhoto('coaster-main', this.src, this)" />
-            <img src="images/coasters/coaster-hex-holder.jpg" alt="Hexagonal holder" onclick="swapPhoto('coaster-main', this.src, this)" />
-            <img src="images/coasters/coaster-hex-top.jpg" alt="Hex top view" onclick="swapPhoto('coaster-main', this.src, this)" />
-            <img src="images/coasters/coaster-round-side.jpg" alt="Round side view" onclick="swapPhoto('coaster-main', this.src, this)" />
+          <img class="main-photo is-3d-hidden" id="coaster-main" src="images/coasters/coaster-round-tan.jpg" alt="Chilewich coaster holder" onclick="openLightbox(this.src)" />
+          <div class="gallery-zoom-hint">Click to enlarge</div>
+          <div class="product-thumbs-wrap">
+            <div class="thumb-scroll-zone left" onmouseenter="startThumbScroll(this,-1)" onmouseleave="stopThumbScroll(this)">&#10094;</div>
+            <div class="product-thumbs" onscroll="updateThumbScrollZones(this)">
+              <img src="images/coasters/coaster-round-tan.jpg" alt="Round holder tan" class="active" onclick="swapPhoto('coaster-main', this.src, this)" />
+              <img src="images/coasters/coaster-cuff-black.jpg" alt="Cuff holder black" onclick="swapPhoto('coaster-main', this.src, this)" />
+              <img src="images/coasters/coaster-cuff-front.jpg" alt="Cuff front" onclick="swapPhoto('coaster-main', this.src, this)" />
+              <img src="images/coasters/coaster-hex-holder.jpg" alt="Hexagonal holder" onclick="swapPhoto('coaster-main', this.src, this)" />
+              <img src="images/coasters/coaster-hex-top.jpg" alt="Hex top view" onclick="swapPhoto('coaster-main', this.src, this)" />
+              <img src="images/coasters/coaster-round-side.jpg" alt="Round side view" onclick="swapPhoto('coaster-main', this.src, this)" />
+            </div>
+            <div class="thumb-scroll-zone right" onmouseenter="startThumbScroll(this,1)" onmouseleave="stopThumbScroll(this)">&#10094;</div>
           </div>
         </div>
       </div>
@@ -1473,13 +1544,18 @@
           </div>
           <model-viewer id="hd-mv" class="main-photo main-3d active" src="images/hunter-douglass/hunter-douglas-wall-mount-3m-claw.glb" camera-controls auto-rotate auto-rotate-delay="0" rotation-per-second="18deg" shadow-intensity="1" exposure="1" environment-image="neutral" alt="Interactive 3D model of the Hunter Douglas remote mount"></model-viewer>
           <div class="gallery-3d-hint" id="hd-hint" style="opacity:1">Drag to rotate &middot; scroll to zoom</div>
-          <img class="main-photo is-3d-hidden" id="hd-main" src="images/hunter-douglass/hunter-douglas-2-gang-ref.jpeg" alt="Hunter Douglas 2-Gang remote wall mount, installed" />
-          <div class="product-thumbs">
-            <img src="images/hunter-douglass/hunter-douglas-2-gang-ref.jpeg" alt="2-Gang mount, installed" class="active" onclick="swapPhoto('hd-main', this.src, this)" />
-            <img src="images/hunter-douglass/hunter-douglas-wall-mount-3m-claw-white.png" alt="3M Claw mount" onclick="swapPhoto('hd-main', this.src, this)" />
-            <img src="images/hunter-douglass/hunter-douglas-1-gang-white.png" alt="1-Gang mount" onclick="swapPhoto('hd-main', this.src, this)" />
-            <img src="images/hunter-douglass/hunter-douglas-2-gang-white.png" alt="2-Gang mount" onclick="swapPhoto('hd-main', this.src, this)" />
-            <img src="images/hunter-douglass/hunter-douglas-4-gang-ref.jpeg" alt="Real 4-Gang install, reference photo" onclick="swapPhoto('hd-main', this.src, this)" />
+          <img class="main-photo is-3d-hidden" id="hd-main" src="images/hunter-douglass/hunter-douglas-2-gang-ref.jpeg" alt="Hunter Douglas 2-Gang remote wall mount, installed" onclick="openLightbox(this.src)" />
+          <div class="gallery-zoom-hint">Click to enlarge</div>
+          <div class="product-thumbs-wrap">
+            <div class="thumb-scroll-zone left" onmouseenter="startThumbScroll(this,-1)" onmouseleave="stopThumbScroll(this)">&#10094;</div>
+            <div class="product-thumbs" onscroll="updateThumbScrollZones(this)">
+              <img src="images/hunter-douglass/hunter-douglas-2-gang-ref.jpeg" alt="2-Gang mount, installed" class="active" onclick="swapPhoto('hd-main', this.src, this)" />
+              <img src="images/hunter-douglass/hunter-douglas-wall-mount-3m-claw-white.png" alt="3M Claw mount" onclick="swapPhoto('hd-main', this.src, this)" />
+              <img src="images/hunter-douglass/hunter-douglas-1-gang-white.png" alt="1-Gang mount" onclick="swapPhoto('hd-main', this.src, this)" />
+              <img src="images/hunter-douglass/hunter-douglas-2-gang-white.png" alt="2-Gang mount" onclick="swapPhoto('hd-main', this.src, this)" />
+              <img src="images/hunter-douglass/hunter-douglas-4-gang-ref.jpeg" alt="Real 4-Gang install, reference photo" onclick="swapPhoto('hd-main', this.src, this)" />
+            </div>
+            <div class="thumb-scroll-zone right" onmouseenter="startThumbScroll(this,1)" onmouseleave="stopThumbScroll(this)">&#10094;</div>
           </div>
         </div>
       </div>
@@ -1493,11 +1569,16 @@
           </div>
           <model-viewer id="knife-mv" class="main-photo main-3d active" src="images/knives-holder/steak-knife-holder.glb" camera-controls auto-rotate auto-rotate-delay="0" rotation-per-second="18deg" shadow-intensity="1" exposure="1" environment-image="neutral" alt="Interactive 3D model of the steak knife holder"></model-viewer>
           <div class="gallery-3d-hint" id="knife-hint" style="opacity:1">Drag to rotate &middot; scroll to zoom</div>
-          <img class="main-photo is-3d-hidden" id="knife-main" src="images/knives-holder/steak-knife-holder-1.jpeg" alt="Steak knife holder" style="object-position: top;" />
-          <div class="product-thumbs">
-            <img src="images/knives-holder/steak-knife-holder-1.jpeg" alt="Steak knife holder photo 1" style="object-position: top;" class="active" onclick="swapPhoto('knife-main', this.src, this)" />
-            <img src="images/knives-holder/steak-knife-holder-2.jpeg" alt="Steak knife holder photo 2" onclick="swapPhoto('knife-main', this.src, this)" />
-            <img src="images/knives-holder/steak-knife-holder-white.png" alt="Rendered view" onclick="swapPhoto('knife-main', this.src, this)" />
+          <img class="main-photo is-3d-hidden" id="knife-main" src="images/knives-holder/steak-knife-holder-1.jpeg" alt="Steak knife holder" style="object-position: top;" onclick="openLightbox(this.src)" />
+          <div class="gallery-zoom-hint">Click to enlarge</div>
+          <div class="product-thumbs-wrap">
+            <div class="thumb-scroll-zone left" onmouseenter="startThumbScroll(this,-1)" onmouseleave="stopThumbScroll(this)">&#10094;</div>
+            <div class="product-thumbs" onscroll="updateThumbScrollZones(this)">
+              <img src="images/knives-holder/steak-knife-holder-1.jpeg" alt="Steak knife holder photo 1" style="object-position: top;" class="active" onclick="swapPhoto('knife-main', this.src, this)" />
+              <img src="images/knives-holder/steak-knife-holder-2.jpeg" alt="Steak knife holder photo 2" onclick="swapPhoto('knife-main', this.src, this)" />
+              <img src="images/knives-holder/steak-knife-holder-white.png" alt="Rendered view" onclick="swapPhoto('knife-main', this.src, this)" />
+            </div>
+            <div class="thumb-scroll-zone right" onmouseenter="startThumbScroll(this,1)" onmouseleave="stopThumbScroll(this)">&#10094;</div>
           </div>
         </div>
         <div class="product-info">
@@ -1597,13 +1678,18 @@
           </div>
           <model-viewer id="zbiotic-mv" class="main-photo main-3d active" src="images/six-pack-gift-zbiotic/zbiotic-six-pack.glb" camera-controls auto-rotate auto-rotate-delay="0" rotation-per-second="18deg" shadow-intensity="1" exposure="1" environment-image="neutral" alt="Interactive 3D model of the ZBiotic gift carrier"></model-viewer>
           <div class="gallery-3d-hint" id="zbiotic-hint" style="opacity:1">Drag to rotate &middot; scroll to zoom</div>
-          <img class="main-photo is-3d-hidden" id="zbiotic-main" src="images/six-pack-gift-zbiotic/zbiotic-six-pack-gift-box-1.jpeg" alt="ZBiotic six-pack gift carrier" />
-          <div class="product-thumbs">
-            <img src="images/six-pack-gift-zbiotic/zbiotic-six-pack-gift-box-1.jpeg" alt="Gift box photo 1" class="active" onclick="swapPhoto('zbiotic-main', this.src, this)" />
-            <img src="images/six-pack-gift-zbiotic/zbiotic-six-pack-gift-box-2.jpeg" alt="Gift box photo 2" onclick="swapPhoto('zbiotic-main', this.src, this)" />
-            <img src="images/six-pack-gift-zbiotic/zbiotic-six-pack-gift-box-3.jpeg" alt="Gift box photo 3" onclick="swapPhoto('zbiotic-main', this.src, this)" />
-            <img src="images/six-pack-gift-zbiotic/zbiotic-six-pack-gift-box-4.jpeg" alt="Gift box photo 4" onclick="swapPhoto('zbiotic-main', this.src, this)" />
-            <img src="images/six-pack-gift-zbiotic/zbiotic-six-pack-gift-box-white.png" alt="Rendered view" onclick="swapPhoto('zbiotic-main', this.src, this)" />
+          <img class="main-photo is-3d-hidden" id="zbiotic-main" src="images/six-pack-gift-zbiotic/zbiotic-six-pack-gift-box-1.jpeg" alt="ZBiotic six-pack gift carrier" onclick="openLightbox(this.src)" />
+          <div class="gallery-zoom-hint">Click to enlarge</div>
+          <div class="product-thumbs-wrap">
+            <div class="thumb-scroll-zone left" onmouseenter="startThumbScroll(this,-1)" onmouseleave="stopThumbScroll(this)">&#10094;</div>
+            <div class="product-thumbs" onscroll="updateThumbScrollZones(this)">
+              <img src="images/six-pack-gift-zbiotic/zbiotic-six-pack-gift-box-1.jpeg" alt="Gift box photo 1" class="active" onclick="swapPhoto('zbiotic-main', this.src, this)" />
+              <img src="images/six-pack-gift-zbiotic/zbiotic-six-pack-gift-box-2.jpeg" alt="Gift box photo 2" onclick="swapPhoto('zbiotic-main', this.src, this)" />
+              <img src="images/six-pack-gift-zbiotic/zbiotic-six-pack-gift-box-3.jpeg" alt="Gift box photo 3" onclick="swapPhoto('zbiotic-main', this.src, this)" />
+              <img src="images/six-pack-gift-zbiotic/zbiotic-six-pack-gift-box-4.jpeg" alt="Gift box photo 4" onclick="swapPhoto('zbiotic-main', this.src, this)" />
+              <img src="images/six-pack-gift-zbiotic/zbiotic-six-pack-gift-box-white.png" alt="Rendered view" onclick="swapPhoto('zbiotic-main', this.src, this)" />
+            </div>
+            <div class="thumb-scroll-zone right" onmouseenter="startThumbScroll(this,1)" onmouseleave="stopThumbScroll(this)">&#10094;</div>
           </div>
         </div>
       </div>
@@ -1838,6 +1924,37 @@
       document.getElementById('lightbox').classList.remove('open');
       document.body.style.overflow = '';
     }
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeLightbox();
+    });
+
+    // ── Thumbnail strip scroll hot-spots ──
+    const thumbScrollTimers = new WeakMap();
+    function updateThumbScrollZones(thumbs) {
+      const wrap = thumbs.closest('.product-thumbs-wrap');
+      if (!wrap) return;
+      const maxScroll = thumbs.scrollWidth - thumbs.clientWidth;
+      wrap.classList.toggle('scrollable-left', thumbs.scrollLeft > 4);
+      wrap.classList.toggle('scrollable-right', thumbs.scrollLeft < maxScroll - 4);
+    }
+    function startThumbScroll(zone, dir) {
+      const thumbs = zone.parentElement.querySelector('.product-thumbs');
+      if (!thumbs) return;
+      stopThumbScroll(zone);
+      const id = setInterval(() => {
+        thumbs.scrollLeft += dir * 8;
+        updateThumbScrollZones(thumbs);
+      }, 16);
+      thumbScrollTimers.set(zone, id);
+    }
+    function stopThumbScroll(zone) {
+      const id = thumbScrollTimers.get(zone);
+      if (id) { clearInterval(id); thumbScrollTimers.delete(zone); }
+    }
+    document.querySelectorAll('.product-thumbs').forEach(updateThumbScrollZones);
+    window.addEventListener('resize', () => {
+      document.querySelectorAll('.product-thumbs').forEach(updateThumbScrollZones);
+    });
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape') closeLightbox();
     });
