@@ -10,6 +10,8 @@ Format for a new item:
 ---
 
 ## Open
+2026.09.31.0700 - check the udpated copy in the Products page for typos and ensure continuity of story "I wear three different contact lens prescriptions — two in my left eye, one for reading and one for distance, plus one in my right — and dailies ship in strips of five, fused edge to edge. Half-awake and running late, separating one lens from the strip usually meant tearing loose two, and wasting one. This organizer pre-separates about fifteen days per prescription (three strips) into its own compartment, with a cradle for your glasses built in, so the only decision left each morning is which slot to grab. Choose the original 3-Lens version above, or the 2-Lens size for anyone running two prescriptions instead of three."
+2026.09.31.0700 - Move Card Holder to the top of the products page.
 2026.09.30.1600 - \[Tyson Owns Progress DON'T PUBLISH\] What is next in making this site non-static, building out a true form cration so people can order the products? Gernate a a section of the changes.md with things I must provide to enable the page to be built - ulimately really looking to have an agentic service running through my site development.
 
 *   **Requirements list (delivered 2026-08-31):**
@@ -32,6 +34,8 @@ Format for a new item:
 *   **Status:** Open — awaiting your confirmation on #2 before this becomes a build CR.
 
 ## Done
+
+2026.09.31.1900 - Blueprint background image cut off by thumbnails on product pages. **2026-09-01** — Root cause: the drafting-graphic background was sized with `background-size: contain`, which scales it to fill the *whole* gallery box; on desktop the CSS Grid stretched that box tall (plenty of hidden slack below the thumbnails), but on mobile (<=900px, single-column layout) the box is only as tall as its own content, leaving almost no room — so no amount of repositioning within the old box could clear the thumbnails on mobile. Fixed by switching to a fixed background-size (320px wide, auto height) bottom-anchored 20px above the box edge, and giving `.product-gallery` a fixed 260px bottom padding so the graphic always has room below the photo + thumbnail strip on every breakpoint, without depending on their exact heights. Verified via headless-browser screenshots at both desktop and mobile widths across all four products that use this background (glasses, coasters, gaming card display, zbiotic six-pack). Commit: (this push).
 
 2026.09.31.1618 - Contact form spam-flag report + follow-up corrections from the previous build. **2026-08-31** — Form fix confirmed working: your test submission's final email did land (Microsoft's junk filter flagged the first one only because formsubmit.co/mail.safenote.co is a new sending domain to your inbox with no reputation yet — nothing wrong on our end, and not something fixable from the site's HTML/DNS since we don't control FormSubmit's sending domain). Marking the sender "not junk" once should train the filter going forward. Also added `_replyto` to the form payload so hitting Reply on the notification email goes straight to the visitor instead of to FormSubmit.
 

@@ -319,9 +319,15 @@
 
     .product-gallery {
       position: relative;
-      background: var(--sand) center calc(50% + 28px) / contain no-repeat;
+      /* Blueprint background is bottom-anchored at a fixed size (not
+         "contain", which scales to the whole box and on mobile - where the
+         gallery isn't grid-stretched tall by the info column - left no room
+         below the thumbnails at all). padding-bottom is sized so a 320px-
+         wide graphic always clears the photo + thumbnail strip above it,
+         on every breakpoint, without checking their exact heights. */
+      background: var(--sand) center calc(100% - 20px) / 320px auto no-repeat;
       overflow: hidden;
-      padding: 24px;
+      padding: 24px 24px 260px;
       box-sizing: border-box;
     }
     .product-gallery .main-photo {
