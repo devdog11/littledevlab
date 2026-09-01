@@ -319,13 +319,7 @@
 
     .product-gallery {
       position: relative;
-      /* Blueprint background is bottom-anchored at a fixed size (not
-         "contain", which scales to the whole box and on mobile - where the
-         gallery isn't grid-stretched tall by the info column - left no room
-         below the thumbnails at all). padding-bottom is sized so a 320px-
-         wide graphic always clears the photo + thumbnail strip above it,
-         on every breakpoint, without checking their exact heights. */
-      background: var(--sand) center calc(100% - 20px) / 320px auto no-repeat;
+      background: right;
       overflow: hidden;
       padding: 12px 24px;
       box-sizing: border-box;
@@ -1221,12 +1215,12 @@
       <div class="product-block" id="gaming-card-display">
         <div class="product-gallery" style="background-image:url('images/gaming-card-display/gaming-card-display-blueprint.svg')">
           <div class="gallery-view-toggle">
-            <button id="gaming-btn-photo" class="active" type="button" onclick="toggle3D('gaming', false)">Photo</button>
-            <button id="gaming-btn-3d" type="button" onclick="toggle3D('gaming', true)">Rotate in 3D</button>
+            <button id="gaming-btn-photo" type="button" onclick="toggle3D('gaming', false)">Photo</button>
+            <button id="gaming-btn-3d" class="active" type="button" onclick="toggle3D('gaming', true)">Rotate in 3D</button>
           </div>
-          <model-viewer id="gaming-mv" class="main-photo main-3d" src="images/gaming-card-display/gaming-card-display.glb" camera-controls auto-rotate auto-rotate-delay="0" rotation-per-second="18deg" shadow-intensity="1" exposure="1" environment-image="neutral" alt="Interactive 3D model of the trading card display rack"></model-viewer>
-          <div class="gallery-3d-hint" id="gaming-hint">Drag to rotate &middot; scroll to zoom</div>
-          <img class="main-photo" id="gaming-main" src="images/gaming-card-display/gaming-card-display-3.jpg" alt="Trading card display rack stocked with Magic: The Gathering booster packs at a game shop counter" />
+          <model-viewer id="gaming-mv" class="main-photo main-3d active" src="images/gaming-card-display/gaming-card-display.glb" camera-controls auto-rotate auto-rotate-delay="0" rotation-per-second="18deg" shadow-intensity="1" exposure="1" environment-image="neutral" alt="Interactive 3D model of the trading card display rack"></model-viewer>
+          <div class="gallery-3d-hint" id="gaming-hint" style="opacity:1">Drag to rotate &middot; scroll to zoom</div>
+          <img class="main-photo is-3d-hidden" id="gaming-main" src="images/gaming-card-display/gaming-card-display-3.jpg" alt="Trading card display rack stocked with Magic: The Gathering booster packs at a game shop counter" />
           <div class="product-thumbs">
             <img src="images/gaming-card-display/gaming-card-display-3.jpg" alt="Card holder at a game shop counter, stocked" class="active" onclick="swapPhoto('gaming-main', this.src, this)" />
             <img src="images/gaming-card-display/card-holder-left.png" alt="Card holder, loaded, angle 1" onclick="swapPhoto('gaming-main', this.src, this)" />
@@ -1401,12 +1395,12 @@
         </div>
         <div class="product-gallery" style="background-image:url('images/coasters/chilewich-round-blueprint.svg')">
           <div class="gallery-view-toggle">
-            <button id="coaster-btn-photo" class="active" type="button" onclick="toggle3D('coaster', false)">Photo</button>
-            <button id="coaster-btn-3d" type="button" onclick="toggle3D('coaster', true)">Rotate in 3D</button>
+            <button id="coaster-btn-photo" type="button" onclick="toggle3D('coaster', false)">Photo</button>
+            <button id="coaster-btn-3d" class="active" type="button" onclick="toggle3D('coaster', true)">Rotate in 3D</button>
           </div>
-          <model-viewer id="coaster-mv" class="main-photo main-3d" src="images/coasters/chilewich-round.glb" camera-controls auto-rotate auto-rotate-delay="0" rotation-per-second="18deg" shadow-intensity="1" exposure="1" environment-image="neutral" alt="Interactive 3D model of the Chilewich coaster holder"></model-viewer>
-          <div class="gallery-3d-hint" id="coaster-hint">Drag to rotate &middot; scroll to zoom</div>
-          <img class="main-photo" id="coaster-main" src="images/coasters/coaster-round-tan.jpg" alt="Chilewich coaster holder" />
+          <model-viewer id="coaster-mv" class="main-photo main-3d active" src="images/coasters/chilewich-round.glb" camera-controls auto-rotate auto-rotate-delay="0" rotation-per-second="18deg" shadow-intensity="1" exposure="1" environment-image="neutral" alt="Interactive 3D model of the Chilewich coaster holder"></model-viewer>
+          <div class="gallery-3d-hint" id="coaster-hint" style="opacity:1">Drag to rotate &middot; scroll to zoom</div>
+          <img class="main-photo is-3d-hidden" id="coaster-main" src="images/coasters/coaster-round-tan.jpg" alt="Chilewich coaster holder" />
           <div class="product-thumbs">
             <img src="images/coasters/coaster-round-tan.jpg" alt="Round holder tan" class="active" onclick="swapPhoto('coaster-main', this.src, this)" />
             <img src="images/coasters/coaster-cuff-black.jpg" alt="Cuff holder black" onclick="swapPhoto('coaster-main', this.src, this)" />
@@ -1474,12 +1468,12 @@
         </div>
         <div class="product-gallery" style="background-image:url('images/hunter-douglass/hd-3m-claw-blueprint.svg')">
           <div class="gallery-view-toggle">
-            <button id="hd-btn-photo" class="active" type="button" onclick="toggle3D('hd', false)">Photo</button>
-            <button id="hd-btn-3d" type="button" onclick="toggle3D('hd', true)">Rotate in 3D</button>
+            <button id="hd-btn-photo" type="button" onclick="toggle3D('hd', false)">Photo</button>
+            <button id="hd-btn-3d" class="active" type="button" onclick="toggle3D('hd', true)">Rotate in 3D</button>
           </div>
-          <model-viewer id="hd-mv" class="main-photo main-3d" src="images/hunter-douglass/hunter-douglas-wall-mount-3m-claw.glb" camera-controls auto-rotate auto-rotate-delay="0" rotation-per-second="18deg" shadow-intensity="1" exposure="1" environment-image="neutral" alt="Interactive 3D model of the Hunter Douglas remote mount"></model-viewer>
-          <div class="gallery-3d-hint" id="hd-hint">Drag to rotate &middot; scroll to zoom</div>
-          <img class="main-photo" id="hd-main" src="images/hunter-douglass/hunter-douglas-2-gang-ref.jpeg" alt="Hunter Douglas 2-Gang remote wall mount, installed" />
+          <model-viewer id="hd-mv" class="main-photo main-3d active" src="images/hunter-douglass/hunter-douglas-wall-mount-3m-claw.glb" camera-controls auto-rotate auto-rotate-delay="0" rotation-per-second="18deg" shadow-intensity="1" exposure="1" environment-image="neutral" alt="Interactive 3D model of the Hunter Douglas remote mount"></model-viewer>
+          <div class="gallery-3d-hint" id="hd-hint" style="opacity:1">Drag to rotate &middot; scroll to zoom</div>
+          <img class="main-photo is-3d-hidden" id="hd-main" src="images/hunter-douglass/hunter-douglas-2-gang-ref.jpeg" alt="Hunter Douglas 2-Gang remote wall mount, installed" />
           <div class="product-thumbs">
             <img src="images/hunter-douglass/hunter-douglas-2-gang-ref.jpeg" alt="2-Gang mount, installed" class="active" onclick="swapPhoto('hd-main', this.src, this)" />
             <img src="images/hunter-douglass/hunter-douglas-wall-mount-3m-claw-white.png" alt="3M Claw mount" onclick="swapPhoto('hd-main', this.src, this)" />
@@ -1494,12 +1488,12 @@
       <div class="product-block" id="steak-knife-holder">
         <div class="product-gallery" style="background-image:url('images/knives-holder/knife-holder-blueprint.svg')">
           <div class="gallery-view-toggle">
-            <button id="knife-btn-photo" class="active" type="button" onclick="toggle3D('knife', false)">Photo</button>
-            <button id="knife-btn-3d" type="button" onclick="toggle3D('knife', true)">Rotate in 3D</button>
+            <button id="knife-btn-photo" type="button" onclick="toggle3D('knife', false)">Photo</button>
+            <button id="knife-btn-3d" class="active" type="button" onclick="toggle3D('knife', true)">Rotate in 3D</button>
           </div>
-          <model-viewer id="knife-mv" class="main-photo main-3d" src="images/knives-holder/steak-knife-holder.glb" camera-controls auto-rotate auto-rotate-delay="0" rotation-per-second="18deg" shadow-intensity="1" exposure="1" environment-image="neutral" alt="Interactive 3D model of the steak knife holder"></model-viewer>
-          <div class="gallery-3d-hint" id="knife-hint">Drag to rotate &middot; scroll to zoom</div>
-          <img class="main-photo" id="knife-main" src="images/knives-holder/steak-knife-holder-1.jpeg" alt="Steak knife holder" style="object-position: top;" />
+          <model-viewer id="knife-mv" class="main-photo main-3d active" src="images/knives-holder/steak-knife-holder.glb" camera-controls auto-rotate auto-rotate-delay="0" rotation-per-second="18deg" shadow-intensity="1" exposure="1" environment-image="neutral" alt="Interactive 3D model of the steak knife holder"></model-viewer>
+          <div class="gallery-3d-hint" id="knife-hint" style="opacity:1">Drag to rotate &middot; scroll to zoom</div>
+          <img class="main-photo is-3d-hidden" id="knife-main" src="images/knives-holder/steak-knife-holder-1.jpeg" alt="Steak knife holder" style="object-position: top;" />
           <div class="product-thumbs">
             <img src="images/knives-holder/steak-knife-holder-1.jpeg" alt="Steak knife holder photo 1" style="object-position: top;" class="active" onclick="swapPhoto('knife-main', this.src, this)" />
             <img src="images/knives-holder/steak-knife-holder-2.jpeg" alt="Steak knife holder photo 2" onclick="swapPhoto('knife-main', this.src, this)" />
@@ -1598,12 +1592,12 @@
         </div>
         <div class="product-gallery" style="background-image:url('images/six-pack-gift-zbiotic/zbiotic-holder-blueprint.svg')">
           <div class="gallery-view-toggle">
-            <button id="zbiotic-btn-photo" class="active" type="button" onclick="toggle3D('zbiotic', false)">Photo</button>
-            <button id="zbiotic-btn-3d" type="button" onclick="toggle3D('zbiotic', true)">Rotate in 3D</button>
+            <button id="zbiotic-btn-photo" type="button" onclick="toggle3D('zbiotic', false)">Photo</button>
+            <button id="zbiotic-btn-3d" class="active" type="button" onclick="toggle3D('zbiotic', true)">Rotate in 3D</button>
           </div>
-          <model-viewer id="zbiotic-mv" class="main-photo main-3d" src="images/six-pack-gift-zbiotic/zbiotic-six-pack.glb" camera-controls auto-rotate auto-rotate-delay="0" rotation-per-second="18deg" shadow-intensity="1" exposure="1" environment-image="neutral" alt="Interactive 3D model of the ZBiotic gift carrier"></model-viewer>
-          <div class="gallery-3d-hint" id="zbiotic-hint">Drag to rotate &middot; scroll to zoom</div>
-          <img class="main-photo" id="zbiotic-main" src="images/six-pack-gift-zbiotic/zbiotic-six-pack-gift-box-1.jpeg" alt="ZBiotic six-pack gift carrier" />
+          <model-viewer id="zbiotic-mv" class="main-photo main-3d active" src="images/six-pack-gift-zbiotic/zbiotic-six-pack.glb" camera-controls auto-rotate auto-rotate-delay="0" rotation-per-second="18deg" shadow-intensity="1" exposure="1" environment-image="neutral" alt="Interactive 3D model of the ZBiotic gift carrier"></model-viewer>
+          <div class="gallery-3d-hint" id="zbiotic-hint" style="opacity:1">Drag to rotate &middot; scroll to zoom</div>
+          <img class="main-photo is-3d-hidden" id="zbiotic-main" src="images/six-pack-gift-zbiotic/zbiotic-six-pack-gift-box-1.jpeg" alt="ZBiotic six-pack gift carrier" />
           <div class="product-thumbs">
             <img src="images/six-pack-gift-zbiotic/zbiotic-six-pack-gift-box-1.jpeg" alt="Gift box photo 1" class="active" onclick="swapPhoto('zbiotic-main', this.src, this)" />
             <img src="images/six-pack-gift-zbiotic/zbiotic-six-pack-gift-box-2.jpeg" alt="Gift box photo 2" onclick="swapPhoto('zbiotic-main', this.src, this)" />
