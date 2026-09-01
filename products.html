@@ -327,7 +327,7 @@
          on every breakpoint, without checking their exact heights. */
       background: var(--sand) center calc(100% - 20px) / 320px auto no-repeat;
       overflow: hidden;
-      padding: 24px 24px 260px;
+      padding: 12px 24px;
       box-sizing: border-box;
     }
     .product-gallery .main-photo {
@@ -1191,17 +1191,17 @@
       </div>
 
       <div class="products-landing-grid">
-        <a class="products-landing-tile tone-sand" href="#glasses-holder">
-          <img src="images/glasses/glasses-holder-counter.jpg" alt="Glasses + Contact Lens Holder" loading="lazy" />
-          <span>Glasses + Contact Lens Holder</span>
-        </a>
-        <a class="products-landing-tile tone-gray" href="#coaster-holder">
-          <img src="images/coasters/coaster-round-tan.jpg" alt="Chilewich Coaster Holder" loading="lazy" />
-          <span>Chilewich Coaster Holder</span>
-        </a>
         <a class="products-landing-tile tone-sand" href="#gaming-card-display">
           <img src="images/gaming-card-display/gaming-card-display-3.jpg" alt="Trading Card Display Rack" loading="lazy" />
           <span>Trading Card Display Rack</span>
+        </a>
+        <a class="products-landing-tile tone-gray" href="#glasses-holder">
+          <img src="images/glasses/glasses-holder-counter.jpg" alt="Glasses + Contact Lens Holder" loading="lazy" />
+          <span>Glasses + Contact Lens Holder</span>
+        </a>
+        <a class="products-landing-tile tone-sand" href="#coaster-holder">
+          <img src="images/coasters/coaster-round-tan.jpg" alt="Chilewich Coaster Holder" loading="lazy" />
+          <span>Chilewich Coaster Holder</span>
         </a>
         <a class="products-landing-tile tone-gray" href="#hunter-douglas-mount">
           <img src="images/hunter-douglass/hunter-douglas-2-gang-ref.jpeg" alt="Hunter Douglas Remote Wall Mount" loading="lazy" />
@@ -1217,7 +1217,73 @@
         </a>
       </div>
 
-      <!-- Product 1: Glasses + Contacts Holder -->
+      <!-- Product 1: Gaming Card Display -->
+      <div class="product-block" id="gaming-card-display">
+        <div class="product-gallery" style="background-image:url('images/gaming-card-display/gaming-card-display-blueprint.svg')">
+          <div class="gallery-view-toggle">
+            <button id="gaming-btn-photo" class="active" type="button" onclick="toggle3D('gaming', false)">Photo</button>
+            <button id="gaming-btn-3d" type="button" onclick="toggle3D('gaming', true)">Rotate in 3D</button>
+          </div>
+          <model-viewer id="gaming-mv" class="main-photo main-3d" src="images/gaming-card-display/gaming-card-display.glb" camera-controls auto-rotate auto-rotate-delay="0" rotation-per-second="18deg" shadow-intensity="1" exposure="1" environment-image="neutral" alt="Interactive 3D model of the trading card display rack"></model-viewer>
+          <div class="gallery-3d-hint" id="gaming-hint">Drag to rotate &middot; scroll to zoom</div>
+          <img class="main-photo" id="gaming-main" src="images/gaming-card-display/gaming-card-display-3.jpg" alt="Trading card display rack stocked with Magic: The Gathering booster packs at a game shop counter" />
+          <div class="product-thumbs">
+            <img src="images/gaming-card-display/gaming-card-display-3.jpg" alt="Card holder at a game shop counter, stocked" class="active" onclick="swapPhoto('gaming-main', this.src, this)" />
+            <img src="images/gaming-card-display/card-holder-left.png" alt="Card holder, loaded, angle 1" onclick="swapPhoto('gaming-main', this.src, this)" />
+            <img src="images/gaming-card-display/card-holder-right.png" alt="Card holder, loaded, angle 2" onclick="swapPhoto('gaming-main', this.src, this)" />
+            <img src="images/gaming-card-display/card-holder-pulled-out.jpg" alt="Card holder with a pack pulled out" onclick="swapPhoto('gaming-main', this.src, this)" />
+            <img src="images/gaming-card-display/gaming-card-display-5.jpg" alt="Multiple card holders in retail use at a game shop" onclick="swapPhoto('gaming-main', this.src, this)" />
+            <img src="images/gaming-card-display/gaming-card-display-1.jpg" alt="Card display photo 1" onclick="swapPhoto('gaming-main', this.src, this)" />
+            <img src="images/gaming-card-display/gaming-card-display-2.jpg" alt="Card display photo 2" onclick="swapPhoto('gaming-main', this.src, this)" />
+            <img src="images/gaming-card-display/gaming-card-display-4.jpg" alt="Card display photo 4" onclick="swapPhoto('gaming-main', this.src, this)" />
+            <img src="images/gaming-card-display/gaming-card-display-white.png" alt="Rendered view" onclick="swapPhoto('gaming-main', this.src, this)" />
+          </div>
+        </div>
+        <div class="product-info">
+          <span class="tag">Collectible Display</span>
+          <h3>Trading Card Display Rack</h3>
+          <div class="price">$25</div>
+          <div class="product-variants">
+            <span class="tag" style="font-size:.7rem;margin-bottom:8px;display:block;width:100%">Available colors</span>
+            <span class="variant-chip active" onclick="setProductColor('gaming','white','F8F4EA',this)">Warm White</span>
+            <span class="variant-chip" onclick="setProductColor('gaming','black','1C1A16',this)">Matte Black</span>
+            <span class="variant-chip">Custom Color</span>
+          </div>
+          <p>Loose cards end up in a binder where nobody sees them or a drawer where they get bent. This angled rack gives trading cards, character cards, and sleeved cards a stand-up display — individual slots keep every card separated and upright, so the ones worth showing off actually get seen.</p>
+          <ul class="product-features">
+            <li>
+              <span class="icon">
+                <svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="#2C2820" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              Individual angled slots — no leaning, no cards sliding into each other
+            </li>
+            <li>
+              <span class="icon">
+                <svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="#2C2820" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              Weighted, deep base keeps top-heavy cards from tipping forward
+            </li>
+            <li>
+              <span class="icon">
+                <svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="#2C2820" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              Fits standard-size trading cards and most rigid protective sleeves
+            </li>
+            <li>
+              <span class="icon">
+                <svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="#2C2820" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              Compact footprint — line two or three up on a shelf
+            </li>
+          </ul>
+          <div class="product-actions">
+            <a href="index.html#contact" class="btn btn-primary">Order This</a>
+            <a href="index.html#contact" class="btn btn-outline">Request a Variation</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product 2: Glasses + Contacts Holder -->
       <div class="product-block" id="glasses-holder">
         <div class="product-gallery" style="background-image:url('images/glasses/15-days-2-lens-blueprint.svg')">
           <div class="gallery-view-toggle">
@@ -1284,7 +1350,7 @@
         </div>
       </div>
 
-      <!-- Product 2: Chilewich Coaster Holders -->
+      <!-- Product 3: Chilewich Coaster Holders -->
       <div class="product-block reverse" id="coaster-holder">
         <div class="product-info">
           <span class="tag">Table Organizer</span>
@@ -1352,72 +1418,6 @@
         </div>
       </div>
 
-      <!-- Product 3: Gaming Card Display -->
-      <div class="product-block" id="gaming-card-display">
-        <div class="product-gallery" style="background-image:url('images/gaming-card-display/gaming-card-display-blueprint.svg')">
-          <div class="gallery-view-toggle">
-            <button id="gaming-btn-photo" class="active" type="button" onclick="toggle3D('gaming', false)">Photo</button>
-            <button id="gaming-btn-3d" type="button" onclick="toggle3D('gaming', true)">Rotate in 3D</button>
-          </div>
-          <model-viewer id="gaming-mv" class="main-photo main-3d" src="images/gaming-card-display/gaming-card-display.glb" camera-controls auto-rotate auto-rotate-delay="0" rotation-per-second="18deg" shadow-intensity="1" exposure="1" environment-image="neutral" alt="Interactive 3D model of the trading card display rack"></model-viewer>
-          <div class="gallery-3d-hint" id="gaming-hint">Drag to rotate &middot; scroll to zoom</div>
-          <img class="main-photo" id="gaming-main" src="images/gaming-card-display/gaming-card-display-3.jpg" alt="Trading card display rack stocked with Magic: The Gathering booster packs at a game shop counter" />
-          <div class="product-thumbs">
-            <img src="images/gaming-card-display/gaming-card-display-3.jpg" alt="Card holder at a game shop counter, stocked" class="active" onclick="swapPhoto('gaming-main', this.src, this)" />
-            <img src="images/gaming-card-display/card-holder-left.png" alt="Card holder, loaded, angle 1" onclick="swapPhoto('gaming-main', this.src, this)" />
-            <img src="images/gaming-card-display/card-holder-right.png" alt="Card holder, loaded, angle 2" onclick="swapPhoto('gaming-main', this.src, this)" />
-            <img src="images/gaming-card-display/card-holder-pulled-out.jpg" alt="Card holder with a pack pulled out" onclick="swapPhoto('gaming-main', this.src, this)" />
-            <img src="images/gaming-card-display/gaming-card-display-5.jpg" alt="Multiple card holders in retail use at a game shop" onclick="swapPhoto('gaming-main', this.src, this)" />
-            <img src="images/gaming-card-display/gaming-card-display-1.jpg" alt="Card display photo 1" onclick="swapPhoto('gaming-main', this.src, this)" />
-            <img src="images/gaming-card-display/gaming-card-display-2.jpg" alt="Card display photo 2" onclick="swapPhoto('gaming-main', this.src, this)" />
-            <img src="images/gaming-card-display/gaming-card-display-4.jpg" alt="Card display photo 4" onclick="swapPhoto('gaming-main', this.src, this)" />
-            <img src="images/gaming-card-display/gaming-card-display-white.png" alt="Rendered view" onclick="swapPhoto('gaming-main', this.src, this)" />
-          </div>
-        </div>
-        <div class="product-info">
-          <span class="tag">Collectible Display</span>
-          <h3>Trading Card Display Rack</h3>
-          <div class="price">$25</div>
-          <div class="product-variants">
-            <span class="tag" style="font-size:.7rem;margin-bottom:8px;display:block;width:100%">Available colors</span>
-            <span class="variant-chip active" onclick="setProductColor('gaming','white','F8F4EA',this)">Warm White</span>
-            <span class="variant-chip" onclick="setProductColor('gaming','black','1C1A16',this)">Matte Black</span>
-            <span class="variant-chip">Custom Color</span>
-          </div>
-          <p>Loose cards end up in a binder where nobody sees them or a drawer where they get bent. This angled rack gives trading cards, character cards, and sleeved cards a stand-up display — individual slots keep every card separated and upright, so the ones worth showing off actually get seen.</p>
-          <ul class="product-features">
-            <li>
-              <span class="icon">
-                <svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="#2C2820" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </span>
-              Individual angled slots — no leaning, no cards sliding into each other
-            </li>
-            <li>
-              <span class="icon">
-                <svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="#2C2820" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </span>
-              Weighted, deep base keeps top-heavy cards from tipping forward
-            </li>
-            <li>
-              <span class="icon">
-                <svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="#2C2820" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </span>
-              Fits standard-size trading cards and most rigid protective sleeves
-            </li>
-            <li>
-              <span class="icon">
-                <svg viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="#2C2820" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </span>
-              Compact footprint — line two or three up on a shelf
-            </li>
-          </ul>
-          <div class="product-actions">
-            <a href="index.html#contact" class="btn btn-primary">Order This</a>
-            <a href="index.html#contact" class="btn btn-outline">Request a Variation</a>
-          </div>
-        </div>
-      </div>
-
       <!-- Product 4: Hunter Douglas Remote Mount family -->
       <div class="product-block reverse" id="hunter-douglas-mount">
         <div class="product-info">
@@ -1472,7 +1472,7 @@
             <a href="index.html#contact" class="btn btn-outline">Request a Variation</a>
           </div>
         </div>
-        <div class="product-gallery">
+        <div class="product-gallery" style="background-image:url('images/hunter-douglass/hd-3m-claw-blueprint.svg')">
           <div class="gallery-view-toggle">
             <button id="hd-btn-photo" class="active" type="button" onclick="toggle3D('hd', false)">Photo</button>
             <button id="hd-btn-3d" type="button" onclick="toggle3D('hd', true)">Rotate in 3D</button>
@@ -1492,7 +1492,7 @@
 
       <!-- Product 5: Steak Knife Holder -->
       <div class="product-block" id="steak-knife-holder">
-        <div class="product-gallery">
+        <div class="product-gallery" style="background-image:url('images/knives-holder/knife-holder-blueprint.svg')">
           <div class="gallery-view-toggle">
             <button id="knife-btn-photo" class="active" type="button" onclick="toggle3D('knife', false)">Photo</button>
             <button id="knife-btn-3d" type="button" onclick="toggle3D('knife', true)">Rotate in 3D</button>
