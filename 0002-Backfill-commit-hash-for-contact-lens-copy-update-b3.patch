@@ -1,0 +1,28 @@
+From 90a6474db387ff719d7fd6413086481669e4304d Mon Sep 17 00:00:00 2001
+From: Tyson Bell <tyson.bell@gmail.com>
+Date: Wed, 2 Sep 2026 21:52:09 +0000
+Subject: [PATCH 2/2] Backfill commit hash for contact lens copy update
+ (b3eff06)
+
+Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01TDW51hi5sFTph9yPMZF9YR
+---
+ CHANGES.md | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/CHANGES.md b/CHANGES.md
+index 006dd6f..56f330b 100644
+--- a/CHANGES.md
++++ b/CHANGES.md
+@@ -33,7 +33,7 @@ Format for a new item:
+ 
+ ## Done
+ 
+-2026.09.02.1433 - Update the copy for the Glasses + Contact Lens Holder. **2026-09-02** — Replaced the description paragraph and all 4 feature bullets in `products.html` with your submitted copy, reformatted into the site's existing paragraph + checkmark-bullet layout and matched to the site's sentence-case, em-dash bullet style (the same treatment the Trading Card copy got). Swapped out the generic "Ultimate Daily Contact Lens Organizer" product name for "This organizer," since the product's actual name on the page stays "Glasses + Contact Lens Holder" — same call as the earlier Trading Card copy, where the site's own product name wins over a name in submitted marketing copy. **Note:** this is a voice shift for this one section — the old copy was your own first-person "I wear three prescriptions..." story, the new copy is third-person marketing pitch; left as submitted since that's what was asked for, but flagging in case you want it back in first person. Verified via headless-browser render: renders cleanly, no console errors. Commit: (this push).
++2026.09.02.1433 - Update the copy for the Glasses + Contact Lens Holder. **2026-09-02** — Replaced the description paragraph and all 4 feature bullets in `products.html` with your submitted copy, reformatted into the site's existing paragraph + checkmark-bullet layout and matched to the site's sentence-case, em-dash bullet style (the same treatment the Trading Card copy got). Swapped out the generic "Ultimate Daily Contact Lens Organizer" product name for "This organizer," since the product's actual name on the page stays "Glasses + Contact Lens Holder" — same call as the earlier Trading Card copy, where the site's own product name wins over a name in submitted marketing copy. **Note:** this is a voice shift for this one section — the old copy was your own first-person "I wear three prescriptions..." story, the new copy is third-person marketing pitch; left as submitted since that's what was asked for, but flagging in case you want it back in first person. Verified via headless-browser render: renders cleanly, no console errors. Commit: b3eff06.
+ 
+ 
+ 
+-- 
+2.43.0
+
