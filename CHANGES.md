@@ -10,6 +10,30 @@ Format for a new item:
 ---
 
 ## Open
+2026.09.02.0900 - Claude to Generate a detailed Lab Notes entry of everything done to setup my coding experience (shy of actual passwords and access tokens) Also, update Lab Notes to have the same color scheme as Build Log and make the top nave Lab Journy color the same blue theme instead of red/rust.
+2026.09.01.1900 - There was a request from Theo's Toys owner to have the real photos show automatically if they are clicked instead of having to click on the "photo" button next to "rotate 3d". Additionally, he'd like to have the product description with this Copy
+~~~
+
+Title: TCG Booster Pack Display Box – Retail Trading Card Display Case Replacement
+
+Maximize Your Trading Card Display Case With Space-Saving Booster Pack Display Boxes
+
+Tired of flimsy, mismatched packaging eating up space in your trading card display case? Our TCG booster pack display box is a durable replacement for the shipping boxes booster packs normally come in — designed specifically for the retail display of trading card booster packs.
+
+Each booster pack display box holds a full box of booster packs, angled back for maximum visibility, so every pack stays easy to see, grab, and restock. Unlike the inconsistent, easily-damaged boxes packs typically ship in, our uniform display boxes sit neatly side by side — helping game stores, hobby shops, and card retailers get more product into every display case, and right in front of the customers.
+
+Why Retailers Choose Our Booster Box Display Replacement:
+
+Full Booster Box Capacity – Holds an entire box of trading card packs, in a smaller, uniform footprint.
+Angled Front-Facing Display – Keeps booster packs visible and easy to browse in any display case.
+Space-Saving, Uniform Design – Unlike inconsistently sized and shaped display boxes, these sit side by side with no wasted space.
+2X–3X More Display Capacity – Double, and often triple, the number of packs you can display in the same shelf space.
+Nesting Storage Design – Nests in pairs for compact, efficient backroom storage
+Fast Reorganization – Quickly pull, move, or rearrange stock without spilling packs, or damaging display boxes.
+Ideal for: game stores, hobby shops, comic shops, card shops, convention booths, and pop-up retail events looking for a better way to merchandise and move trading card booster packs.
+
+Upgrade your display case today with a booster pack display box built for retail — more visibility, more capacity, less clutter.
+~~~
 2026.09.01.0939 - I've updated my date typos in the CHANGES.md to reflect my late August changes as 2026.08... instead of 2026.09... And I've input this morning changes as 2026.09.01.time_stamp
 2026.08.30.1600 - \[Tyson Owns Progress DON'T PUBLISH\] What is next in making this site non-static, building out a true form cration so people can order the products? Gernate a a section of the changes.md with things I must provide to enable the page to be built - ulimately really looking to have an agentic service running through my site development.
 
