@@ -10,7 +10,7 @@ Format for a new item:
 ---
 
 ## Open
-2026.09.02.0900 - Claude to Generate a detailed Lab Notes entry of everything done to setup my coding experience (shy of actual passwords and access tokens) Also, update Lab Notes to have the same color scheme as Build Log and make the top nave Lab Journy color the same blue theme instead of red/rust.
+2026.09.02.0900 - Claude to Generate a detailed Lab Notes entry of everything done to setup my coding experience (shy of actual passwords and access tokens) Also, update Lab Notes to have the same color scheme as Build Log and make the top nave Lab Journy color the same blue theme instead of red/rust. Include the latest journey of how I've moved from the confines of my latop to a cloud based Agentic AI release model - include the nuances of moving between Claude Code and Cowork and the reason Cowork is better for the knowldge history where Code really is about getting the best assistant with coding (which honestly I haven't done much of on this project but hope to shortly and look forward to the interactions between cowork and code)
 2026.09.01.1900 - There was a request from Theo's Toys owner to have the real photos show automatically if they are clicked instead of having to click on the "photo" button next to "rotate 3d". Additionally, he'd like to have the product description with this Copy
 ~~~
 
