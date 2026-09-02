@@ -642,7 +642,161 @@
     <div class="container">
       <div class="log-stream-inner">
 
+        <p class="log-day-label">September 1, 2026</p>
+
+        <div class="log-entry">
+          <div class="log-entry-card">
+            <div class="log-entry-meta">
+              <span class="log-entry-time">1:53 PM</span>
+              <span class="log-entry-tag">Products</span>
+              <span class="log-entry-tag">Design</span>
+              <span class="log-entry-tag">Engineering</span>
+            </div>
+            <h3>Thumbnail strip made scrollable, click-to-enlarge photos, Trading Card gets real copy</h3>
+            <p>Products with more than a handful of thumbnails &mdash; the Trading Card Display Rack chief among them &mdash; were pushing extra images off-frame and out of reach; fixed by making the thumbnail strip scroll horizontally with hover-triggered edge hot-spots. Also wired up a full-screen lightbox that had been sitting unused in the code since the retheme: click any product photo to enlarge, Escape or the &times; to close. Replaced the Trading Card Display Rack's copy with language that actually matches what's photographed &mdash; a booster-pack display box, not loose trading cards.</p>
+            <span class="log-entry-commit">commit ac14c7e</span>
+          </div>
+        </div>
+
+        <div class="log-entry">
+          <div class="log-entry-card">
+            <div class="log-entry-meta">
+              <span class="log-entry-time">11:40 AM</span>
+              <span class="log-entry-tag">Products</span>
+              <span class="log-entry-tag">Design</span>
+              <span class="log-entry-tag">3D Print</span>
+            </div>
+            <h3>Every product now opens straight into 3D</h3>
+            <p>The Glasses + Contact Lens Holder had been defaulting to its interactive 3D model since the retheme; extended that same behavior to the other five products, so every gallery now loads into the floating model over the blueprint backdrop instead of a static photo.</p>
+            <span class="log-entry-commit">commit 134fcc9</span>
+          </div>
+        </div>
+
+        <div class="log-entry">
+          <div class="log-entry-card">
+            <div class="log-entry-meta">
+              <span class="log-entry-time">9:52 AM</span>
+              <span class="log-entry-tag">Engineering</span>
+              <span class="log-entry-tag">Products</span>
+              <span class="log-entry-tag">Docs</span>
+            </div>
+            <h3>DXF-to-blueprint pipeline documented, Card Holder promoted to the top</h3>
+            <p>The script that turns a Shapr3D DXF export into each product's faint tan blueprint backdrop had never actually been committed &mdash; reconstructed it and checked it in as <code>tools/dxf_to_blueprint_svg.py</code> (flagged AI Generated), then used it to generate the two backdrops still missing (knife holder, Hunter Douglas mount). All six products now carry the blueprint watermark. Also moved the Trading Card Display Rack to the top of the products page, cleared out an unused photo, and gave the glasses/contact-lens copy a typo pass &mdash; clean.</p>
+            <span class="log-entry-commit">commit e61ba64</span>
+          </div>
+        </div>
+
+        <div class="log-entry">
+          <div class="log-entry-card">
+            <div class="log-entry-meta">
+              <span class="log-entry-time">1:28 AM</span>
+              <span class="log-entry-tag">Design</span>
+              <span class="log-entry-tag">Engineering</span>
+            </div>
+            <h3>Blueprint backgrounds stop getting clipped by thumbnails</h3>
+            <p>The drafting-graphic background scaled to fill its whole box, which looked fine on desktop but on mobile left almost no room below the photo and thumbnail strip &mdash; the graphic was getting sliced off entirely. Switched to a fixed-size, bottom-anchored background with guaranteed padding underneath, so it clears the thumbnails on every screen size.</p>
+            <span class="log-entry-commit">commit 388d1e6</span>
+          </div>
+        </div>
+
+        <p class="log-day-label">August 31, 2026</p>
+
+        <div class="log-entry">
+          <div class="log-entry-card">
+            <div class="log-entry-meta">
+              <span class="log-entry-time">11:45 PM</span>
+              <span class="log-entry-tag">Products</span>
+              <span class="log-entry-tag">Design</span>
+              <span class="log-entry-tag">Docs</span>
+            </div>
+            <h3>Real photos confirmed, Lab Notes gets a proper header</h3>
+            <p>Swapped in the confirmed real installed print for the Hunter Douglas mount and the actual game-shop counter shot for the Trading Card Display Rack as their default photos, in place of renders. Gave the Lab Notes hub the same dark-banner treatment as Build Log &mdash; eyebrow label, big serif title, recolored drafting-line SVG. Also added a reply-to address to the contact form, so hitting Reply on a notification email goes straight to the visitor instead of the form service.</p>
+            <span class="log-entry-commit">commit 935f795</span>
+          </div>
+        </div>
+
+        <div class="log-entry">
+          <div class="log-entry-card">
+            <div class="log-entry-meta">
+              <span class="log-entry-time">10:50 PM</span>
+              <span class="log-entry-tag">Infra</span>
+              <span class="log-entry-tag">Design</span>
+              <span class="log-entry-tag">Products</span>
+            </div>
+            <h3>One nav for the whole site, Gallery and Lab Journey come home, contact form goes live</h3>
+            <p>Replaced the patchwork of per-page navs with a single unified one: Home, Products, and a new Lab Journey dropdown (Lab Notes + Build Log), each with its own accent color on the shared warm palette. Moved the Gallery section from Products back onto the homepage, added a new Lab Journey section linking out to both build-in-public tracks, and &mdash; the big one &mdash; the contact form now actually sends to hello@littledevlab.com instead of doing nothing.</p>
+            <span class="log-entry-commit">commit a69f860</span>
+          </div>
+        </div>
+
+        <div class="log-entry">
+          <div class="log-entry-card">
+            <div class="log-entry-meta">
+              <span class="log-entry-time">9:24 PM</span>
+              <span class="log-entry-tag">Docs</span>
+            </div>
+            <h3>Prompt &amp; Context Engineering post filled in with real examples</h3>
+            <p>The Lab Notes post on prompt and context engineering had been sitting with nine placeholder sections since its first draft; filled all of them in with real, redacted examples pulled from actual sessions &mdash; an MCP server build, a deploy-config bug, this site's own credential rotation, among others.</p>
+            <span class="log-entry-commit">commit 72bc1bc</span>
+          </div>
+        </div>
+
+        <div class="log-entry">
+          <div class="log-entry-card">
+            <div class="log-entry-meta">
+              <span class="log-entry-time">8:22 PM</span>
+              <span class="log-entry-tag">Infra</span>
+              <span class="log-entry-tag">Products</span>
+              <span class="log-entry-tag">Docs</span>
+            </div>
+            <h3>Products moves to its own page, Lab Notes section is born</h3>
+            <p>Split the six product blocks off the homepage into a dedicated products.html with a 2&times;3 landing grid and its own nav dropdown, freeing the homepage to flow Hero &rarr; How It's Made &rarr; About &rarr; Custom &rarr; Contact. Also stood up a new Lab Notes section with an index and two draft posts &mdash; the first real home for documenting the AI/agentic-skills side of this build, alongside the 3D-printing side Build Log already covers.</p>
+            <span class="log-entry-commit">commit afae4ac</span>
+          </div>
+        </div>
+
         <p class="log-day-label">August 30, 2026</p>
+
+        <div class="log-entry">
+          <div class="log-entry-card">
+            <div class="log-entry-meta">
+              <span class="log-entry-time">9:29 PM</span>
+              <span class="log-entry-tag">Design</span>
+              <span class="log-entry-tag">Products</span>
+            </div>
+            <h3>Blueprint backdrops arrive behind every product gallery</h3>
+            <p>Converted each product's 2D dimension drawing (DXF, exported from Shapr3D) into a faint tan watermark-style SVG and set it behind the photo/3D viewer &mdash; four of six products have a DXF to draw from so far. Fixed the 3D viewer's solid background so the new backdrop actually shows through while a model is rotating, reordered thumbnails so real customer photos lead over renders, and noted the steak knife holder's fit with a BAMEOS drawer organizer.</p>
+            <span class="log-entry-commit">commit 56816a8</span>
+          </div>
+        </div>
+
+        <div class="log-entry">
+          <div class="log-entry-card">
+            <div class="log-entry-meta">
+              <span class="log-entry-time">6:39 PM</span>
+              <span class="log-entry-tag">Products</span>
+              <span class="log-entry-tag">Engineering</span>
+              <span class="log-entry-tag">Design</span>
+            </div>
+            <h3>New glasses size, a reusable render pipeline, and the sphere mark goes site-wide</h3>
+            <p>Added a 15-Day 2-Lens option to the Glasses + Contact Lens Holder, for anyone running two prescriptions instead of three. Persisted the Blender headless render pipeline behind the product photoreal renders as a reusable tool, so future products don't need it rebuilt from scratch. And the wireframe-sphere mark that debuted on Build Log a couple hours earlier replaced the flat square-grid logo everywhere else too &mdash; one icon language across the whole site now.</p>
+            <span class="log-entry-commit">commit 0cd1713</span>
+          </div>
+        </div>
+
+        <div class="log-entry">
+          <div class="log-entry-card">
+            <div class="log-entry-meta">
+              <span class="log-entry-time">4:52 PM</span>
+              <span class="log-entry-tag">Infra</span>
+              <span class="log-entry-tag">Design</span>
+              <span class="log-entry-tag">Docs</span>
+            </div>
+            <h3>Build Log launches, then gets its own identity</h3>
+            <p>Stood up this page: a hand-styled stream of dated entries backfilled from August 27th, linked into the main nav. It launched with its own dark-blue/gold branding and an isometric-cube drawing in the header &mdash; then, within the hour, swapped that mark for the wireframe sphere you see today, to better match the drafting-technical style of the header art.</p>
+            <span class="log-entry-commit">commit 6668968</span>
+          </div>
+        </div>
 
         <div class="log-entry">
           <div class="log-entry-card">
