@@ -139,7 +139,11 @@
     /* ── Per-section nav accent colors ── */
     :root {
       --products-accent: #b8873d;
-      --journey-accent: #8b4030;
+      --journey-accent: #1e3a5f; /* matches Build Log's navy */
+      /* Lab Notes header now shares Build Log's own navy/gold identity */
+      --bl-navy: #1e3a5f;
+      --bl-navy-soft: #3c5d82;
+      --bl-gold: #c8a96e;
     }
     .nav-container { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
     .nav-item-dropdown[data-accent="home"] > a:hover,
@@ -232,7 +236,7 @@
     }
     footer a { color: var(--ink-soft); margin: 0 8px; }
     .lab-header {
-      background: var(--ink);
+      background: var(--bl-navy);
       padding-top: 56px;
       padding-bottom: 48px;
       position: relative;
@@ -243,7 +247,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: radial-gradient(ellipse 60% 80% at 80% 20%, rgba(176,73,42,.22) 0%, transparent 70%);
+      background: radial-gradient(ellipse 60% 80% at 80% 20%, rgba(200,169,110,.16) 0%, transparent 70%);
       pointer-events: none;
     }
     .lab-header-inner {
@@ -261,7 +265,7 @@
       font-weight: 600;
       letter-spacing: .14em;
       text-transform: uppercase;
-      color: var(--accent);
+      color: var(--bl-gold);
       margin-bottom: 16px;
     }
     .lab-header h1 {
@@ -283,12 +287,12 @@
     .lab-header-visual { justify-self: center; }
     .lab-header-visual svg { width: 100%; height: auto; max-width: 200px; }
     .lab-header-visual .edge-solid { fill: none; stroke: var(--white); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; opacity: .82; }
-    .lab-header-visual .edge-hidden { fill: none; stroke: var(--accent); stroke-width: 1.4; stroke-dasharray: 6 5; stroke-linecap: round; opacity: .55; }
-    .lab-header-visual .ext-line { stroke: var(--accent); stroke-width: 1; opacity: .45; }
-    .lab-header-visual .dim-line { stroke: var(--accent); stroke-width: 1; opacity: .6; }
-    .lab-header-visual .tick { stroke: var(--accent); stroke-width: 1.4; opacity: .6; }
-    .lab-header-visual .center-mark { stroke: var(--accent); stroke-width: 1.2; opacity: .8; }
-    .lab-header-visual .dim-text { fill: var(--accent); font-size: 11px; letter-spacing: .01em; opacity: .75; }
+    .lab-header-visual .edge-hidden { fill: none; stroke: var(--bl-gold); stroke-width: 1.4; stroke-dasharray: 6 5; stroke-linecap: round; opacity: .55; }
+    .lab-header-visual .ext-line { stroke: var(--bl-gold); stroke-width: 1; opacity: .45; }
+    .lab-header-visual .dim-line { stroke: var(--bl-gold); stroke-width: 1; opacity: .6; }
+    .lab-header-visual .tick { stroke: var(--bl-gold); stroke-width: 1.4; opacity: .6; }
+    .lab-header-visual .center-mark { stroke: var(--bl-gold); stroke-width: 1.2; opacity: .8; }
+    .lab-header-visual .dim-text { fill: var(--bl-gold); font-size: 11px; letter-spacing: .01em; opacity: .75; }
     @media (max-width: 860px) {
       .lab-header-inner { grid-template-columns: 1fr; }
       .lab-header-visual { display: none; }
@@ -440,6 +444,12 @@
   <main>
     <div class="container">
       <ul class="post-list">
+        <li>
+          <span class="tag">Agentic AI Skills</span>
+          <h3><a href="cloud-native-agentic-workflow.html">Cutting the Cord: Taking This Build From My Laptop to a Cloud-Native Workflow</a></h3>
+          <p class="post-meta">September 2, 2026</p>
+          <p class="excerpt">A real Codespace, a scoped GitHub token, a safety guardrail that stopped me from doing something dumb, a self-inflicted merge conflict, and the actual difference between Claude Code and Cowork.</p>
+        </li>
         <li>
           <span class="tag">Agentic AI Skills</span>
           <h3><a href="prompt-and-context-engineering.html">The Real Work of Agentic AI Is Prompt and Context Engineering</a></h3>

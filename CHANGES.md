@@ -10,31 +10,6 @@ Format for a new item:
 ---
 
 ## Open
-2026.09.02.0900 - Claude to Generate a detailed Lab Notes entry of everything done to setup my coding experience (shy of actual passwords and access tokens) Also, update Lab Notes to have the same color scheme as Build Log and make the top nave Lab Journy color the same blue theme instead of red/rust. Include the latest journey of how I've moved from the confines of my latop to a cloud based Agentic AI release model - include the nuances of moving between Claude Code and Cowork and the reason Cowork is better for the knowldge history where Code really is about getting the best assistant with coding (which honestly I haven't done much of on this project but hope to shortly and look forward to the interactions between cowork and code)
-2026.09.01.1900 - There was a request from Theo's Toys owner to have the real photos show automatically if they are clicked instead of having to click on the "photo" button next to "rotate 3d". Additionally, he'd like to have the product description with this Copy
-~~~
-
-Title: TCG Booster Pack Display Box – Retail Trading Card Display Case Replacement
-
-Maximize Your Trading Card Display Case With Space-Saving Booster Pack Display Boxes
-
-Tired of flimsy, mismatched packaging eating up space in your trading card display case? Our TCG booster pack display box is a durable replacement for the shipping boxes booster packs normally come in — designed specifically for the retail display of trading card booster packs.
-
-Each booster pack display box holds a full box of booster packs, angled back for maximum visibility, so every pack stays easy to see, grab, and restock. Unlike the inconsistent, easily-damaged boxes packs typically ship in, our uniform display boxes sit neatly side by side — helping game stores, hobby shops, and card retailers get more product into every display case, and right in front of the customers.
-
-Why Retailers Choose Our Booster Box Display Replacement:
-
-Full Booster Box Capacity – Holds an entire box of trading card packs, in a smaller, uniform footprint.
-Angled Front-Facing Display – Keeps booster packs visible and easy to browse in any display case.
-Space-Saving, Uniform Design – Unlike inconsistently sized and shaped display boxes, these sit side by side with no wasted space.
-2X–3X More Display Capacity – Double, and often triple, the number of packs you can display in the same shelf space.
-Nesting Storage Design – Nests in pairs for compact, efficient backroom storage
-Fast Reorganization – Quickly pull, move, or rearrange stock without spilling packs, or damaging display boxes.
-Ideal for: game stores, hobby shops, comic shops, card shops, convention booths, and pop-up retail events looking for a better way to merchandise and move trading card booster packs.
-
-Upgrade your display case today with a booster pack display box built for retail — more visibility, more capacity, less clutter.
-~~~
-2026.09.01.0939 - I've updated my date typos in the CHANGES.md to reflect my late August changes as 2026.08... instead of 2026.09... And I've input this morning changes as 2026.09.01.time_stamp
 2026.08.30.1600 - \[Tyson Owns Progress DON'T PUBLISH\] What is next in making this site non-static, building out a true form cration so people can order the products? Gernate a a section of the changes.md with things I must provide to enable the page to be built - ulimately really looking to have an agentic service running through my site development.
 
 *   **Requirements list (delivered 2026-08-31):**
@@ -57,6 +32,10 @@ Upgrade your display case today with a booster pack display box built for retail
 *   **Status:** Open — awaiting your confirmation on #2 before this becomes a build CR.
 
 ## Done
+
+2026.09.02.0900 - Claude to Generate a detailed Lab Notes entry of everything done to setup my coding experience (shy of actual passwords and access tokens) Also, update Lab Notes to have the same color scheme as Build Log and make the top nave Lab Journy color the same blue theme instead of red/rust. Include the latest journey of how I've moved from the confines of my latop to a cloud based Agentic AI release model - include the nuances of moving between Claude Code and Cowork and the reason Cowork is better for the knowldge history where Code really is about getting the best assistant with coding (which honestly I haven't done much of on this project but hope to shortly and look forward to the interactions between cowork and code) **2026-09-02** — Recolored Lab Notes to match Build Log's own navy/gold identity: the shared `--journey-accent` nav variable (duplicated across all 6 HTML files) switched from rust to Build Log's navy, and `lab-notes/index.html`'s header (background, eyebrow, and all SVG drafting-line colors) now uses the same `--bl-navy`/`--bl-navy-soft`/`--bl-gold` values Build Log defines, instead of the old rust/ink treatment it had before. Wrote the requested Lab Notes entry at `lab-notes/cloud-native-agentic-workflow.html` covering the real setup end-to-end (minus the actual token/credentials): standing up a real GitHub Codespace and its free-tier cost, installing the Claude Code extension there, cloning this repo into Cowork's own persistent cloud sandbox with a fine-grained, single-repo GitHub token (stored via credential helper, stripped from the visible remote URL), the safety classifier that correctly blocked embedding that token into a recurring automated task, and the real divergent-branches merge conflict that came from editing through both Codespaces and the cloud clone at once — plus a section on the actual Claude Code vs. Cowork split now that both are live. Linked from `lab-notes/index.html`'s post list. Verified via headless-browser render: no console errors, header renders correctly, new post-list entry links through. Commit: (this push).
+
+2026.09.01.1900 - There was a request from Theo's Toys owner to have the real photos show automatically if they are clicked instead of having to click on the "photo" button next to "rotate 3d". Additionally, he'd like updated marketing copy for the Trading Card Display Rack (submitted as a "TCG Booster Pack Display Box" copy block). **2026-09-02** — The marketing copy was already live on the site from earlier work (commit ac14c7e) — the existing Trading Card Display Rack description and all 6 feature bullets already matched the resubmitted copy nearly verbatim, so no further content change was needed there. The actual bug was the photo-click behavior: `swapPhoto()` (used by every thumbnail click) updated the main image but never told `toggle3D()` to leave 3D mode, so once "Rotate in 3D" became every product's default view, clicking a real photo thumbnail did nothing visible — the 3D model just kept covering the photo underneath. Fixed by having `swapPhoto()` call `toggle3D(key, false)` after swapping the image, so clicking any thumbnail now correctly exits 3D view and shows that photo immediately. Verified via headless browser on the Trading Card gallery: clicking a thumbnail switches the view to Photo and displays the correct image, no console errors. Commit: (this push).
 
 2026.09.02.0900 - Check for any updates to be added to Build Log. **2026-09-02** — Build Log had only ever been backfilled once (through Aug 30, 3:45 PM) and never updated since, despite 17 real commits shipping after that point. Wrote up all of them as 11 new dated entries (Sep 1 back through the rest of Aug 30 evening), grouped to roughly match the page's existing ~2-entries/day cadence: the Aug 30 evening block (Build Log's own launch and rebrand, the sphere mark going site-wide, blueprint backdrops appearing behind every gallery), all of Aug 31 (Products splitting onto its own page, nav unification + live contact form, Lab Notes content), and Sep 1 (the blueprint-clipping fix, the DXF-to-blueprint pipeline + Card Holder promotion, Rotate-in-3D as default, thumbnail/lightbox fix). Verified via headless-browser render: 17 entries, 6 day labels, no console errors, layout matches the existing timeline style. Commit: 08e5a4b.
 

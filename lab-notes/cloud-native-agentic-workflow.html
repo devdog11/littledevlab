@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The Real Work of Agentic AI Is Prompt and Context Engineering — Lab Notes</title>
-  <meta name="description" content="Breaking down prompt and context engineering — system instructions, retrieved documents, tool descriptions, permissions, output schemas — as the actual skill behind agentic AI." />
+  <title>Cutting the Cord: Taking This Build From My Laptop to a Cloud-Native Workflow — Lab Notes</title>
+  <meta name="description" content="How this site's build moved off a laptop-dependent workflow into a cloud-native one — a real Codespace, a scoped GitHub token, a safety guardrail that stopped me from doing something dumb, and the Claude Code vs. Cowork split." />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -345,48 +345,38 @@
   <main>
     <div class="container">
       <span class="tag">Agentic AI Skills</span>
-      <h1>The Real Work of Agentic AI Is Prompt and Context Engineering</h1>
-      <p class="post-meta">August 31, 2026 &middot; Lab Notes</p>
+      <h1>Cutting the Cord: Taking This Build From My Laptop to a Cloud-Native Workflow</h1>
+      <p class="post-meta">September 2, 2026 &middot; Lab Notes</p>
 
-      <p class="lede">I could probably build this site myself. I could even go into my ServiceNow instance and build the API integration by hand. But with Claude working alongside me, agentic AI just gets me to the end goal faster &mdash; way faster. The part that&rsquo;s actually mine to learn isn&rsquo;t the execution, it&rsquo;s how I shape the request that produces it: prompt engineering, and underneath that, context engineering.</p>
+      <p class="lede">For most of this project, every session had one hard dependency: my Mac had to be open, online, and running the Claude desktop app. Claude worked through a bridge into a folder on my laptop &mdash; great for sitting down together in the evening, useless the moment I closed the lid. This is the log of untangling that: a real cloud IDE, a scoped GitHub token, a safety guardrail that stopped me from doing something I probably shouldn't have, and a merge conflict I caused myself by editing from two places at once.</p>
 
-      <p>Here&rsquo;s the breakdown, one concept at a time, each with a real example pulled from actual sessions &mdash; a self-hosted ServiceNow MCP build, a Hunter Douglas remote-mount reverse-engineering job, a few edits to this site, and an email fix along the way. No generic definitions without something real underneath them.</p>
+      <h3>Where This Started</h3>
+      <p>The original setup was a device bridge: Claude reached a folder on my Mac, read and edited files there directly, and staged anything it needed to look at more closely. It worked well, but it was tethered &mdash; the laptop had to be on, awake, and running the desktop app for any of it to happen. CHANGES.md was already doing its job as the shared queue &mdash; I'd drop a request in the Open section, Claude would work it and move it to Done with a commit hash &mdash; but the whole loop still ran through one physical machine.</p>
 
-      <h3>Context Engineering</h3>
-      <p>Everything the model sees before it answers, assembled on purpose: not just the prompt, but the system instructions, retrieved documents, tool descriptions, and conversation history working together. Prompt engineering shapes the ask; context engineering shapes everything the ask is answered against.</p>
-      <div class="example"><p class="example-source">From the ServiceNow MCP build</p><p>Asked how to make a task more agentic, I didn&rsquo;t answer from general knowledge &mdash; I assembled three live sources in the same turn: a grep through my own planning doc (which ruled out setting up new Cloudflare infrastructure, since that was already live), a connector-registry search that surfaced an official pre-built option I was obligated to mention, and two web searches that found the real self-hosted package and Home Assistant add-on. The recommendation came from combining all three, not any one of them.</p></div>
+      <h3>Standing Up a Real Cloud IDE</h3>
+      <p>The first move was GitHub Codespaces &mdash; a full VS Code environment that runs against the repo in GitHub's own infrastructure instead of my machine. Claude drove the setup through its own browser tool: picked the <code>main</code> branch, a US West region, a 2-core machine, and landed in a live environment at a <code>github.dev</code> URL, editable from any browser, no laptop required to have it open. I asked the obvious follow-up before trusting it &mdash; what does this actually cost &mdash; and the answer turned out to be nothing for how I actually work.</p>
+      <div class="example"><p class="example-source">From the cost research</p><p>GitHub's Free tier includes 120 core-hours a month, which is 60 hours of runtime on a 2-core machine, plus 15GB of storage. For evening and weekend edits to a small static site, that's not a budget I'm likely to bump into.</p></div>
 
-      <h3>System Instructions</h3>
-      <p>The standing rules that shape every response in a session, independent of what's actually asked — tone, scope, what the agent is and isn't allowed to do by default.</p>
-      <div class="example"><p>The clearest proof this one is real: it&rsquo;s the same rule, unprompted, in every single agentic session I run &mdash; short replies, links instead of walls of text. I don&rsquo;t ask for it per conversation. It sits above the conversation and shapes every reply inside it, which is the actual difference between a system instruction and a one-off request.</p></div>
+      <h3>Bringing Claude Into the Codespace</h3>
+      <p>Once the Codespace existed, I wanted the same right-hand-panel Claude experience I'd gotten used to in VS Code on the Mac. It turned out to be the same install either way &mdash; Codespaces runs the same VS Code Marketplace mechanism whether the window is local or in a browser tab pointed at GitHub's servers. Extensions view, search "Claude Code," install, sign in. No special cloud version, no separate setup path.</p>
 
-      <h3>User Input</h3>
-      <p>The literal request. How much structure or ambiguity is left in it changes what comes back — a vague ask gets a generic answer, a specific one gets a usable one.</p>
-      <div class="example"><p class="example-source">From this site&rsquo;s own credential rotation</p><p>I once pasted a live GitHub token straight into a chat, unredacted. That exact string is what got used, once, to rewrite a credential file &mdash; not reproduced here for obvious reasons, but it&rsquo;s the cleanest example I have of input being used verbatim rather than interpreted.</p></div>
+      <h3>Giving Cowork Its Own Copy of the Repo</h3>
+      <p>The deeper fix was decoupling this Cowork conversation from the laptop entirely, instead of just adding a second editing surface. Claude cloned the repo into its own persistent cloud workspace &mdash; a sandbox that isn't the Mac and isn't the Codespace, and stays alive between sessions on its own. Getting write access to a private repo meant a GitHub Personal Access Token, and I scoped it as tightly as GitHub allows: fine-grained, locked to just this one repository, permissioned for <code>Contents: Read and write</code> and nothing else, expiring in 90 days. The token itself lives in a credentials file on that cloud sandbox, permissioned so only that process can read it, and it was stripped back out of the visible remote URL right after the clone &mdash; it doesn't sit in plain sight in an ordinary <code>git remote -v</code>. While I was in the token settings anyway, I had Claude audit every token on the account; one was a redundant duplicate from an earlier session, and I had it deleted.</p>
+      <div class="example"><p class="example-source">From the token audit</p><p>Two fine-grained tokens existed side by side, both scoped to this same repo &mdash; one wired into the new cloud clone, one left over from earlier and never actually used anywhere. Rather than leave a live, unused credential sitting on the account, I confirmed it was safe to remove and had Claude delete it through the GitHub UI.</p></div>
 
-      <h3>Conversation State</h3>
-      <p>What the model retains from earlier turns. Handled well, it keeps a long session coherent; handled poorly, it drags stale or irrelevant context forward into a new ask.</p>
-      <div class="example"><p class="example-source">From this site&rsquo;s own change-request log</p><p>I approve a batch of change requests once, in a single message. Every build step after that &mdash; a dozen or more tool calls, sometimes minutes apart &mdash; reuses those approvals without me repeating them. Same pattern in a Home Assistant add-on build: a security token generated once got reused silently across a blocked config write, a chat handoff, and a reinstall, days apart, without either of us retyping it.</p></div>
+      <h3>The Guardrail I Didn't Expect</h3>
+      <p>With the token in place, the obvious next step was full automation: an hourly scheduled task that would pull the repo on its own, no laptop, no Codespace, no me in the loop at all. Setting that up got refused &mdash; not by me, by Claude's own platform. A recurring, unattended task with a live credential embedded in its instructions tripped a safety classifier, and rather than finding a way around it, Claude stopped and explained the denial instead. That's the right instinct, even from the other side of it: a standing task holding a real credential, running with nobody watching, is exactly the shape of thing a safety system should be suspicious of &mdash; account owner or not, good intentions or not. We talked through the alternatives and I told Claude to use its judgment on how to proceed, which is where that particular thread paused, for now, in favor of the more pressing thing that happened next.</p>
+      <div class="example"><p class="example-source">From the actual denial</p><p>The tool's own error was blunt about it: permission for the action was denied by the platform's automation classifier, reason given simply as being blocked by that classifier. No workaround attempted, no obfuscation tried &mdash; just a stop and an explanation.</p></div>
 
-      <h3>Retrieved Documents</h3>
-      <p>External material pulled into context (RAG). This is exactly where the NotebookLM ingestion lesson lands — what you retrieve, and how well it's curated, sets the ceiling on accuracy.</p>
-      <div class="example"><p class="example-source">From a littledevlab.com deploy bug</p><p>A page edit I made &ldquo;wasn&rsquo;t showing up&rdquo; on the live site. Reading the repo&rsquo;s own GitHub Actions file &mdash; not the page, the deploy config &mdash; showed the site only rebuilds on git push, not on save. That one retrieved file flipped the diagnosis from &ldquo;my edit is wrong&rdquo; to &ldquo;the edit is right, it just isn&rsquo;t live yet,&rdquo; which is a completely different fix.</p></div>
+      <h3>Editing From Two Places Broke It, Predictably</h3>
+      <p>Once both the Codespace and Claude's cloud clone could push to the same repo independently, they were bound to step on each other eventually &mdash; and they did, within a day. I'd edited CHANGES.md in Codespaces and pushed, while Claude's clone had separately pushed its own commits from a different request. My next sync in Codespaces came back with a divergent-branches error instead of a clean pull: two histories that had both moved forward from the same starting point and now needed to be reconciled instead of just fast-forwarded.</p>
+      <div class="example"><p class="example-source">From the actual terminal</p><p>The fix was one command run from the Codespaces terminal: <code>git pull --no-rebase --no-edit origin main</code>, which merges the two histories together instead of trying to rewrite one on top of the other. It resolved cleanly on its own &mdash; no conflict markers to hand-edit &mdash; and a follow-up <code>git push</code> put the merged result back on GitHub for both editing paths to share.</p></div>
 
-      <h3>Tool Descriptions</h3>
-      <p>How clearly a tool's purpose and parameters are described determines whether an agent picks the right tool and uses it correctly — an ambiguous description produces confidently wrong tool calls.</p>
-      <div class="example"><p class="example-source">From the ServiceNow MCP build</p><p>A git push failed with a permissions error I initially chalked up to iCloud sync flakiness &mdash; a known issue with this setup. The tool&rsquo;s own description said otherwise: it explained that file deletion is blocked by default in a connected folder. That line is what pointed to the real cause and the real fix, not my first guess.</p></div>
+      <h3>Claude Code vs. Cowork, and Why I'm Using Both</h3>
+      <p>People keep asking me what the difference actually is, so here's the honest answer from having now set up both. Cowork is the one holding the running history of this whole project &mdash; every CHANGES.md entry, weeks of Build Log backfills, the reasoning behind why a product description says what it says &mdash; because it's a persistent conversation I can pick back up from my phone, my laptop, or anywhere else, and it remembers what came before. Claude Code lives in the terminal, right next to the code, and its whole purpose is being the sharpest possible pair for actually writing and debugging it. I'll admit I haven't leaned on that side much yet on this particular project &mdash; Cowork's broader reach across git, the browser, and scheduling covered what I needed first &mdash; but now that a Codespace and the extension are both sitting there ready, that's the next thing on the list.</p>
 
-      <h3>Examples</h3>
-      <p>Few-shot examples inside a prompt steer output format and tone more reliably than instructions alone — showing beats telling.</p>
-      <div class="example"><p class="example-source">From the contact lens holder product page</p><p>Instead of asking for &ldquo;better product copy,&rdquo; I handed over the raw facts as the sample to match: two lens prescriptions in one eye, one in the other, dailies that ship fused in five-day strips, and the specific annoyance of tearing loose two lenses instead of one while half awake. The published copy follows that exact shape &mdash; because I showed it, instead of describing what I wanted.</p></div>
-
-      <h3>Permissions</h3>
-      <p>What the agent is actually allowed to do: read vs. write, which systems, and where a human has to approve before something goes live. This is exactly the layer the ServiceNow change-request workflow lives in.</p>
-      <div class="example"><p class="example-source">From the ServiceNow MCP build</p><p>I said flat out that Claude had my go-ahead to use my login for a lab instance, password included. It still declined to type the password into a form, even with explicit permission, calling it &ldquo;a hard rule, not a judgment call.&rdquo; My permission wasn&rsquo;t sufficient to cross that particular line &mdash; which is the actual point of keeping permissions separate from instructions.</p></div>
-
-      <h3>Output Schemas</h3>
-      <p>Constraining a response to a defined structure — a form, a ticket update, a specific JSON shape — so a downstream system can consume it without a human reformatting it first.</p>
-      <div class="example"><p>This entire post is the example. I asked for exactly nine headings, in a fixed order, each either a real example or the literal words &ldquo;None found&rdquo; &mdash; and got back precisely that structure, not a paragraph I&rsquo;d have had to reformat myself.</p></div>
+      <h3>Where It Stands Now</h3>
+      <p>Cowork's cloud clone is the primary path for this repo now, with the Codespace available whenever I want to make a hands-on edit myself, and both talking to the same GitHub remote instead of either one depending on my laptop being open. The fully automated hourly pull is still an open idea, parked behind that classifier conversation rather than abandoned &mdash; something to revisit once there's a credential-handling approach I'm comfortable calling final.</p>
 
     </div>
   </main>
