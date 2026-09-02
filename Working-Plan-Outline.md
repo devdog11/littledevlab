@@ -37,7 +37,7 @@ One site, one shared infrastructure:
 
 *   **Free/low-cost first.** Every tool recommendation below has a free tier sufficient for a one-person lab or a two-person trade business. Upgrade only when a specific limit is actually hit.
 *   **Static where possible.** A static site (HTML/CSS/JS, no server to patch) is the most secure hosting posture available — there's no database or server-side code to compromise. Dynamic needs (contact forms, receipt uploads) get bolted on via managed services, not custom backends.
-*   **Document as you build.** Each skill track produces a "lab notes" page on the site — this is both the learning record and the content strategy for the site.
+*   **Document as you build.** Each skill track produces a "lab notes" page on the site — this is both the learning record and the content strategy for the site. For each run of updates, generate a build-log file for what was done and when. 
 *   **Agentic AI does the scaffolding, you do the judgment.** Use agent pipelines to draft, research, and generate — but every publish, every business tool config, and every client-facing artifact gets a human review pass before it goes live.
 
 ---
