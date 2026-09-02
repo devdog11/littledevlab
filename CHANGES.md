@@ -10,16 +10,6 @@ Format for a new item:
 ---
 
 ## Open
-2026.09.02.1433 - update the copy for the contact lens holder
-Tired of Morning Contact Lens Chaos?
-Start your morning with complete clarity—no more fumbling in the dark, squinting at lens boxes, or accidentally ripping foil covers on your daily contact lens strips. The Ultimate Daily Contact Lens Organizer streamlines your routine so you can grab your lenses effortlessly and get on with your day.
-Designed for ultimate convenience, this modular system lets you pre-separate up to 15 days of lenses ahead of time when you're not in a rush. Whether you wear standard dual-prescription lenses or require three distinct prescriptions, our custom 2-column and 3-column configurations keep every lens organized and within reach.
-Pre-Separated Storage — Holds up to 15 days of pre-separated daily lenses per compartment for seamless, rip-free mornings.
-Flexible Prescriptions — Available in 2-compartment and 3-compartment models to perfectly accommodate reading, left, and right eye prescriptions.
-Curved Glasses Cradle Add-On — Safely rests your eyewear without putting stress on delicate hinges.
-Versatile Mounting & Expansion — Mount seamlessly under cabinets or set on countertops, with add-on accessories for toothbrushes, razors, and everyday essentials.
-
-
 2026.08.30.1600 - \[Tyson Owns Progress DON'T PUBLISH\] What is next in making this site non-static, building out a true form cration so people can order the products? Gernate a a section of the changes.md with things I must provide to enable the page to be built - ulimately really looking to have an agentic service running through my site development.
 
 *   **Requirements list (delivered 2026-08-31):**
@@ -42,6 +32,9 @@ Versatile Mounting & Expansion — Mount seamlessly under cabinets or set on cou
 *   **Status:** Open — awaiting your confirmation on #2 before this becomes a build CR.
 
 ## Done
+
+2026.09.02.1433 - Update the copy for the Glasses + Contact Lens Holder. **2026-09-02** — Replaced the description paragraph and all 4 feature bullets in `products.html` with your submitted copy, reformatted into the site's existing paragraph + checkmark-bullet layout and matched to the site's sentence-case, em-dash bullet style (the same treatment the Trading Card copy got). Swapped out the generic "Ultimate Daily Contact Lens Organizer" product name for "This organizer," since the product's actual name on the page stays "Glasses + Contact Lens Holder" — same call as the earlier Trading Card copy, where the site's own product name wins over a name in submitted marketing copy. **Note:** this is a voice shift for this one section — the old copy was your own first-person "I wear three prescriptions..." story, the new copy is third-person marketing pitch; left as submitted since that's what was asked for, but flagging in case you want it back in first person. Verified via headless-browser render: renders cleanly, no console errors. Commit: (this push).
+
 
 
 2026.09.02.0900 - Claude to Generate a detailed Lab Notes entry of everything done to setup my coding experience (shy of actual passwords and access tokens) Also, update Lab Notes to have the same color scheme as Build Log and make the top nave Lab Journy color the same blue theme instead of red/rust. Include the latest journey of how I've moved from the confines of my latop to a cloud based Agentic AI release model - include the nuances of moving between Claude Code and Cowork and the reason Cowork is better for the knowldge history where Code really is about getting the best assistant with coding (which honestly I haven't done much of on this project but hope to shortly and look forward to the interactions between cowork and code) **2026-09-02** — Recolored Lab Notes to match Build Log's own navy/gold identity: the shared `--journey-accent` nav variable (duplicated across all 6 HTML files) switched from rust to Build Log's navy, and `lab-notes/index.html`'s header (background, eyebrow, and all SVG drafting-line colors) now uses the same `--bl-navy`/`--bl-navy-soft`/`--bl-gold` values Build Log defines, instead of the old rust/ink treatment it had before. Wrote the requested Lab Notes entry at `lab-notes/cloud-native-agentic-workflow.html` covering the real setup end-to-end (minus the actual token/credentials): standing up a real GitHub Codespace and its free-tier cost, installing the Claude Code extension there, cloning this repo into Cowork's own persistent cloud sandbox with a fine-grained, single-repo GitHub token (stored via credential helper, stripped from the visible remote URL), the safety classifier that correctly blocked embedding that token into a recurring automated task, and the real divergent-branches merge conflict that came from editing through both Codespaces and the cloud clone at once — plus a section on the actual Claude Code vs. Cowork split now that both are live. Linked from `lab-notes/index.html`'s post list. Verified via headless-browser render: no console errors, header renders correctly, new post-list entry links through. Commit: 94657c1.
