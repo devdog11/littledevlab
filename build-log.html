@@ -647,6 +647,76 @@
     <div class="container">
       <div class="log-stream-inner">
 
+        <p class="log-day-label">September 3, 2026</p>
+
+        <div class="log-entry">
+          <div class="log-entry-card">
+            <div class="log-entry-meta">
+              <span class="log-entry-time">1:09 PM</span>
+              <span class="log-entry-tag">Products</span>
+              <span class="log-entry-tag">Design</span>
+            </div>
+            <h3>Glasses lifestyle photos curated and wired into the gallery</h3>
+            <p>Four new phone photos came in sideways from EXIF rotation and as two near-duplicate pairs of the same lifestyle shot; corrected the rotation, kept the sharper frame from each pair &mdash; a full front view and a closer 3/4 detail crop &mdash; and wired both into the Glasses + Contact Lens Holder's thumbnail carousel. The rejected duplicates moved into a git-ignored <code>_to_delete/</code> folder rather than being deleted outright, since the device bridge still can't delete files directly.</p>
+            <span class="log-entry-commit">commit 580b768</span>
+          </div>
+        </div>
+
+        <div class="log-entry">
+          <div class="log-entry-card">
+            <div class="log-entry-meta">
+              <span class="log-entry-time">12:10 PM</span>
+              <span class="log-entry-tag">Design</span>
+              <span class="log-entry-tag">Infra</span>
+            </div>
+            <h3>Hand-coded SVG replaces the PNG nav icon, favicon added everywhere</h3>
+            <p>Rebuilt the nav/footer mark as a hand-coded inline SVG &mdash; same technique as the site's sphere logo, matched to the paper/ink/rust/gold palette &mdash; and swapped it into all 7 pages that carry it, 10 replacements in total, plus added a favicon to every page for the first time. Also confirmed the git lock-file problem isn't an iCloud quirk: it reproduced instantly on a brand-new, non-iCloud local folder too &mdash; it's a restriction of the device bridge itself, not the sync layer.</p>
+            <span class="log-entry-commit">commit 91ca76d</span>
+          </div>
+        </div>
+
+        <p class="log-day-label">September 2, 2026</p>
+
+        <div class="log-entry">
+          <div class="log-entry-card">
+            <div class="log-entry-meta">
+              <span class="log-entry-time">9:52 PM</span>
+              <span class="log-entry-tag">Products</span>
+              <span class="log-entry-tag">Infra</span>
+            </div>
+            <h3>Contact lens copy updated, repo hygiene cleanup</h3>
+            <p>Replaced the Glasses + Contact Lens Holder's description and feature bullets with new submitted marketing copy, keeping the site's own product name over the copy's generic one. Cleaned up repo hygiene alongside it &mdash; stray patch files, a <code>.bak</code> file, and an empty <code>_to_delete/</code> folder are gone, and <code>.claude/</code>, <code>*.bak</code>, and <code>_to_delete/</code> were added to <code>.gitignore</code> so they don't creep back in.</p>
+            <span class="log-entry-commit">commit be84980</span>
+          </div>
+        </div>
+
+        <div class="log-entry">
+          <div class="log-entry-card">
+            <div class="log-entry-meta">
+              <span class="log-entry-time">4:56 PM</span>
+              <span class="log-entry-tag">Products</span>
+              <span class="log-entry-tag">Design</span>
+              <span class="log-entry-tag">Docs</span>
+            </div>
+            <h3>Theo&rsquo;s Toys click bug fixed, Lab Notes recolored, and the honest ending to &ldquo;Cutting the Cord&rdquo;</h3>
+            <p>Fixed a bug where clicking a Theo's Toys product photo could leave the 3D toggle out of sync, recolored Lab Notes to match Build Log's navy/gold identity, and published a new Lab Notes post &mdash; &ldquo;Cutting the Cord&rdquo; &mdash; chronicling the push toward a laptop-optional workflow. That post got two honest follow-up rewrites once the cloud routes actually hit walls: the Cowork-hosted clone's git push is blocked by a platform proxy, and the Mac bridge can edit files but can't reliably run git since it can't delete its own lock files. Landed back on a hybrid: edit files directly in the local folder, one manual commit &amp; push finishes the job.</p>
+            <span class="log-entry-commit">commit dde6306</span>
+          </div>
+        </div>
+
+        <div class="log-entry">
+          <div class="log-entry-card">
+            <div class="log-entry-meta">
+              <span class="log-entry-time">3:30 PM</span>
+              <span class="log-entry-tag">Infra</span>
+              <span class="log-entry-tag">Docs</span>
+            </div>
+            <h3>Build Log backfilled, Codespaces and a cloud-hosted repo clone stood up</h3>
+            <p>Backfilled Build Log with 11 entries covering the previous two days' work, then stood up a real GitHub Codespace and a second, Cowork-hosted clone of the repo, aiming to get off the &ldquo;everything needs my laptop open&rdquo; pattern entirely. Both routes to a fully cloud-native workflow hit real walls before the day was out.</p>
+            <span class="log-entry-commit">commit 08e5a4b</span>
+          </div>
+        </div>
+
         <p class="log-day-label">September 1, 2026</p>
 
         <div class="log-entry">
