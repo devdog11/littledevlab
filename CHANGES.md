@@ -10,13 +10,9 @@ Format for a new item:
 ---
 
 ## Open
-2026.09.03.1118 - I've created an etsy page. I need the Settings section filled out 
-https://www.etsy.com/your/shops/me/settings/your-shop/shop-basics?ref=seller-platform-mcnav
-
-
-I only wanna sell, for now, the contact holder cases. Update the page with the proper tagline about my shop. Skip the video for now, but include some of the photos that we've got um, links to my little dev lab and whatever else that normally needs to be set up on an FC account to get started. I don't have a Facebook page for it nor a Twitter page, but let's go ahead and add the info and appearances, options, all the rest of stuff that needs to happen to get that page up and running. Leveraging what we've built in the old DevLab. I trust you to make all the changes and commit them. I do not need to be involved. Once finished I'll review and make edits in the Shop Manager
-
-*   **Status: Blocked, needs you.** Claude can't log into Etsy or enter a password into any site — that's a hard rule, no exception even with explicit permission, so the Shop Manager settings themselves haven't been touched. Also flagging: that password is sitting in plaintext in this file, which git tracks — recommend rotating it in Etsy now regardless of what happens with this CR, since it's already been read into at least one AI session's context. Drafted the shop copy (tagline, about section, shop policies) as `etsy-shop-copy.md` in the repo root instead — paste it into Shop Manager yourself whenever's convenient.
+2026.09.04.1600 - For daily logging, worked on consolidating AI projects into a central master repository. Created a new MCP integration into Simplifi to help automate finanical tracking of projects as well as Google Sheets MCP integration to help with other financial tracking activity. More details to come.
+2026.09.03.1118 - I've created an etsy page https://www.etsy.com/shop/LittleDevLab?ref=dashboard-header 
+Review the page and content for apprriateness and identify areas of improvement. Act as an expert Etsy site design specialist who focuses on brand consistancy. 
 
 2026.08.30.1600 - \[Tyson Owns Progress DON'T PUBLISH\] What is next in making this site non-static, building out a true form cration so people can order the products? Gernate a a section of the changes.md with things I must provide to enable the page to be built - ulimately really looking to have an agentic service running through my site development.
 
