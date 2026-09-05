@@ -647,6 +647,20 @@
     <div class="container">
       <div class="log-stream-inner">
 
+        <p class="log-day-label">September 5, 2026</p>
+
+        <div class="log-entry">
+          <div class="log-entry-card">
+            <div class="log-entry-meta">
+              <span class="log-entry-time">12:39 AM</span>
+              <span class="log-entry-tag">Infra</span>
+            </div>
+            <h3>AI folder consolidation, and a new class of device-bridge bug</h3>
+            <p>Spent the session consolidating six scattered AI folders &mdash; Documents/Claude, Codex, Development, plus stale iCloud and Google Drive copies of the same projects &mdash; into one tree: <code>AI/Projects</code> for live work, <code>AI/Archive</code> for chat exports and superseded duplicates. littledevlab and littledevlab-addons moved over as intact git repos, untouched mid-history. Nothing got hard-deleted in the process; everything redundant landed in Archive first, so &ldquo;did I actually delete anything&rdquo; had a precise answer instead of a hand-wave. The device bridge earned its keep along the way &mdash; a stale <code>.git/index.lock</code> got renamed instead of removed, two commits stranded in a stale duplicate got recovered by hand via <code>git show</code> plus <code>git reset --mixed</code>, and <code>rm -rf</code> on an entire mounted folder root hit a brand-new &ldquo;Device or resource busy&rdquo; error instead of the usual permission one.</p>
+            <span class="log-entry-commit">commit d88e218</span>
+          </div>
+        </div>
+
         <p class="log-day-label">September 3, 2026</p>
 
         <div class="log-entry">
