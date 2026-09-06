@@ -661,6 +661,19 @@
           </div>
         </div>
 
+        <div class="log-entry">
+          <div class="log-entry-card">
+            <div class="log-entry-meta">
+              <span class="log-entry-time">5:26 PM</span>
+              <span class="log-entry-tag">Infra</span>
+              <span class="log-entry-tag">Repo</span>
+            </div>
+            <h3>No laptop, no problem &mdash; shipping a homepage fix entirely from a phone</h3>
+            <p>Wanted to update the homepage profile photo without opening the laptop, which meant solving the actual blocker: the repo was private and the GitHub iOS app has no visibility settings at all &mdash; no Danger Zone, nothing. Safari's desktop-site view got past that; flipping the repo public there took two minutes. From there it was a normal Claude session end to end: clone, swap the photo reference to the transparent PNG, and push &mdash; authenticated with a short-lived, repo-scoped, write-only personal access token generated on the phone and good for pushing this one change. No terminal, no repo settings menu, no laptop. The device-bridge workaround that's carried most of this build log so far turns out to have a phone-shaped alternative when the repo itself is reachable.</p>
+            <span class="log-entry-commit">commit 20992c6</span>
+          </div>
+        </div>
+
         <p class="log-day-label">September 3, 2026</p>
 
         <div class="log-entry">
