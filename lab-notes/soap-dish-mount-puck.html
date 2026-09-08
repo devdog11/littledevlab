@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" type="image/png" href="../images/profile/littledevlab-icon.png" />
-  <title>Lab Notes — LittleDevLab</title>
-  <meta name="description" content="A running log of skill-building milestones behind LittleDevLab: agentic AI, 3D design/print, Python, home automation, and AI-assisted remodeling." />
+  <title>Iterating a 3D-Printed Mounting Puck to Fit a Volkano Summit V6359 Soap Dish Escutcheon — Lab Notes</title>
+  <meta name="description" content="Reverse-engineering a cast-metal escutcheon with no datasheet, calipers, and a parametric CadQuery script — five revisions from a rough first fit to a validated, watertight puck." />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -141,10 +141,6 @@
     :root {
       --products-accent: #b8873d;
       --journey-accent: #1e3a5f; /* matches Build Log's navy */
-      /* Lab Notes header now shares Build Log's own navy/gold identity */
-      --bl-navy: #1e3a5f;
-      --bl-navy-soft: #3c5d82;
-      --bl-gold: #c8a96e;
     }
     .nav-container { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
     .nav-item-dropdown[data-accent="home"] > a:hover,
@@ -204,6 +200,8 @@
       color: var(--ink);
     }
     p { margin-bottom: 18px; font-size: 1.05rem; }
+    ul.spec-list, ol.rev-list { margin: 0 0 18px 22px; }
+    ul.spec-list li, ol.rev-list li { margin-bottom: 10px; font-size: 1.02rem; }
     .lede { font-size: 1.15rem; color: var(--ink-soft); }
     .callout {
       background: var(--sand);
@@ -227,6 +225,31 @@
       color: var(--ink-soft);
       font-style: italic;
     }
+    figure.post-figure {
+      margin: 24px 0;
+    }
+    figure.post-figure img {
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--gray-200);
+      box-shadow: var(--shadow-md);
+    }
+    figure.post-figure figcaption {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: .82rem;
+      color: var(--ink-soft);
+      margin-top: 10px;
+      line-height: 1.5;
+    }
+    .figure-pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin: 24px 0;
+    }
+    .figure-pair figure.post-figure { margin: 0; }
+    @media (max-width: 620px) {
+      .figure-pair { grid-template-columns: 1fr; }
+    }
     footer {
       border-top: 1px solid var(--gray-200);
       padding: 28px 0;
@@ -236,69 +259,6 @@
       text-align: center;
     }
     footer a { color: var(--ink-soft); margin: 0 8px; }
-    .lab-header {
-      background: var(--bl-navy);
-      padding-top: 56px;
-      padding-bottom: 48px;
-      position: relative;
-      overflow: hidden;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    }
-    .lab-header::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse 60% 80% at 80% 20%, rgba(200,169,110,.16) 0%, transparent 70%);
-      pointer-events: none;
-    }
-    .lab-header-inner {
-      max-width: 1120px;
-      margin: 0 auto;
-      padding: 0 24px;
-      display: grid;
-      grid-template-columns: 1fr 240px;
-      align-items: center;
-      gap: 24px;
-      position: relative;
-    }
-    .lab-eyebrow {
-      font-size: .78rem;
-      font-weight: 600;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      color: var(--bl-gold);
-      margin-bottom: 16px;
-    }
-    .lab-header h1 {
-      font-family: Georgia, 'Iowan Old Style', 'Palatino Linotype', serif;
-      font-size: clamp(2rem, 3.6vw, 2.8rem);
-      font-weight: 700;
-      line-height: 1.15;
-      letter-spacing: -.02em;
-      color: var(--white);
-      margin-bottom: 16px;
-      max-width: 640px;
-    }
-    .lab-header p {
-      font-size: 1.02rem;
-      line-height: 1.7;
-      color: rgba(248,244,234,.75);
-      max-width: 560px;
-    }
-    .lab-header-visual { justify-self: center; }
-    .lab-header-visual svg { width: 100%; height: auto; max-width: 200px; }
-    .lab-header-visual .edge-solid { fill: none; stroke: var(--white); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; opacity: .82; }
-    .lab-header-visual .edge-hidden { fill: none; stroke: var(--bl-gold); stroke-width: 1.4; stroke-dasharray: 6 5; stroke-linecap: round; opacity: .55; }
-    .lab-header-visual .ext-line { stroke: var(--bl-gold); stroke-width: 1; opacity: .45; }
-    .lab-header-visual .dim-line { stroke: var(--bl-gold); stroke-width: 1; opacity: .6; }
-    .lab-header-visual .tick { stroke: var(--bl-gold); stroke-width: 1.4; opacity: .6; }
-    .lab-header-visual .center-mark { stroke: var(--bl-gold); stroke-width: 1.2; opacity: .8; }
-    .lab-header-visual .dim-text { fill: var(--bl-gold); font-size: 11px; letter-spacing: .01em; opacity: .75; }
-    @media (max-width: 860px) {
-      .lab-header-inner { grid-template-columns: 1fr; }
-      .lab-header-visual { display: none; }
-      .lab-header { padding-bottom: 32px; }
-    }
     .post-list { list-style: none; margin-top: 32px; }
     .post-list li { padding: 20px 0; border-bottom: 1px solid var(--gray-200); }
     .post-list li:first-child { padding-top: 0; }
@@ -397,83 +357,65 @@
     </div>
   </header>
 
-  <header class="lab-header">
-    <div class="lab-header-inner">
-      <div>
-        <p class="lab-eyebrow">Lab Notebook</p>
-        <h1>Lab Notes</h1>
-        <p>A running log of what I'm actually learning while building LittleDevLab — agentic AI, 3D design/print, Python, home automation, and AI-assisted home remodeling — documented as I go.</p>
-      </div>
-      <div class="lab-header-visual" aria-hidden="true">
-        <svg viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg">
-          <g transform="translate(160,160)">
-            <polyline points="0.00,-100.00 86.60,-50.00 86.60,50.00 -0.00,100.00 -86.60,50.00 -86.60,-50.00 0.00,-100.00" class="edge-solid"/>
-            <line x1="0.00" y1="0.00" x2="86.60" y2="-50.00" class="edge-solid"/>
-            <line x1="0.00" y1="0.00" x2="-0.00" y2="100.00" class="edge-solid"/>
-            <line x1="0.00" y1="0.00" x2="-86.60" y2="-50.00" class="edge-solid"/>
-            <line x1="0.00" y1="0.00" x2="0.00" y2="-100.00" class="edge-hidden"/>
-            <line x1="0.00" y1="0.00" x2="86.60" y2="50.00" class="edge-hidden"/>
-            <line x1="0.00" y1="0.00" x2="-86.60" y2="50.00" class="edge-hidden"/>
-            <g class="dim">
-              <line x1="86.60" y1="50.00" x2="99.60" y2="72.52" class="ext-line"/>
-              <line x1="-0.00" y1="100.00" x2="13.00" y2="122.52" class="ext-line"/>
-              <line x1="99.60" y1="72.52" x2="13.00" y2="122.52" class="dim-line"/>
-              <line x1="96.22" y1="71.61" x2="102.98" y2="73.42" class="tick"/>
-              <line x1="9.62" y1="121.61" x2="16.38" y2="123.42" class="tick"/>
-              <text x="56.30" y="97.52" class="dim-text" transform="rotate(330.00 56.30 97.52)" text-anchor="middle" dy="-4">12'-0"</text>
-            </g>
-            <g class="dim">
-              <line x1="-0.00" y1="100.00" x2="-13.00" y2="122.52" class="ext-line"/>
-              <line x1="-86.60" y1="50.00" x2="-99.60" y2="72.52" class="ext-line"/>
-              <line x1="-13.00" y1="122.52" x2="-99.60" y2="72.52" class="dim-line"/>
-              <line x1="-13.91" y1="119.14" x2="-12.09" y2="125.90" class="tick"/>
-              <line x1="-100.51" y1="69.14" x2="-98.69" y2="75.90" class="tick"/>
-              <text x="-56.30" y="97.52" class="dim-text" transform="rotate(30.00 -56.30 97.52)" text-anchor="middle" dy="-4">12'-0"</text>
-            </g>
-            <g class="dim">
-              <line x1="-86.60" y1="50.00" x2="-112.60" y2="50.00" class="ext-line"/>
-              <line x1="-86.60" y1="-50.00" x2="-112.60" y2="-50.00" class="ext-line"/>
-              <line x1="-112.60" y1="50.00" x2="-112.60" y2="-50.00" class="dim-line"/>
-              <line x1="-115.07" y1="52.47" x2="-110.13" y2="47.53" class="tick"/>
-              <line x1="-115.07" y1="-47.53" x2="-110.13" y2="-52.47" class="tick"/>
-              <text x="-112.60" y="0.00" class="dim-text" transform="rotate(-90.00 -112.60 0.00)" text-anchor="middle" dy="-4">12'-0"</text>
-            </g>
-            <line x1="-6.00" y1="0.00" x2="6.00" y2="0.00" class="center-mark"/>
-            <line x1="0.00" y1="-6.00" x2="0.00" y2="6.00" class="center-mark"/>
-          </g>
-        </svg>
-      </div>
-    </div>
-  </header>
-
   <main>
     <div class="container">
-      <ul class="post-list">
-        <li>
-          <span class="tag">3D Design &amp; Print</span>
-          <h3><a href="soap-dish-mount-puck.html">Iterating a 3D-Printed Mounting Puck to Fit a Volkano Summit V6359 Soap Dish Escutcheon</a></h3>
-          <p class="post-meta">September 8, 2026</p>
-          <p class="excerpt">Reverse-engineering a cast-metal escutcheon with no datasheet, calipers, and a parametric CadQuery script &mdash; five revisions from a rough first fit to a validated, watertight puck.</p>
-        </li>
-        <li>
-          <span class="tag">Agentic AI Skills</span>
-          <h3><a href="cloud-native-agentic-workflow.html">Cutting the Cord: Taking This Build From My Laptop to a Cloud-Native Workflow</a></h3>
-          <p class="post-meta">September 2, 2026</p>
-          <p class="excerpt">A real Codespace, a scoped GitHub token, a safety guardrail that stopped me from doing something dumb, a self-inflicted merge conflict, and the actual difference between Claude Code and Cowork.</p>
-        </li>
-        <li>
-          <span class="tag">Agentic AI Skills</span>
-          <h3><a href="prompt-and-context-engineering.html">The Real Work of Agentic AI Is Prompt and Context Engineering</a></h3>
-          <p class="post-meta">August 31, 2026</p>
-          <p class="excerpt">Agentic AI makes execution fast — the actual skill left to build is shaping what the model sees: system instructions, retrieved documents, tool descriptions, permissions, output schemas.</p>
-        </li>
-        <li>
-          <span class="tag">Agentic AI Skills</span>
-          <h3><a href="hands-on-labs-agentic-ai.html">Hands-On Labs Are How Solution Architects Actually Learn Agentic AI</a></h3>
-          <p class="post-meta">August 31, 2026</p>
-          <p class="excerpt">Why hands-on labs beat prompting-only for SAs moving from AI products to AI platforms, and the ingestion/hallucination lesson from a NotebookLM experiment.</p>
-        </li>
+      <span class="tag">3D Design &amp; Print</span>
+      <h1>Iterating a 3D-Printed Mounting Puck to Fit a Volkano Summit V6359 Soap Dish Escutcheon</h1>
+      <p class="post-meta">September 8, 2026 &middot; Lab Notes</p>
+
+      <p class="lede">Small, fiddly fit problem: adapting a 3D-printed &ldquo;puck&rdquo; that mounts a Volkano/ICO Summit V6359 soap basket into its brass escutcheon on the wall. The escutcheon is a cast-metal cavity with tight, non-standard tolerances &mdash; no datasheet, just calipers and dry-fit iteration.</p>
+
+      <h2>The Fixture: No Datasheet, Just Calipers</h2>
+      <p>The escutcheon itself only gives up its geometry the slow way &mdash; measure, sketch, print, test, remeasure. First pass at capturing the cavity by hand:</p>
+
+      <figure class="post-figure">
+        <img src="../images/lab-notes/soap-dish-mount/escutcheon-measurements-sketch.jpg" alt="Hand-drawn cross-section sketch of the escutcheon cavity with measured dimensions, including wall thickness, depth, and nub geometry" />
+        <figcaption>First-pass caliper measurements of the escutcheon cavity, sketched by hand before anything got modeled &mdash; wall thickness, cavity depth, and the offset nub geometry that the puck has to clear.</figcaption>
+      </figure>
+
+      <p>Those measurements fed the fixture geometry that the parametric model is built against:</p>
+      <ul class="spec-list">
+        <li>Escutcheon OD: 52.00&nbsp;mm</li>
+        <li>Cavity ID at opening: 48.00&nbsp;mm</li>
+        <li>Cavity ID deeper in the cup: ~47.50&nbsp;mm</li>
+        <li>Cavity depth: ~8.00&nbsp;mm</li>
+        <li>Set-screw-side boss: ~9.00&nbsp;mm wide</li>
+        <li>Center nut/bolt: ~13.60&nbsp;mm across flats, ~3.60&nbsp;mm high</li>
       </ul>
+
+      <figure class="post-figure">
+        <img src="../images/lab-notes/soap-dish-mount/escutcheon-mounting-bracket.jpg" alt="Backside of the brass escutcheon showing the keyhole mounting bracket and set screw" />
+        <figcaption>The escutcheon&rsquo;s backside &mdash; the keyhole mounting bracket and set screw that the printed puck has to key around, not just fit inside.</figcaption>
+      </figure>
+
+      <h2>Approach: Parametric CAD Instead of Freehand Modeling</h2>
+      <p>Rather than modeling this by hand in a GUI, I built it parametrically in CadQuery (Python-based CAD) so every dimension &mdash; OD, depth, notch widths, the angled retaining-nub geometry &mdash; is a named variable at the top of the script. That made it fast to push a new revision after each dry-fit test instead of re-drawing geometry by hand.</p>
+      <p>Each revision exports STEP + STL + a 3MF for slicing, runs a validation pass (STEP bounding box vs. mesh watertightness check via <code>trimesh</code>), and generates a README plus an SVG cross-section profile documenting the retaining-nub cut &mdash; so every revision is self-documenting.</p>
+
+      <h2>The Iteration History</h2>
+      <ol class="rev-list">
+        <li><strong>Rev B:</strong> First working geometry. The basket rotated flat successfully, but the angled retaining nub didn&rsquo;t enter easily &mdash; had to hand-shave ~3&nbsp;mm off the ramp to get it to seat.</li>
+        <li><strong>Rev C:</strong> Folded that fix back into the model &mdash; moved the capture-ridge boundary inward by 3&nbsp;mm, widened the nub window from 12.5&nbsp;mm to 15.5&nbsp;mm to tolerate print variance, and bumped axial depth to 6.60&nbsp;mm. Also learned the PETG prints dimensionally large, so the max OD shifted down 0.2&nbsp;mm (46.90&nbsp;mm nominal) to compensate.</li>
+        <li><strong>Rev C&rsquo;s real upgrade:</strong> redesigned the retaining-nub cut from a single one-way ramp into a two-stage &ldquo;hourglass&rdquo; pocket &mdash; a generous entry pocket, a short capture ridge, then a generous seated pocket &mdash; so the nub gets a real lead-in path before it has to clear the retaining ridge, instead of fighting interference on entry.</li>
+        <li><strong>Rev E:</strong> Increased overall axial depth again based on continued dry-fit feedback, keeping the Rev C nub geometry and screw-boss notch unchanged since those already tested well.</li>
+      </ol>
+
+      <figure class="post-figure">
+        <img src="../images/lab-notes/soap-dish-mount/puck-test-fit.jpg" alt="3D-printed puck test-fit inside the brass escutcheon, showing visible print layer lines" />
+        <figcaption>Rev E nominal print, dry-fit in the escutcheon &mdash; no adhesive, just checking that the angled-nub pocket and set-screw boss line up before committing.</figcaption>
+      </figure>
+
+      <div class="callout">One number to flag before it goes further: the source devlog for this revision describes Rev E&rsquo;s axial depth as 8.5&nbsp;mm, but the packaged STEP/3MF files and their own validation report both measure a 10.00&nbsp;mm bounding-box depth (+3.40&nbsp;mm over Rev C&rsquo;s 6.60&nbsp;mm) for both the nominal and loose variants. The numbers here follow what the shipped files actually measure &mdash; worth reconciling which figure is correct before the next revision goes to print.</div>
+
+      <h2>Tooling</h2>
+      <ul class="spec-list">
+        <li>Parametric script in CadQuery, run from a dedicated Python 3.12 venv kept outside the iCloud-synced project folder &mdash; venvs are thousands of small files, and letting iCloud sync/evict them is a bad idea.</li>
+        <li>OCP CAD Viewer extension for VS Code, for live geometry preview while iterating on dimensions, plus its built-in measure tool to double-check specific distances and angles against the real fixture measurements.</li>
+        <li>A validation script that diffs the STEP bounding box against the exported mesh on every build, so a bad export or dimension typo gets caught immediately rather than at the printer.</li>
+      </ul>
+
+      <h2>Status</h2>
+      <p>Rev E is packaged and ready to print &mdash; a nominal variant and a 0.2&nbsp;mm-loose variant, both watertight per the validation pass. Next step is the physical dry-fit against the real escutcheon.</p>
 
     </div>
   </main>
