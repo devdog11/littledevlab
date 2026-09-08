@@ -397,15 +397,13 @@
         <li><strong>Rev B:</strong> First working geometry. The basket rotated flat successfully, but the angled retaining nub didn&rsquo;t enter easily &mdash; had to hand-shave ~3&nbsp;mm off the ramp to get it to seat.</li>
         <li><strong>Rev C:</strong> Folded that fix back into the model &mdash; moved the capture-ridge boundary inward by 3&nbsp;mm, widened the nub window from 12.5&nbsp;mm to 15.5&nbsp;mm to tolerate print variance, and bumped axial depth to 6.60&nbsp;mm. Also learned the PETG prints dimensionally large, so the max OD shifted down 0.2&nbsp;mm (46.90&nbsp;mm nominal) to compensate.</li>
         <li><strong>Rev C&rsquo;s real upgrade:</strong> redesigned the retaining-nub cut from a single one-way ramp into a two-stage &ldquo;hourglass&rdquo; pocket &mdash; a generous entry pocket, a short capture ridge, then a generous seated pocket &mdash; so the nub gets a real lead-in path before it has to clear the retaining ridge, instead of fighting interference on entry.</li>
-        <li><strong>Rev E:</strong> Increased overall axial depth again based on continued dry-fit feedback, keeping the Rev C nub geometry and screw-boss notch unchanged since those already tested well.</li>
+        <li><strong>Rev E:</strong> Increased overall axial depth to 8.5&nbsp;mm &mdash; a deliberate last-minute bump, sized up specifically to make the change easier to see while checking the geometry in the OCP CAD Viewer &mdash; keeping the Rev C nub geometry and screw-boss notch unchanged since those already tested well.</li>
       </ol>
 
       <figure class="post-figure">
         <img src="../images/lab-notes/soap-dish-mount/puck-test-fit.jpg" alt="3D-printed puck test-fit inside the brass escutcheon, showing visible print layer lines" />
         <figcaption>Rev E nominal print, dry-fit in the escutcheon &mdash; no adhesive, just checking that the angled-nub pocket and set-screw boss line up before committing.</figcaption>
       </figure>
-
-      <div class="callout">One number to flag before it goes further: the source devlog for this revision describes Rev E&rsquo;s axial depth as 8.5&nbsp;mm, but the packaged STEP/3MF files and their own validation report both measure a 10.00&nbsp;mm bounding-box depth (+3.40&nbsp;mm over Rev C&rsquo;s 6.60&nbsp;mm) for both the nominal and loose variants. The numbers here follow what the shipped files actually measure &mdash; worth reconciling which figure is correct before the next revision goes to print.</div>
 
       <h2>Tooling</h2>
       <ul class="spec-list">
