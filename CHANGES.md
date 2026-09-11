@@ -11,19 +11,8 @@ Format for a new item:
 
 ## Open
 
-2026.09.10.1300 - Working on getting SNOW MCP working in Home Assistant. Hit a few snags doing it manually, decided to leverage cloudflares Claude/AI MCP integration and had Claude document the process
+2026.09.10.1700 - Create a build log reflectin that I Finally got the end-to-end SNOW to LittleDevLab updates automated through a CloudFlare tunnel + a ServiceNow MCP hosted on my home NUC's Home Automation. It might not be the most "production ready" since it isn't cloud hosted but I learned all of the mechanices of setting up the various pieces and in the Build Log provide a link to the Lab Notes described in this next scentence.  Then create a Lab Notes entry using the SETUP_SERVICENOW_INTEGRATION.md as source - do a little refinement for external consumption and making it HTML and nicely formated. And... if it's a public URL make it the whole URL that can be clicked instead of words. as steps like was in the md (e.g. Go to claude.ai/customize/connectors  should just be https://claude.ai/customize/connectors→ Add custom connector. )
 
->   
-> Done — here's the mechanism, and one correction to what the setup doc's fetch summary told me earlier (it overstated it):
-> 
-> *   `claude plugin marketplace add cloudflare/skills` — registers Cloudflare's GitHub repo (github.com/cloudflare/skills) as a plugin source (just a git clone, no auth).
-> *   `claude plugin install cloudflare@cloudflare` — pulls the cloudflare plugin from that repo and enables it. Confirmed installed via claude plugin list.
-> *   Its manifest (`.mcp.json`) declares one MCP server, not five: `cloudflare` → `https://mcp.cloudflare.com/mcp`. The earlier "5 servers" summary was the fetch tool over-reading the docs page — the actual plugin only wires up the single unified Cloudflare MCP endpoint (plus some Workers/Wrangler skill docs).
-> *   It needs a session reload to actually attach, and OAuth against your Cloudflare account triggers the first time a tool from it is called — I'll surface that consent step to you rather than click through it myself.
-> 
-> Caveat worth knowing: I installed this into this cloud sandbox's Claude Code config, which is ephemeral — it won't carry over to your own machine's Claude Code. If you want it persistent for your local CLI, run those same two commands in your own terminal.
-> 
-> Once reloaded, that MCP server would give me direct API access to your zones/tunnels — actually useful for the DNS/tunnel steps in your ServiceNow setup, instead of me clicking through the dashboard. Want to keep going that route once it's live?
 
 2026.09.04.1600 - For daily logging, worked on consolidating AI projects into a central master repository. Created a new MCP integration into Simplifi to help automate finanical tracking of projects as well as Google Sheets MCP integration to help with other financial tracking activity. More details to come.  
 2026.09.03.1118 - I've created an etsy page https://www.etsy.com/shop/LittleDevLab?ref=dashboard-header  
