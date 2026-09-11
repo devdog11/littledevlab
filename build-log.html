@@ -647,6 +647,21 @@
     <div class="container">
       <div class="log-stream-inner">
 
+        <p class="log-day-label">September 10, 2026</p>
+
+        <div class="log-entry">
+          <div class="log-entry-card">
+            <div class="log-entry-meta">
+              <span class="log-entry-time">8:42 PM</span>
+              <span class="log-entry-tag">Infra</span>
+              <span class="log-entry-tag">Agentic AI</span>
+            </div>
+            <h3>ServiceNow-to-LittleDevLab pipeline goes end to end &mdash; self-hosted, not the built-in connector</h3>
+            <p>Finally got a real ServiceNow MCP server talking to Claude end to end: packaged as a Home Assistant add-on on my NUC, tunneled to the public internet through Cloudflare, and registered as a remote connector at claude.ai &mdash; deliberately self-hosted instead of using Claude's built-in ServiceNow registry connector, since the mechanics were the whole point of this track. Not exactly &ldquo;production ready&rdquo; since nothing here is cloud-hosted, but every piece of it &mdash; the add-on, the tunnel, the connector registration, the tool-permission tuning &mdash; is real and running today. Full write-up, with the actual steps and the friction that came with each one, is in the new Lab Notes post: <a href="lab-notes/servicenow-mcp-home-assistant-cloudflare.html">Self-Hosting a ServiceNow MCP Server on a Home NUC, Wired Into Claude</a>.</p>
+            <span class="log-entry-commit">commit (pending push)</span>
+          </div>
+        </div>
+
         <p class="log-day-label">September 5, 2026</p>
 
         <div class="log-entry">

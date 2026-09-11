@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" type="image/png" href="../images/profile/littledevlab-icon.png" />
-  <title>Lab Notes — LittleDevLab</title>
-  <meta name="description" content="A running log of skill-building milestones behind LittleDevLab: agentic AI, 3D design/print, Python, home automation, and AI-assisted remodeling." />
+  <title>Self-Hosting a ServiceNow MCP Server on a Home NUC, Wired Into Claude — Lab Notes</title>
+  <meta name="description" content="Packaging a ServiceNow MCP server as a Home Assistant add-on, tunneling it out through Cloudflare, and registering it as a remote connector at claude.ai — end to end, on hardware I own." />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -141,10 +141,6 @@
     :root {
       --products-accent: #b8873d;
       --journey-accent: #1e3a5f; /* matches Build Log's navy */
-      /* Lab Notes header now shares Build Log's own navy/gold identity */
-      --bl-navy: #1e3a5f;
-      --bl-navy-soft: #3c5d82;
-      --bl-gold: #c8a96e;
     }
     .nav-container { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
     .nav-item-dropdown[data-accent="home"] > a:hover,
@@ -204,6 +200,8 @@
       color: var(--ink);
     }
     p { margin-bottom: 18px; font-size: 1.05rem; }
+    ul.spec-list, ol.rev-list, ol.step-list { margin: 0 0 18px 22px; }
+    ul.spec-list li, ol.rev-list li, ol.step-list li { margin-bottom: 10px; font-size: 1.02rem; }
     .lede { font-size: 1.15rem; color: var(--ink-soft); }
     .callout {
       background: var(--sand);
@@ -215,17 +213,49 @@
       font-size: .92rem;
       color: var(--ink-soft);
     }
-    .placeholder {
-      display: block;
+    .callout strong { color: var(--ink); }
+    code {
+      font-family: 'SF Mono', Menlo, Consolas, monospace;
+      font-size: .88em;
       background: var(--gray-100);
-      border: 1px dashed var(--gray-400);
-      border-radius: var(--radius);
-      padding: 12px 16px;
-      margin: 10px 0 18px;
+      border: 1px solid var(--gray-200);
+      border-radius: 3px;
+      padding: .1em .35em;
+    }
+    .perm-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0 28px;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       font-size: .88rem;
+    }
+    .perm-table th, .perm-table td {
+      text-align: left;
+      padding: 9px 12px;
+      border-bottom: 1px solid var(--gray-200);
+    }
+    .perm-table th {
+      font-size: .72rem;
+      text-transform: uppercase;
+      letter-spacing: .06em;
       color: var(--ink-soft);
-      font-style: italic;
+      font-weight: 700;
+    }
+    .perm-table tr:last-child td { border-bottom: none; }
+    .perm-table .allow { color: #3f6e3f; font-weight: 600; }
+    .perm-table .approval { color: var(--ink-soft); }
+    figure.post-figure { margin: 24px 0; }
+    figure.post-figure img {
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--gray-200);
+      box-shadow: var(--shadow-md);
+    }
+    figure.post-figure figcaption {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: .82rem;
+      color: var(--ink-soft);
+      margin-top: 10px;
+      line-height: 1.5;
     }
     footer {
       border-top: 1px solid var(--gray-200);
@@ -236,75 +266,6 @@
       text-align: center;
     }
     footer a { color: var(--ink-soft); margin: 0 8px; }
-    .lab-header {
-      background: var(--bl-navy);
-      padding-top: 56px;
-      padding-bottom: 48px;
-      position: relative;
-      overflow: hidden;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    }
-    .lab-header::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse 60% 80% at 80% 20%, rgba(200,169,110,.16) 0%, transparent 70%);
-      pointer-events: none;
-    }
-    .lab-header-inner {
-      max-width: 1120px;
-      margin: 0 auto;
-      padding: 0 24px;
-      display: grid;
-      grid-template-columns: 1fr 240px;
-      align-items: center;
-      gap: 24px;
-      position: relative;
-    }
-    .lab-eyebrow {
-      font-size: .78rem;
-      font-weight: 600;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      color: var(--bl-gold);
-      margin-bottom: 16px;
-    }
-    .lab-header h1 {
-      font-family: Georgia, 'Iowan Old Style', 'Palatino Linotype', serif;
-      font-size: clamp(2rem, 3.6vw, 2.8rem);
-      font-weight: 700;
-      line-height: 1.15;
-      letter-spacing: -.02em;
-      color: var(--white);
-      margin-bottom: 16px;
-      max-width: 640px;
-    }
-    .lab-header p {
-      font-size: 1.02rem;
-      line-height: 1.7;
-      color: rgba(248,244,234,.75);
-      max-width: 560px;
-    }
-    .lab-header-visual { justify-self: center; }
-    .lab-header-visual svg { width: 100%; height: auto; max-width: 200px; }
-    .lab-header-visual .edge-solid { fill: none; stroke: var(--white); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; opacity: .82; }
-    .lab-header-visual .edge-hidden { fill: none; stroke: var(--bl-gold); stroke-width: 1.4; stroke-dasharray: 6 5; stroke-linecap: round; opacity: .55; }
-    .lab-header-visual .ext-line { stroke: var(--bl-gold); stroke-width: 1; opacity: .45; }
-    .lab-header-visual .dim-line { stroke: var(--bl-gold); stroke-width: 1; opacity: .6; }
-    .lab-header-visual .tick { stroke: var(--bl-gold); stroke-width: 1.4; opacity: .6; }
-    .lab-header-visual .center-mark { stroke: var(--bl-gold); stroke-width: 1.2; opacity: .8; }
-    .lab-header-visual .dim-text { fill: var(--bl-gold); font-size: 11px; letter-spacing: .01em; opacity: .75; }
-    @media (max-width: 860px) {
-      .lab-header-inner { grid-template-columns: 1fr; }
-      .lab-header-visual { display: none; }
-      .lab-header { padding-bottom: 32px; }
-    }
-    .post-list { list-style: none; margin-top: 32px; }
-    .post-list li { padding: 20px 0; border-bottom: 1px solid var(--gray-200); }
-    .post-list li:first-child { padding-top: 0; }
-    .post-list h3 { margin: 8px 0 6px; }
-    .post-list .excerpt { color: var(--ink-soft); font-size: .95rem; margin: 0; }
-
   </style>
 </head>
 <body>
@@ -397,89 +358,104 @@
     </div>
   </header>
 
-  <header class="lab-header">
-    <div class="lab-header-inner">
-      <div>
-        <p class="lab-eyebrow">Lab Notebook</p>
-        <h1>Lab Notes</h1>
-        <p>A running log of what I'm actually learning while building LittleDevLab — agentic AI, 3D design/print, Python, home automation, and AI-assisted home remodeling — documented as I go.</p>
-      </div>
-      <div class="lab-header-visual" aria-hidden="true">
-        <svg viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg">
-          <g transform="translate(160,160)">
-            <polyline points="0.00,-100.00 86.60,-50.00 86.60,50.00 -0.00,100.00 -86.60,50.00 -86.60,-50.00 0.00,-100.00" class="edge-solid"/>
-            <line x1="0.00" y1="0.00" x2="86.60" y2="-50.00" class="edge-solid"/>
-            <line x1="0.00" y1="0.00" x2="-0.00" y2="100.00" class="edge-solid"/>
-            <line x1="0.00" y1="0.00" x2="-86.60" y2="-50.00" class="edge-solid"/>
-            <line x1="0.00" y1="0.00" x2="0.00" y2="-100.00" class="edge-hidden"/>
-            <line x1="0.00" y1="0.00" x2="86.60" y2="50.00" class="edge-hidden"/>
-            <line x1="0.00" y1="0.00" x2="-86.60" y2="50.00" class="edge-hidden"/>
-            <g class="dim">
-              <line x1="86.60" y1="50.00" x2="99.60" y2="72.52" class="ext-line"/>
-              <line x1="-0.00" y1="100.00" x2="13.00" y2="122.52" class="ext-line"/>
-              <line x1="99.60" y1="72.52" x2="13.00" y2="122.52" class="dim-line"/>
-              <line x1="96.22" y1="71.61" x2="102.98" y2="73.42" class="tick"/>
-              <line x1="9.62" y1="121.61" x2="16.38" y2="123.42" class="tick"/>
-              <text x="56.30" y="97.52" class="dim-text" transform="rotate(330.00 56.30 97.52)" text-anchor="middle" dy="-4">12'-0"</text>
-            </g>
-            <g class="dim">
-              <line x1="-0.00" y1="100.00" x2="-13.00" y2="122.52" class="ext-line"/>
-              <line x1="-86.60" y1="50.00" x2="-99.60" y2="72.52" class="ext-line"/>
-              <line x1="-13.00" y1="122.52" x2="-99.60" y2="72.52" class="dim-line"/>
-              <line x1="-13.91" y1="119.14" x2="-12.09" y2="125.90" class="tick"/>
-              <line x1="-100.51" y1="69.14" x2="-98.69" y2="75.90" class="tick"/>
-              <text x="-56.30" y="97.52" class="dim-text" transform="rotate(30.00 -56.30 97.52)" text-anchor="middle" dy="-4">12'-0"</text>
-            </g>
-            <g class="dim">
-              <line x1="-86.60" y1="50.00" x2="-112.60" y2="50.00" class="ext-line"/>
-              <line x1="-86.60" y1="-50.00" x2="-112.60" y2="-50.00" class="ext-line"/>
-              <line x1="-112.60" y1="50.00" x2="-112.60" y2="-50.00" class="dim-line"/>
-              <line x1="-115.07" y1="52.47" x2="-110.13" y2="47.53" class="tick"/>
-              <line x1="-115.07" y1="-47.53" x2="-110.13" y2="-52.47" class="tick"/>
-              <text x="-112.60" y="0.00" class="dim-text" transform="rotate(-90.00 -112.60 0.00)" text-anchor="middle" dy="-4">12'-0"</text>
-            </g>
-            <line x1="-6.00" y1="0.00" x2="6.00" y2="0.00" class="center-mark"/>
-            <line x1="0.00" y1="-6.00" x2="0.00" y2="6.00" class="center-mark"/>
-          </g>
-        </svg>
-      </div>
-    </div>
-  </header>
-
   <main>
     <div class="container">
-      <ul class="post-list">
-        <li>
-          <span class="tag">Agentic AI Skills</span>
-          <h3><a href="servicenow-mcp-home-assistant-cloudflare.html">Self-Hosting a ServiceNow MCP Server on a Home NUC, Wired Into Claude</a></h3>
-          <p class="post-meta">September 10, 2026</p>
-          <p class="excerpt">Packaging a ServiceNow MCP server as a Home Assistant add-on, tunneling it out through Cloudflare, and registering it as a remote connector at claude.ai &mdash; end to end, on hardware I own.</p>
-        </li>
-        <li>
-          <span class="tag">3D Design &amp; Print</span>
-          <h3><a href="soap-dish-mount-puck.html">Iterating a 3D-Printed Mounting Puck to Fit a Volkano Summit V6359 Soap Dish Escutcheon</a></h3>
-          <p class="post-meta">September 8, 2026</p>
-          <p class="excerpt">Reverse-engineering a cast-metal escutcheon with no datasheet, calipers, and a parametric CadQuery script &mdash; five revisions from a rough first fit to a validated, watertight puck.</p>
-        </li>
-        <li>
-          <span class="tag">Agentic AI Skills</span>
-          <h3><a href="cloud-native-agentic-workflow.html">Cutting the Cord: Taking This Build From My Laptop to a Cloud-Native Workflow</a></h3>
-          <p class="post-meta">September 2, 2026</p>
-          <p class="excerpt">A real Codespace, a scoped GitHub token, a safety guardrail that stopped me from doing something dumb, a self-inflicted merge conflict, and the actual difference between Claude Code and Cowork.</p>
-        </li>
-        <li>
-          <span class="tag">Agentic AI Skills</span>
-          <h3><a href="prompt-and-context-engineering.html">The Real Work of Agentic AI Is Prompt and Context Engineering</a></h3>
-          <p class="post-meta">August 31, 2026</p>
-          <p class="excerpt">Agentic AI makes execution fast — the actual skill left to build is shaping what the model sees: system instructions, retrieved documents, tool descriptions, permissions, output schemas.</p>
-        </li>
-        <li>
-          <span class="tag">Agentic AI Skills</span>
-          <h3><a href="hands-on-labs-agentic-ai.html">Hands-On Labs Are How Solution Architects Actually Learn Agentic AI</a></h3>
-          <p class="post-meta">August 31, 2026</p>
-          <p class="excerpt">Why hands-on labs beat prompting-only for SAs moving from AI products to AI platforms, and the ingestion/hallucination lesson from a NotebookLM experiment.</p>
-        </li>
+      <span class="tag">Agentic AI Skills</span>
+      <h1>Self-Hosting a ServiceNow MCP Server on a Home NUC, Wired Into Claude</h1>
+      <p class="post-meta">September 10, 2026 &middot; Lab Notes</p>
+
+      <p class="lede">Claude already ships a built-in ServiceNow connector. I didn't use it. The point of this track is learning the actual mechanics &mdash; running a real MCP server, exposing it safely to the internet, and registering it as a remote connector myself &mdash; on hardware I own rather than someone else's managed integration.</p>
+
+      <p>The pieces: a ServiceNow MCP server packaged as a Home Assistant add-on on my NUC, a Cloudflare Tunnel to get it off my home network without opening a port, and a remote connector registration at Claude so it can actually call the thing. Three separate systems, three separate sets of gotchas.</p>
+
+      <h2>Part 1 &mdash; The Home Assistant Add-on</h2>
+      <p>The add-on lives in a public sibling repo, <a href="https://github.com/devdog11/littledevlab-addons" target="_blank" rel="noopener">https://github.com/devdog11/littledevlab-addons</a> &mdash; it has to stay public because Home Assistant's Supervisor can't clone a private repo without credentials. It wraps <a href="https://github.com/jschuller/mcp-server-servicenow" target="_blank" rel="noopener">https://github.com/jschuller/mcp-server-servicenow</a>, run via <code>uvx</code> with <code>--transport streamable-http</code>, pointed at a ServiceNow dev/PDI instance over OAuth.</p>
+
+      <p>One detail worth calling out because it's easy to conflate: the add-on's Configuration page has <strong>two independent auth layers</strong>. The <code>username</code> / <code>password</code> / <code>client_id</code> / <code>client_secret</code> fields are the add-on's own login to my ServiceNow instance &mdash; Claude never touches them. A separate <code>static_token</code> field is the bearer token that <em>callers</em> (Claude, via the tunnel) have to present to reach the MCP endpoint. Two different problems, two different secrets, and it's worth keeping that distinction straight before you start debugging an auth failure in the wrong place.</p>
+
+      <div class="callout">
+        <strong>Known friction:</strong> writing secrets into the add-on's Supervisor Options through the automation API gets blocked by a safety classifier almost every time &mdash; enter tokens manually through the Home Assistant UI instead. Also, any change to the add-on's <code>run.sh</code> or <code>config.yaml</code> needs a full uninstall &rarr; remove repository &rarr; add repository &rarr; install cycle, since Supervisor doesn't re-pull git changes on its own.
+      </div>
+
+      <h2>Part 2 &mdash; Cloudflare Tunnel</h2>
+      <p>The add-on listens on the NUC's internal Docker network only &mdash; nothing routes to it from the internet by default, which is the point. A Cloudflare Tunnel gets it out without forwarding a port on my home router.</p>
+
+      <h3>Create the tunnel</h3>
+      <ol class="step-list">
+        <li>Cloudflare Zero Trust dashboard &rarr; <strong>Networks &rarr; Tunnels &amp; Mesh</strong> (renamed from just &ldquo;Tunnels&rdquo; &mdash; same place) &rarr; <strong>Create a tunnel</strong> &rarr; choose <strong>Cloudflared</strong>.</li>
+        <li>Name it something you're willing to live with &mdash; deleting a tunnel later doesn't cleanly free its name, the DNS pointer sticks to it. If you do delete one, give the replacement a new name rather than trying to reuse the old one.</li>
+        <li>Cloudflare shows an install command with a token embedded. Skip the install command &mdash; just copy the tunnel token out of it and keep it in a password manager, not in the repo.</li>
+      </ol>
+
+      <h3>Point the Home Assistant add-on at it</h3>
+      <ol class="step-list">
+        <li><strong>Settings &rarr; Apps &rarr; Cloudflare Tunnel &rarr; Configuration</strong>, paste the tunnel token directly into the token field.</li>
+        <li>Save and restart the add-on, then check its logs for &ldquo;Registered tunnel connection&rdquo; to confirm it's actually connected.</li>
+      </ol>
+
+      <div class="callout">
+        <strong>Rotating the tunnel token later:</strong> there's no obvious &ldquo;regenerate&rdquo; button on the tunnel's Overview page. Instead, open the tunnel &rarr; <strong>Connectors</strong> &rarr; <strong>Add a connector</strong>, then scroll past the install commands to <strong>Refresh token</strong>. That invalidates the old token for new connections but doesn't disconnect a cloudflared instance already running on it &mdash; you still have to copy the new token into the add-on's config and restart it, or it keeps running on the old, now-dead token. Confirm the rotation actually took by checking the Connectors tab shows a fresh &ldquo;last seen&rdquo; timestamp, not a stale &ldquo;Healthy&rdquo; left over from before.
+      </div>
+
+      <h3>Add the public hostname route</h3>
+      <ol class="step-list">
+        <li>On the tunnel's <strong>Hostname routes</strong> tab (previously &ldquo;Public Hostname&rdquo;) &rarr; <strong>Add a public hostname</strong>.</li>
+        <li>Subdomain <code>snow-mcp</code>, your domain, service type <code>HTTP</code>, URL pointed at the add-on's internal hostname and port. Save &mdash; Cloudflare creates the DNS record automatically.</li>
+      </ol>
+
+      <h3>Test it from outside the house</h3>
+      <p>From a device off the home network &mdash; phone on cellular works &mdash; hit the public hostname's <code>/mcp</code> path. An auth error at that point is actually good news: it means routing works and only the bearer token check is left. One trap: don't bother testing the add-on's internal hostname directly in a browser &mdash; that name only resolves inside Home Assistant Supervisor's own Docker network, so &ldquo;can't be reached&rdquo; there is expected and tells you nothing about whether the add-on itself is healthy. Check its Logs tab for a clean <code>Uvicorn running on http://0.0.0.0:8080</code> instead.</p>
+
+      <h2>Part 3 &mdash; Registering the Remote Connector at Claude</h2>
+      <ol class="step-list">
+        <li>Go to <a href="https://claude.ai/customize/connectors" target="_blank" rel="noopener">https://claude.ai/customize/connectors</a> &rarr; <strong>Add custom connector</strong>, name it, and point it at the tunnel's public <code>/mcp</code> URL.</li>
+        <li>Under <strong>Authentication</strong>, Claude will likely auto-detect &ldquo;Sign in now&rdquo; (OAuth) &mdash; that's a false positive. This server doesn't do a real OAuth handshake, it just checks a static bearer token. Select <strong>No sign-in</strong> instead.</li>
+        <li>Under <strong>Request headers</strong>, add one: name <code>Authorization</code>, value the literal string <code>Bearer </code> followed by the token. The field does not add the &ldquo;Bearer &rdquo; prefix for you &mdash; type it yourself, or every call fails auth for a reason that looks nothing like a missing prefix.</li>
+        <li>The token itself comes from the add-on's own Configuration page &mdash; the <code>static_token</code> field, not the ServiceNow login fields next to it.</li>
+        <li>Add the connector, then test the connection before moving on. &ldquo;Couldn't connect to the server&rdquo; means a routing/tunnel problem; an auth failure means the token pasted into Claude doesn't match the add-on's current <code>static_token</code> &mdash; check the add-on's logs for the exact mismatch.</li>
+      </ol>
+
+      <h3>Tool permissions</h3>
+      <p>Once connected, the connector's detail page shows a permissions list for every tool the server exposes, split into read-only and write/delete groups, each individually settable to Always Allow, Needs Approval, or Deny. Here's where I landed:</p>
+
+      <table class="perm-table">
+        <thead>
+          <tr><th>Tool</th><th>Type</th><th>Permission</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Aggregate Records</td><td>Read-only</td><td class="allow">Always allow</td></tr>
+          <tr><td>Get Ci</td><td>Read-only</td><td class="allow">Always allow</td></tr>
+          <tr><td>Get Ci Relationships</td><td>Read-only</td><td class="allow">Always allow</td></tr>
+          <tr><td>Get Current User</td><td>Read-only</td><td class="allow">Always allow</td></tr>
+          <tr><td>Get Record</td><td>Read-only</td><td class="allow">Always allow</td></tr>
+          <tr><td>Get System Properties</td><td>Read-only</td><td class="allow">Always allow</td></tr>
+          <tr><td>Get Table Schema</td><td>Read-only</td><td class="allow">Always allow</td></tr>
+          <tr><td>Get Update Set</td><td>Read-only</td><td class="allow">Always allow</td></tr>
+          <tr><td>List Ci</td><td>Read-only</td><td class="allow">Always allow</td></tr>
+          <tr><td>List Records</td><td>Read-only</td><td class="allow">Always allow</td></tr>
+          <tr><td>List Update Set Changes</td><td>Read-only</td><td class="allow">Always allow</td></tr>
+          <tr><td>List Update Sets</td><td>Read-only</td><td class="allow">Always allow</td></tr>
+          <tr><td>Create Ci</td><td>Write/delete</td><td class="approval">Needs approval</td></tr>
+          <tr><td>Create Record</td><td>Write/delete</td><td class="approval">Needs approval</td></tr>
+          <tr><td>Create Update Set</td><td>Write/delete</td><td class="approval">Needs approval</td></tr>
+          <tr><td>Delete Record</td><td>Write/delete</td><td class="approval">Needs approval</td></tr>
+          <tr><td>Set Current Update Set</td><td>Write/delete</td><td class="approval">Needs approval</td></tr>
+          <tr><td>Update Ci</td><td>Write/delete</td><td class="approval">Needs approval</td></tr>
+          <tr><td>Update Record</td><td>Write/delete</td><td class="allow">Always allow</td></tr>
+        </tbody>
+      </table>
+
+      <p>Lookups against a dev instance are low-risk, so the whole read-only group is set to auto-allow &mdash; no reason to interrupt myself to approve a <code>List Records</code> call. Everything that creates, deletes, or reassigns state stays gated behind approval, with one exception: <code>Update Record</code>, opened up because the downstream automation I'm building only ever updates existing change requests, never creates or deletes anything.</p>
+
+      <h2>Lessons Worth Keeping</h2>
+      <ul class="spec-list">
+        <li>Two independent secrets are easy to conflate: the Cloudflare tunnel token (routes traffic to the NUC) and the MCP static bearer token (authenticates Claude to the server itself). Rotating one has zero effect on the other &mdash; regenerating the tunnel token doesn't touch the connector's saved header, and vice versa.</li>
+        <li>Any change to the add-on's own code requires the full uninstall/reinstall dance &mdash; there's no lighter &ldquo;reload from git&rdquo; option in Supervisor.</li>
+        <li>Automating secret entry through an API is the wrong instinct here anyway &mdash; the manual UI path is what actually works, consistently, every time.</li>
       </ul>
+
+      <h2>What's Next</h2>
+      <p>The connector is live and the permission set above is what I'm running with today. Still open: a <code>sync-servicenow</code> command that's meant to pull change requests tagged with a <code>littledevlab</code> category into this site's own change log automatically &mdash; blocked on confirming the category value in ServiceNow and a pass over what's safe to publish verbatim. That's the next post in this track.</p>
 
     </div>
   </main>
@@ -488,7 +464,6 @@
       <p>&copy; 2026 LittleDevLab &middot; SF Bay Area &middot; <a href="index.html">All Lab Notes</a> &middot; <a href="../index.html">Home</a></p>
     </div>
   </footer>
-
 
   <script>
     const navToggle = document.getElementById('navToggle');
@@ -499,7 +474,6 @@
         mobileNav.classList.toggle('open');
       });
     }
-    // ── Mobile dropdown submenu toggles (Home / Products / Lab Journey) ──
     document.querySelectorAll('.mobile-link-toggle[data-toggle]').forEach(btn => {
       btn.addEventListener('click', () => {
         const submenu = document.getElementById(btn.getAttribute('data-toggle'));
