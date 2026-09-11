@@ -1,0 +1,58 @@
+name: Sync ServiceNow tickets
+
+on:
+  schedule:
+    # UTC cron can't express a fixed Pacific local time across DST, so we
+    # fire at both possible UTC offsets for 10am and 4pm PT and let the
+    # guard step below skip the one that doesn't match local PT hour.
+    - cron: '0 17 * * *'  # 10:00 PDT (UTC-7)
+    - cron: '0 18 * * *'  # 10:00 PST (UTC-8)
+    - cron: '0 23 * * *'  # 16:00 PDT (UTC-7)
+    - cron: '0 0 * * *'   # 16:00 PST (UTC-8)
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Skip unless it's actually 10am or 4pm Pacific
+        if: github.event_name == 'schedule'
+        run: |
+          hour=$(TZ=America/Los_Angeles date +%H)
+          if [ "$hour" != "10" ] && [ "$hour" != "16" ]; then
+            echo "Current Pacific hour is $hour, not 10 or 16 — skipping."
+            echo "SKIP=true" >> "$GITHUB_ENV"
+          fi
+
+      - uses: actions/checkout@v4
+        if: env.SKIP != 'true'
+
+      - uses: actions/setup-python@v5
+        if: env.SKIP != 'true'
+        with:
+          python-version: '3.x'
+
+      - name: Run sync script
+        if: env.SKIP != 'true'
+        env:
+          SERVICENOW_INSTANCE_URL: ${{ secrets.SERVICENOW_INSTANCE_URL }}
+          SERVICENOW_CLIENT_ID: ${{ secrets.SERVICENOW_CLIENT_ID }}
+          SERVICENOW_CLIENT_SECRET: ${{ secrets.SERVICENOW_CLIENT_SECRET }}
+          SERVICENOW_USERNAME: ${{ secrets.SERVICENOW_USERNAME }}
+          SERVICENOW_PASSWORD: ${{ secrets.SERVICENOW_PASSWORD }}
+        run: python3 scripts/sync_servicenow.py
+
+      - name: Commit and push if CHANGES.md changed
+        if: env.SKIP != 'true'
+        run: |
+          if git diff --quiet CHANGES.md; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add CHANGES.md
+          git commit -m "Sync new ServiceNow tickets into CHANGES.md" -m "Automated sync via scheduled workflow." -m "Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>"
+          git push
