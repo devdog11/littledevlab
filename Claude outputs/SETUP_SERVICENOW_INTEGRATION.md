@@ -76,7 +76,7 @@ This ties together three pieces:
    it. Store it in a password manager, not this repo.
 
 **2. Configure the HA cloudflared add-on**
-1. HA: **Settings → Add-ons → Cloudflare Tunnel → Configuration**.
+1. HA: **Settings → Apps → Cloudflare Tunnel → Configuration**.
 2. Paste the tunnel token into the token field via the HA UI directly.
 3. Save and start (or restart) the add-on.
 4. Check the add-on logs to confirm it connects
@@ -120,7 +120,7 @@ On your tunnel in the Zero Trust dashboard:
   regular browser** — that internal hostname only resolves inside HA
   Supervisor's internal Docker network. "Can't be reached" there is
   expected and tells you nothing about add-on/tunnel health. To verify
-  the add-on itself is up, check its **Logs** tab (Settings → Add-ons →
+  the add-on itself is up, check its **Logs** tab (Settings → Apps →
   ServiceNow MCP → Logs) — a clean start shows
   `Uvicorn running on http://0.0.0.0:8080`.
 
@@ -128,8 +128,9 @@ On your tunnel in the Zero Trust dashboard:
 
 ## Part 3 — Register as a Remote Connector in claude.ai
 
+**1. Add the connector**
 1. Go to **claude.ai/customize/connectors** → **Add custom connector**.
-2. Name it and point it at `https://snow-mcp.littledevlab.com/mcp`.
+2. Name it `snow-mcp` and point it at `https://snow-mcp.littledevlab.com/mcp`.
 3. Under **Authentication**, Claude will likely auto-detect "Sign in now"
    (OAuth) — **ignore that, it's a false positive**. This server doesn't
    do a real OAuth handshake; it just checks a static bearer token.
@@ -140,13 +141,14 @@ On your tunnel in the Zero Trust dashboard:
      e.g. `Bearer eyJhI...`. The field does **not** add the "Bearer "
      prefix for you — type it yourself.
 5. The token itself comes from the HA add-on's Configuration page
-   (Settings → Add-ons → ServiceNow MCP → Configuration → `static_token`
+   (Settings → Apps → ServiceNow MCP → Configuration → `static_token`
    field, eye icon to reveal). That's the field the add-on checks
    incoming requests against — separate from the
    `username`/`password`/`client_id`/`client_secret` fields on the same
    page, which are only for the add-on's own login to ServiceNow and are
    irrelevant to what Claude sends.
-6. Click **Add**, then test the connection.
+6. Click **Add**, then **test the connection** to confirm it's wired up
+   correctly before moving on.
    - "Couldn't connect to the server" → routing/tunnel problem, recheck
      Part 2 steps 2–3.
    - Auth failure → check the add-on's Logs tab for a line like
@@ -154,6 +156,56 @@ On your tunnel in the Zero Trust dashboard:
      pasted into Claude's header doesn't match the add-on's current
      `static_token` (stale copy, extra whitespace, or a token regenerated
      on one side but not the other).
+
+**2. Configure tool permissions**
+
+Once connected, the connector's detail page (`claude.ai/customize/connectors/<id>`)
+shows a **Tool permissions** section — this needs a deliberate pass, not
+just the defaults. Tools are grouped into two buckets, each with its own
+group-level dropdown (Allow / Needs approval / Deny) plus an override on
+every individual tool:
+
+- **Read-only tools (12):** Aggregate Records, Get Ci, Get Ci Relationships,
+  Get Current User, Get Record, Get System Properties, Get Table Schema,
+  Get Update Set, List Ci, List Records, List Update Set Changes, List
+  Update Sets.
+- **Write/delete tools (7):** Create Ci, Create Record, Create Update Set,
+  Delete Record, Set Current Update Set, Update Ci, Update Record.
+
+**Current configuration (as of 2026-09-11):**
+
+| Tool | Type | Permission |
+|---|---|---|
+| Aggregate Records | Read-only | Always allow |
+| Get Ci | Read-only | Always allow |
+| Get Ci Relationships | Read-only | Always allow |
+| Get Current User | Read-only | Always allow |
+| Get Record | Read-only | Always allow |
+| Get System Properties | Read-only | Always allow |
+| Get Table Schema | Read-only | Always allow |
+| Get Update Set | Read-only | Always allow |
+| List Ci | Read-only | Always allow |
+| List Records | Read-only | Always allow |
+| List Update Set Changes | Read-only | Always allow |
+| List Update Sets | Read-only | Always allow |
+| Create Ci | Write/delete | Needs approval |
+| Create Record | Write/delete | Needs approval |
+| Create Update Set | Write/delete | Needs approval |
+| Delete Record | Write/delete | Needs approval |
+| Set Current Update Set | Write/delete | Needs approval |
+| Update Ci | Write/delete | Needs approval |
+| Update Record | Write/delete | **Always allow** |
+
+Group-level dropdowns: **Read-only tools** = `Always allow`;
+**Write/delete tools** = `Custom` (mixed — six of seven still gated
+behind approval, `Update Record` upgraded to auto-allow).
+
+Rationale: lookups against the dev/PDI instance are low-risk and don't
+need a prompt every time. Everything that creates, deletes, or
+reassigns state still needs a human nod, with `Update Record` as the one
+write exception opened up (likely for the `sync-servicenow` flow, which
+only updates existing change_request records rather than creating or
+deleting anything).
 
 ---
 
