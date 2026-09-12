@@ -8,3 +8,5 @@ node_modules/
 *.bak
 _to_delete/
 *.code-workspace
+__pycache__/
+*.pyc
