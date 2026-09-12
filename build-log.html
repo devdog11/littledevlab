@@ -647,6 +647,21 @@
     <div class="container">
       <div class="log-stream-inner">
 
+        <p class="log-day-label">September 11, 2026</p>
+
+        <div class="log-entry">
+          <div class="log-entry-card">
+            <div class="log-entry-meta">
+              <span class="log-entry-time">5:18 PM</span>
+              <span class="log-entry-tag">Infra</span>
+              <span class="log-entry-tag">Agentic AI</span>
+            </div>
+            <h3>Fixed the scheduled CHANGES.md agent's push failures &mdash; Claude's GitHub App was authorized but never installed</h3>
+            <p>The new twice-daily cloud routine that processes CHANGES.md's Open items kept failing to push its commits with a <code>403 Resource not accessible by integration</code> error, even though it could read the repo fine. Root cause: Claude's GitHub connection on the devdog11 account was only an <em>authorized</em> OAuth app (identity-level access), never an <em>installed</em> GitHub App &mdash; and repo write permissions only come from an installation. Fixed by installing the Claude GitHub App directly at github.com/apps/claude and granting it repository access, which gave it the Contents: Read and write permission the routine's git push needs. The routine's queued changes should now push cleanly on its next run.</p>
+            <span class="log-entry-commit">commit (pending push)</span>
+          </div>
+        </div>
+
         <p class="log-day-label">September 10, 2026</p>
 
         <div class="log-entry">
