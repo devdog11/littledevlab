@@ -207,9 +207,9 @@ This is the first real agentic pipeline for the project (not just AI-assisted) �
 
 | Folder | Purpose | Public? |
 | --- | --- | --- |
-| `~/Development/Progress Story/` (iCloud Drive) | Curated source photos, staged for the story. Sibling to the repo, not inside it — lets Tyson add photos from his iPhone via Files/Photos → iCloud, and keeps it out of git entirely. | No — private, agent-only |
-| `~/Development/Projects/littledevlab/images/lab-notes/` | Photos actually used in a published post | Yes — deployed with the site |
-| `~/Development/Projects/littledevlab/lab-notes/state.json` | Tracks: which photos have been used, current story-arc position, feedback history | Committed to the repo (metadata only, not spoiler content) |
+| `TBD` (iCloud Drive) | Curated source photos, staged for the story. Sibling to the repo, not inside it — lets Tyson add photos from his iPhone via Files/Photos → iCloud, and keeps it out of git entirely. | No — private, agent-only |
+| `~/AI/projects/littledevlab/images/lab-notes/` | Photos actually used in a published post | Yes — deployed with the site |
+| `~/AI/projects/littledevlab/lab-notes/state.json` | Tracks: which photos have been used, current story-arc position, feedback history | Committed to the repo (metadata only, not spoiler content) |
 
 Keeping curated-but-unused photos out of the deployed repo matters because a public GitHub repo exposes everything in it, not just what's linked from the site — so "unused chapters" of the story need to stay in a folder the site never touches until the agent explicitly promotes one photo into `images/lab-notes/` on the day it's featured. Keeping `Progress Story` as a sibling folder (not a subfolder of the repo) also means there's no risk of it accidentally getting swept into a `git add .`.
 
@@ -224,7 +224,7 @@ Keeping curated-but-unused photos out of the deployed repo matters because a pub
 
 **Feedback capture (open build item):** The site is static, so a thumbs up/down click needs somewhere to write to. Recommended: a Cloudflare Pages Function + Cloudflare Workers KV (both free tier, and Cloudflare Pages is already the Workstream B hosting choice) — the button posts a vote, the function writes it to KV, and the next day's agent run reads it back before drafting.
 
-**Status:** Spec only — not yet built. Tyson is curating the source photo folder at `~/Development/Progress Story/` (iCloud); build starts once there's enough material to run the first few days of the loop. Once this folder is connected to Cowork as a working folder, future sessions can read/write it directly.
+**Status:** Spec only — not yet built. Tyson is curating the source photo folder at `TBD` (iCloud); build starts once there's enough material to run the first few days of the loop. Once this folder is connected to Cowork as a working folder, future sessions can read/write it directly.
 
 ---
 
@@ -235,7 +235,7 @@ Generalizes the two hand-built product blocks (glasses/lens holder, Chilewich co
 **Input contract — folder schema (the part Tyson controls):**
 
 ```
-~/Development/Objects Source/<product-slug>/
+~/TBD/<product-slug>/
     photos/          — raw phone photos, any filenames, any count
     model.3mf         — (or .stl/.step) the CAD file, at least one
     notes.md          — optional: what it is, colors/materials actually made, price idea, backstory
