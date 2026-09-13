@@ -75,9 +75,6 @@ GoDaddy shared hosting is neither free nor particularly secure by default (share
 
 **Domain:** Keep the domain registration wherever it is now (or move registration only, not hosting, to a cheaper registrar like Cloudflare Registrar/Namecheap at-cost pricing) — just repoint DNS to the new static host. This is a low-risk, reversible first move and a good literal "Phase 0" task.
 
-**Local development home:** The site repo's working copy moves from its current location to `~/Development/Projects/littledevlab/` (Tyson's existing iCloud-backed `Development` folder). One tradeoff worth naming: `Development` syncs via iCloud Drive, which carries the same general risk flagged earlier for Google Drive — iCloud doesn't support excluding a single subfolder from sync, so the live `.git` folder is exposed to sync timing issues and storage-optimization eviction. This is judged acceptable here specifically _because_ GitHub is already the canonical copy (Workstream B) — if the local iCloud copy ever gets flaky, the fix is just deleting it and re-cloning from GitHub, not data loss. Recommend disabling "Optimize Mac Storage" for smoother day-to-day use, but it's not required.
-
-_Note: moving the actual folder on Tyson's Mac is a step Tyson performs locally (Finder drag or_ `_mv ~/<current path> ~/Development/Projects/littledevlab_`_) — Cowork's file tools only reach folders explicitly connected to a session, so after the move, the new location needs to be reconnected as the working folder for future sessions to pick it up._
 
 ---
 
