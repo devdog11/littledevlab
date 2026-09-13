@@ -657,7 +657,7 @@
             </div>
             <h3>Automated CHANGES.md sync &mdash; no changes requested</h3>
             <p>Checked CHANGES.md's Open items and found nothing actionable this run. Both remaining items were left open: the 09.04 AI-project-consolidation note is a status log with "more details to come," not a concrete site change, and the Etsy shop review request asks for subjective brand/design judgment on an external page rather than a self-contained site edit &mdash; both need your input before proceeding.</p>
-            <span class="log-entry-commit">commit (pending push)</span>
+            <span class="log-entry-commit">commit dec0715</span>
           </div>
         </div>
 
@@ -669,7 +669,7 @@
             </div>
             <h3>Automated CHANGES.md sync &mdash; 1 item processed</h3>
             <p>SNOW CHG0030007 asked for the homepage hero to be rewritten in a more personal LittleDevLab voice &mdash; new eyebrow line, a three-line "A little dev. / A little lab. / A lot of &lsquo;why doesn&rsquo;t this exist?&rsquo;" headline with the site's existing green accent on "little dev" and "little lab," two new supporting paragraphs, and renamed hero buttons pointed at the Products and Lab Notes pages. Implemented directly in `index.html` and verified with a headless-browser render at desktop and mobile widths. Two other Open items remain skipped pending your input (the AI-project-consolidation status note and the Etsy shop review).</p>
-            <span class="log-entry-commit">commit (pending push)</span>
+            <span class="log-entry-commit">commit 68dfc11</span>
           </div>
         </div>
 
@@ -684,7 +684,7 @@
             </div>
             <h3>Fixed the scheduled CHANGES.md agent's push failures &mdash; Claude's GitHub App was authorized but never installed</h3>
             <p>The new twice-daily cloud routine that processes CHANGES.md's Open items kept failing to push its commits with a <code>403 Resource not accessible by integration</code> error, even though it could read the repo fine. Root cause: Claude's GitHub connection on the devdog11 account was only an <em>authorized</em> OAuth app (identity-level access), never an <em>installed</em> GitHub App &mdash; and repo write permissions only come from an installation. Fixed by installing the Claude GitHub App directly at github.com/apps/claude and granting it repository access, which gave it the Contents: Read and write permission the routine's git push needs. The routine's queued changes should now push cleanly on its next run.</p>
-            <span class="log-entry-commit">commit (pending push)</span>
+            <span class="log-entry-commit">commit 25dcece</span>
           </div>
         </div>
 
@@ -699,7 +699,7 @@
             </div>
             <h3>ServiceNow-to-LittleDevLab pipeline goes end to end &mdash; self-hosted, not the built-in connector</h3>
             <p>Finally got a real ServiceNow MCP server talking to Claude end to end: packaged as a Home Assistant add-on on my NUC, tunneled to the public internet through Cloudflare, and registered as a remote connector at claude.ai &mdash; deliberately self-hosted instead of using Claude's built-in ServiceNow registry connector, since the mechanics were the whole point of this track. Not exactly &ldquo;production ready&rdquo; since nothing here is cloud-hosted, but every piece of it &mdash; the add-on, the tunnel, the connector registration, the tool-permission tuning &mdash; is real and running today. Full write-up, with the actual steps and the friction that came with each one, is in the new Lab Notes post: <a href="lab-notes/servicenow-mcp-home-assistant-cloudflare.html">Self-Hosting a ServiceNow MCP Server on a Home NUC, Wired Into Claude</a>.</p>
-            <span class="log-entry-commit">commit (pending push)</span>
+            <span class="log-entry-commit">commit 0ebcd0e</span>
           </div>
         </div>
 
