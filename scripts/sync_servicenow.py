@@ -36,12 +36,20 @@ CLAUDE_JSON_PATH = os.path.expanduser("~/.claude.json")
 
 
 def ssl_context():
-    """Use certifi's CA bundle when available (python.org macOS builds ship without one)."""
-    try:
-        import certifi
-        return ssl.create_default_context(cafile=certifi.where())
-    except ImportError:
-        return ssl.create_default_context()
+    """Prefer the system trust store, falling back to certifi only when it holds no CAs.
+
+    Overriding with certifi unconditionally breaks environments whose trust is
+    injected at the system level (e.g. an intercepting proxy's CA), while the
+    fallback still covers python.org macOS builds, which ship without a store.
+    """
+    ctx = ssl.create_default_context()
+    if ctx.cert_store_stats()["x509_ca"] == 0:
+        try:
+            import certifi
+            ctx.load_verify_locations(cafile=certifi.where())
+        except ImportError:
+            pass
+    return ctx
 
 
 def load_config_from_claude_json():
