@@ -13,7 +13,10 @@ Env var overrides:
   SERVICENOW_USERNAME, SERVICENOW_PASSWORD
 
 Usage:
-  python3 scripts/sync_servicenow.py [--dry-run]
+  python3 scripts/sync_servicenow.py [--dry-run] [--proxy-auth]
+
+--proxy-auth skips the OAuth exchange and sends no Authorization header, for
+environments where the transport injects one (only SERVICENOW_INSTANCE_URL needed).
 """
 
 import base64
@@ -75,7 +78,7 @@ def load_config_from_claude_json():
     return {}
 
 
-def get_credentials():
+def get_credentials(proxy_auth=False):
     fallback = load_config_from_claude_json()
 
     creds = {
@@ -86,7 +89,8 @@ def get_credentials():
         "password": os.environ.get("SERVICENOW_PASSWORD", fallback.get("password")),
     }
 
-    missing = [k for k, v in creds.items() if not v]
+    required = ["instance_url"] if proxy_auth else list(creds)
+    missing = [k for k in required if not creds[k]]
     if missing:
         print(f"Error: missing ServiceNow credentials: {', '.join(missing)}", file=sys.stderr)
         print("Set them as env vars, or configure the `servicenow` MCP server via `claude mcp`.", file=sys.stderr)
@@ -126,7 +130,8 @@ def query_change_requests(creds, access_token):
     url = creds["instance_url"].rstrip("/") + "/api/now/table/change_request?" + urllib.parse.urlencode(params)
 
     req = urllib.request.Request(url)
-    req.add_header("Authorization", f"Bearer {access_token}")
+    if access_token:
+        req.add_header("Authorization", f"Bearer {access_token}")
     req.add_header("Accept", "application/json")
 
     try:
@@ -175,9 +180,12 @@ def insert_under_open(changes_text, new_entries_block):
 
 def main():
     dry_run = "--dry-run" in sys.argv
+    # Auth supplied by the transport (e.g. an Anthropic cloud environment API
+    # credential injecting an Authorization header), so skip the OAuth exchange.
+    proxy_auth = "--proxy-auth" in sys.argv
 
-    creds = get_credentials()
-    access_token = get_oauth_token(creds)
+    creds = get_credentials(proxy_auth)
+    access_token = None if proxy_auth else get_oauth_token(creds)
     tickets = query_change_requests(creds, access_token)
 
     with open(CHANGES_PATH) as f:
