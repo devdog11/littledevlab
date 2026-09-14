@@ -11,6 +11,8 @@ Format for a new item:
 
 ## Open
 
+*   2026.09.14.1900 - SNOW CHG0030001: Just log confirmation of reading new SNOW instance — https://dev387941.service-now.com/nav_to.do?uri=change_request.do?sys_id=c6aa9a820f97c310e6eb4bc530d1b2cb
+
 2026.09.04.1600 - For daily logging, worked on consolidating AI projects into a central master repository. Created a new MCP integration into Simplifi to help automate finanical tracking of projects as well as Google Sheets MCP integration to help with other financial tracking activity. More details to come.  
 2026.09.03.1118 - I've created an etsy page https://www.etsy.com/shop/LittleDevLab?ref=dashboard-header  
 Review the page and content for apprriateness and identify areas of improvement. Act as an expert Etsy site design specialist who focuses on brand consistancy.
