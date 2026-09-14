@@ -10,3 +10,4 @@ _to_delete/
 *.code-workspace
 __pycache__/
 *.pyc
+working/
