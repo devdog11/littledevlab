@@ -11,6 +11,9 @@ Format for a new item:
 
 ## Open
 
+*   2026.09.15.1819 - SNOW CHG2600002: Convert Site from HTML to React — https://dev387941.service-now.com/nav_to.do?uri=change_request.do?sys_id=7c7a9b120f9f4710e6eb4bc530d1b263
+    *   Convert this website to a React Application using TypeScript
+
 *   2026.09.15.1453 - SNOW CHG2030006: Enable 'Web Service Access Only' flag for the users performing integration logins Crea — https://dev387941.service-now.com/nav_to.do?uri=change_request.do?sys_id=e87b625e0fd74710e6eb4bc530d1b2d7
     *   Implement these changes. If Tyson steps are required, 1. Chat him on Claude Code and 2. Send him an email at tyson.bell@littledevlab.com https://dev387941.service-now.com/now/security-center-configuration/customer-actions-details/sn_critical_update/c0121bb27ff05210f16f91fadc866556
 
