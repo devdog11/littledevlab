@@ -19,3 +19,30 @@ Four entries (Sep 10–12 2026) shipped with the placeholder before this was wri
 
 Entries authored after the fact live as markdown in `build-log/*.md` with a `commit:`
 frontmatter field instead — those already have a real hash and need no backfill.
+
+## CAD source is publishable only while a design is In Development
+
+STEP files and other CAD source (`.step`, `.stp`, `.3mf`, `.f3d`, and the CadQuery
+`.py` that generates them) may be committed **only** to support an entry under
+`in-development/`. There the CAD is the subject of the post — the point is showing
+the work while it is still unsettled.
+
+**A finished product must not ship its STEP.** When a design graduates out of
+In Development — to `products.html`, or to a Lab Notes write-up presenting it as
+done — the CAD source comes out of the repo in the same commit that graduates it:
+
+1. `git rm` the `.step`/`.3mf`/source files for that design.
+2. Leave the `.glb` in place — the interactive viewer is a tessellated mesh, not
+   manufacturable source, and every product page already depends on one.
+3. Keep the generated `_preview.svg` if a page references it; a drawing is not
+   printable geometry.
+4. Remove or repoint any download links to the removed files.
+
+Rationale: a published STEP is the product. It is fine to show how something was
+made while it is still being made; it is not fine to hand out the manufacturing
+file for something being sold. This matches the Sep 8 2026 call on the soap-dish
+mount, where the CAD package was deliberately kept off the public repo.
+
+Currently in scope: `images/in-development/drawer-organizer/*.step` and
+`tools/make_organizer.py` are published under this exception because the drawer
+organizer is an In Development entry. Both must be pulled if it graduates.
