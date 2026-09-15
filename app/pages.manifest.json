@@ -1,0 +1,114 @@
+{
+  "pages": [
+    {
+      "key": "home",
+      "path": "index.html",
+      "component": "Home",
+      "entry": "src/entries/home.tsx",
+      "css": "src/styles/index.css",
+      "title": "LittleDevLab — Custom 3D Printed Home Goods",
+      "description": "Thoughtfully designed, precision 3D printed home organizers. Custom holders for Chilewich coasters and eyeglass + contact lens storage, made in the SF Bay Area.",
+      "modelViewer": true
+    },
+    {
+      "key": "products",
+      "path": "products.html",
+      "component": "Products",
+      "entry": "src/entries/products.tsx",
+      "css": "src/styles/products.css",
+      "title": "Products — LittleDevLab",
+      "description": "Custom 3D printed home organizers: glasses + contact lens holders, Chilewich coaster holders, trading card displays, Hunter Douglas remote mounts, steak knife holders, and gift carriers. Designed in Shapr3D, printed in the SF Bay Area.",
+      "modelViewer": true
+    },
+    {
+      "key": "buildLog",
+      "path": "build-log.html",
+      "component": "BuildLog",
+      "entry": "src/entries/buildLog.tsx",
+      "css": "src/styles/build-log.css",
+      "title": "Build Log — LittleDevLab",
+      "description": "A running record of what shipped on LittleDevLab — site changes, new products, and infrastructure moves — logged roughly twice a day.",
+      "modelViewer": false
+    },
+    {
+      "key": "labNotesIndex",
+      "path": "lab-notes/index.html",
+      "component": "LabNotesIndex",
+      "entry": "src/entries/labNotesIndex.tsx",
+      "css": "src/styles/lab-notes__index.css",
+      "title": "Lab Notes — LittleDevLab",
+      "description": "A running log of skill-building milestones behind LittleDevLab: agentic AI, 3D design/print, Python, home automation, and AI-assisted remodeling.",
+      "modelViewer": false
+    },
+    {
+      "key": "labNotesCloudNative",
+      "path": "lab-notes/cloud-native-agentic-workflow.html",
+      "component": "LabNotesCloudNative",
+      "entry": "src/entries/labNotesCloudNative.tsx",
+      "css": "src/styles/lab-notes__cloud-native-agentic-workflow.css",
+      "title": "Cutting the Cord: Taking This Build From My Laptop to a Cloud-Native Workflow — Lab Notes",
+      "description": "How this site's build moved off a laptop-dependent workflow into a cloud-native one — a real Codespace, a scoped GitHub token, a safety guardrail that stopped me from doing something dumb, and the Claude Code vs. Cowork split.",
+      "modelViewer": false
+    },
+    {
+      "key": "labNotesHandsOn",
+      "path": "lab-notes/hands-on-labs-agentic-ai.html",
+      "component": "LabNotesHandsOn",
+      "entry": "src/entries/labNotesHandsOn.tsx",
+      "css": "src/styles/lab-notes__hands-on-labs-agentic-ai.css",
+      "title": "Hands-On Labs Are How Solution Architects Actually Learn Agentic AI — Lab Notes",
+      "description": "Why hands-on labs beat prompting-only for Solution Architects moving from AI products to agentic AI, and the ingestion/hallucination lesson from a NotebookLM experiment.",
+      "modelViewer": false
+    },
+    {
+      "key": "labNotesPrompt",
+      "path": "lab-notes/prompt-and-context-engineering.html",
+      "component": "LabNotesPrompt",
+      "entry": "src/entries/labNotesPrompt.tsx",
+      "css": "src/styles/lab-notes__prompt-and-context-engineering.css",
+      "title": "The Real Work of Agentic AI Is Prompt and Context Engineering — Lab Notes",
+      "description": "Breaking down prompt and context engineering — system instructions, retrieved documents, tool descriptions, permissions, output schemas — as the actual skill behind agentic AI.",
+      "modelViewer": false
+    },
+    {
+      "key": "labNotesServiceNow",
+      "path": "lab-notes/servicenow-mcp-home-assistant-cloudflare.html",
+      "component": "LabNotesServiceNow",
+      "entry": "src/entries/labNotesServiceNow.tsx",
+      "css": "src/styles/lab-notes__servicenow-mcp-home-assistant-cloudflare.css",
+      "title": "Self-Hosting a ServiceNow MCP Server on a Home NUC, Wired Into Claude — Lab Notes",
+      "description": "Packaging a ServiceNow MCP server as a Home Assistant add-on, tunneling it out through Cloudflare, and registering it as a remote connector at claude.ai — end to end, on hardware I own.",
+      "modelViewer": false
+    },
+    {
+      "key": "labNotesSoapDish",
+      "path": "lab-notes/soap-dish-mount-puck.html",
+      "component": "LabNotesSoapDish",
+      "entry": "src/entries/labNotesSoapDish.tsx",
+      "css": "src/styles/lab-notes__soap-dish-mount-puck.css",
+      "title": "Iterating a 3D-Printed Mounting Puck to Fit a Volkano Summit V6359 Soap Dish Escutcheon — Lab Notes",
+      "description": "Reverse-engineering a cast-metal escutcheon with no datasheet, calipers, and a parametric CadQuery script — five revisions from a rough first fit to a validated, watertight puck.",
+      "modelViewer": false
+    },
+    {
+      "key": "inDevIndex",
+      "path": "in-development/index.html",
+      "component": "InDevIndex",
+      "entry": "src/entries/inDevIndex.tsx",
+      "css": "src/styles/in-development__index.css",
+      "title": "In Development &mdash; LittleDevLab",
+      "description": "Work in progress at LittleDevLab: part-finished 3D models, open specs, and builds that have not settled yet.",
+      "modelViewer": false
+    },
+    {
+      "key": "inDevDrawerOrganizer",
+      "path": "in-development/drawer-organizer.html",
+      "component": "InDevDrawerOrganizer",
+      "entry": "src/entries/inDevDrawerOrganizer.tsx",
+      "css": "src/styles/in-development__drawer-organizer.css",
+      "title": "Drawer Organizer: A Watertight STEP File Generated Straight From the Change Request &mdash; In Development",
+      "description": "A 165 x 148 x 70 mm open-top drawer organizer with 60 elongated-diamond wall cutouts, modeled parametrically in CadQuery from a written spec and validated against every dimension in the ticket.",
+      "modelViewer": true
+    }
+  ]
+}
