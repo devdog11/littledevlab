@@ -11,6 +11,9 @@ Format for a new item:
 
 ## Open
 
+*   2026.09.15.1453 - SNOW CHG2030006: Enable 'Web Service Access Only' flag for the users performing integration logins Crea — https://dev387941.service-now.com/nav_to.do?uri=change_request.do?sys_id=e87b625e0fd74710e6eb4bc530d1b2d7
+    *   Implement these changes. If Tyson steps are required, 1. Chat him on Claude Code and 2. Send him an email at tyson.bell@littledevlab.com https://dev387941.service-now.com/now/security-center-configuration/customer-actions-details/sn_critical_update/c0121bb27ff05210f16f91fadc866556
+
 2026.09.04.1600 - For daily logging, worked on consolidating AI projects into a central master repository. Created a new MCP integration into Simplifi to help automate finanical tracking of projects as well as Google Sheets MCP integration to help with other financial tracking activity. More details to come.  
 2026.09.03.1118 - I've created an etsy page https://www.etsy.com/shop/LittleDevLab?ref=dashboard-header  
 Review the page and content for apprriateness and identify areas of improvement. Act as an expert Etsy site design specialist who focuses on brand consistancy.
@@ -37,6 +40,8 @@ Review the page and content for apprriateness and identify areas of improvement.
 *   **Status:** Open — awaiting your confirmation on #2 before this becomes a build CR.
 
 ## Done
+
+2026.09.15.1449 - SNOW CHG2030005: Update home page text — https://dev387941.service-now.com/nav_to.do?uri=change_request.do?sys_id=98c8aa9e0fd74710e6eb4bc530d1b2d4. **2026-09-15** — Replaced the "How It's Made" section headline and body copy on `index.html` with the supplied text: the H2 now reads "Tangible Developments" and the paragraph is the new first-person copy about going from imagined objects to 3D-printed ones. Left the "How It's Made" eyebrow tag, section id, and the three process cards below it untouched — only the headline and intro paragraph changed, exactly as specified.
 
 2026.09.14.1914 - SNOW CHG0030004: New Lab Journey SubMenu — https://dev387941.service-now.com/nav_to.do?uri=change_request.do?sys_id=c1ecff060f930710e6eb4bc530d1b225. **2026-09-15** — Added **In Development** as a third Lab Journey sub-menu, sitting between Lab Notes and Build Log in both the desktop dropdown and the mobile submenu across all nine pages that carry the nav. It uses the Lab Notes layout and stylesheet verbatim, but written in the present tense: each entry is the spec a build has to meet, what currently works, and what is still unresolved, with entries graduating to Lab Notes once there is a finished lesson. New files: `in-development/index.html` and `in-development/drawer-organizer.html`.
 
