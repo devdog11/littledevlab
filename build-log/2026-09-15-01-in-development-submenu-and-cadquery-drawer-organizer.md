@@ -3,7 +3,7 @@ date: "2026-09-15"
 time: "4:20 AM"
 title: "A new In Development section, opened with a CadQuery drawer organizer"
 tags: [3D Print]
-commit: (pending push)
+commit: b69487d
 ---
 
 Lab Journey picked up a third sub-menu today. **In Development** sits between Lab Notes and Build Log and uses the Lab Notes layout verbatim, but written in the present tense: the spec a build has to meet, what currently works, and what is still unresolved. Lab Notes is what I learned after the fact; this is the state of play before it settles, and entries graduate across once there is a finished lesson worth writing down.
