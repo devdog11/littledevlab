@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" type="image/png" href="../images/profile/littledevlab-icon.png" />
-  <title>Hands-On Labs Are How Solution Architects Actually Learn Agentic AI — Lab Notes</title>
-  <meta name="description" content="Why hands-on labs beat prompting-only for Solution Architects moving from AI products to agentic AI, and the ingestion/hallucination lesson from a NotebookLM experiment." />
+  <title>In Development &mdash; LittleDevLab</title>
+  <meta name="description" content="Work in progress at LittleDevLab: part-finished 3D models, open specs, and builds that have not settled yet." />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -141,6 +141,10 @@
     :root {
       --products-accent: #b8873d;
       --journey-accent: #1e3a5f; /* matches Build Log's navy */
+      /* Lab Notes header now shares Build Log's own navy/gold identity */
+      --bl-navy: #1e3a5f;
+      --bl-navy-soft: #3c5d82;
+      --bl-gold: #c8a96e;
     }
     .nav-container { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
     .nav-item-dropdown[data-accent="home"] > a:hover,
@@ -232,12 +236,140 @@
       text-align: center;
     }
     footer a { color: var(--ink-soft); margin: 0 8px; }
+    .lab-header {
+      background: var(--bl-navy);
+      padding-top: 56px;
+      padding-bottom: 48px;
+      position: relative;
+      overflow: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+    .lab-header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 80% at 80% 20%, rgba(200,169,110,.16) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .lab-header-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: 1fr 240px;
+      align-items: center;
+      gap: 24px;
+      position: relative;
+    }
+    .lab-eyebrow {
+      font-size: .78rem;
+      font-weight: 600;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--bl-gold);
+      margin-bottom: 16px;
+    }
+    .lab-header h1 {
+      font-family: Georgia, 'Iowan Old Style', 'Palatino Linotype', serif;
+      font-size: clamp(2rem, 3.6vw, 2.8rem);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -.02em;
+      color: var(--white);
+      margin-bottom: 16px;
+      max-width: 640px;
+    }
+    .lab-header p {
+      font-size: 1.02rem;
+      line-height: 1.7;
+      color: rgba(248,244,234,.75);
+      max-width: 560px;
+    }
+    .lab-header-visual { justify-self: center; }
+    .lab-header-visual svg { width: 100%; height: auto; max-width: 200px; }
+    .lab-header-visual .edge-solid { fill: none; stroke: var(--white); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; opacity: .82; }
+    .lab-header-visual .edge-hidden { fill: none; stroke: var(--bl-gold); stroke-width: 1.4; stroke-dasharray: 6 5; stroke-linecap: round; opacity: .55; }
+    .lab-header-visual .ext-line { stroke: var(--bl-gold); stroke-width: 1; opacity: .45; }
+    .lab-header-visual .dim-line { stroke: var(--bl-gold); stroke-width: 1; opacity: .6; }
+    .lab-header-visual .tick { stroke: var(--bl-gold); stroke-width: 1.4; opacity: .6; }
+    .lab-header-visual .center-mark { stroke: var(--bl-gold); stroke-width: 1.2; opacity: .8; }
+    .lab-header-visual .dim-text { fill: var(--bl-gold); font-size: 11px; letter-spacing: .01em; opacity: .75; }
+    @media (max-width: 860px) {
+      .lab-header-inner { grid-template-columns: 1fr; }
+      .lab-header-visual { display: none; }
+      .lab-header { padding-bottom: 32px; }
+    }
     .post-list { list-style: none; margin-top: 32px; }
     .post-list li { padding: 20px 0; border-bottom: 1px solid var(--gray-200); }
     .post-list li:first-child { padding-top: 0; }
     .post-list h3 { margin: 8px 0 6px; }
     .post-list .excerpt { color: var(--ink-soft); font-size: .95rem; margin: 0; }
 
+    /* ── In Development: status chips and the spec/validation tables ── */
+    .status-badge {
+      display: inline-block;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: var(--radius);
+      margin-left: 6px;
+    }
+    .status-badge.building { color: #7a5a12; background: #f1e3c2; }
+    .status-badge.validated { color: #2f5d26; background: #dcecd5; }
+    .spec-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 22px 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: .9rem;
+    }
+    .spec-table th, .spec-table td {
+      text-align: left;
+      padding: 9px 12px;
+      border-bottom: 1px solid var(--gray-200);
+      vertical-align: top;
+    }
+    .spec-table th {
+      font-weight: 700;
+      color: var(--ink);
+      background: var(--gray-100);
+      border-bottom: 2px solid var(--gray-200);
+    }
+    .spec-table td.pass { color: #2f5d26; font-weight: 600; white-space: nowrap; }
+    .table-scroll { overflow-x: auto; margin: 22px 0; }
+    .table-scroll .spec-table { margin: 0; }
+    .downloads { list-style: none; margin: 18px 0; }
+    .downloads li { padding: 10px 0; border-bottom: 1px solid var(--gray-200); font-size: .98rem; }
+    .downloads li:last-child { border-bottom: none; }
+    .downloads .fname {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: .88rem;
+    }
+    .downloads .fmeta {
+      display: block;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: .82rem;
+      color: var(--ink-soft);
+      margin-top: 3px;
+    }
+    model-viewer.model-3d {
+      width: 100%;
+      height: 420px;
+      background: var(--gray-100);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-lg);
+      --poster-color: transparent;
+    }
+    @media (max-width: 620px) { model-viewer.model-3d { height: 300px; } }
+    .post-list .status-note {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: .82rem;
+      color: var(--ink-soft);
+      margin-top: 8px;
+    }
   </style>
 </head>
 <body>
@@ -276,10 +408,10 @@
             </div>
           </li>
           <li class="nav-item-dropdown" data-accent="journey">
-            <a href="index.html">Lab Journey</a>
+            <a href="../lab-notes/index.html">Lab Journey</a>
             <div class="nav-dropdown-menu">
-            <a href="index.html" class="current">Lab Notes</a>
-            <a href="../in-development/index.html">In Development</a>
+            <a href="../lab-notes/index.html">Lab Notes</a>
+            <a href="index.html" class="current">In Development</a>
             <a href="../build-log.html">Build Log</a>
             </div>
           </li>
@@ -322,8 +454,8 @@
           <svg width="10" height="10" viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
         <div class="mobile-submenu" id="mobile-journey-submenu">
-          <a href="index.html" class="mobile-link current">Lab Notes</a>
-          <a href="../in-development/index.html" class="mobile-link">In Development</a>
+          <a href="../lab-notes/index.html" class="mobile-link">Lab Notes</a>
+          <a href="index.html" class="mobile-link current">In Development</a>
           <a href="../build-log.html" class="mobile-link">Build Log</a>
         </div>
       </li>
@@ -332,32 +464,64 @@
     </div>
   </header>
 
+  <header class="lab-header">
+    <div class="lab-header-inner">
+      <div>
+        <p class="lab-eyebrow">On the Workbench</p>
+        <h1>In Development</h1>
+        <p>Work that is open on the bench right now &mdash; part-finished models, half-proved ideas, and the things I am still arguing with. Lab Notes is what I learned after the fact; this is the state of play before it settles.</p>
+      </div>
+      <div class="lab-header-visual" aria-hidden="true">
+        <svg viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg">
+          <g transform="translate(160,150) scale(1.12)">
+            <polygon points="-110,-40 0,-95 110,-40 0,15" class="edge-solid"/>
+            <polygon points="-110,-40 0,15 0,95 -110,40" class="edge-solid"/>
+            <polygon points="110,-40 0,15 0,95 110,40" class="edge-solid"/>
+            <g fill="none" stroke="#c8a96e" stroke-width="1.6" opacity=".72" stroke-linejoin="round">
+              <polygon points="-80,-15 -67,6.5 -80,15 -93,-6.5"/>
+              <polygon points="-38,6 -25,27.5 -38,36 -51,14.5"/>
+              <polygon points="-80,18 -67,39.5 -80,48 -93,26.5"/>
+              <polygon points="-38,39 -25,60.5 -38,69 -51,47.5"/>
+              <polygon points="80,-15 67,6.5 80,15 93,-6.5"/>
+              <polygon points="38,6 25,27.5 38,36 51,14.5"/>
+              <polygon points="80,18 67,39.5 80,48 93,26.5"/>
+              <polygon points="38,39 25,60.5 38,69 51,47.5"/>
+            </g>
+            <g class="dim">
+              <line x1="-110" y1="40" x2="-110" y2="126" class="ext-line"/>
+              <line x1="110" y1="40" x2="110" y2="126" class="ext-line"/>
+              <line x1="-110" y1="118" x2="110" y2="118" class="dim-line"/>
+              <line x1="-112.5" y1="115.5" x2="-107.5" y2="120.5" class="tick"/>
+              <line x1="107.5" y1="115.5" x2="112.5" y2="120.5" class="tick"/>
+              <text x="0" y="118" class="dim-text" text-anchor="middle" dy="-6">165 mm</text>
+            </g>
+            <line x1="-6" y1="15" x2="6" y2="15" class="center-mark"/>
+            <line x1="0" y1="9" x2="0" y2="21" class="center-mark"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </header>
+
   <main>
     <div class="container">
-      <span class="tag">Agentic AI Skills</span>
-      <h1>Hands-On Labs Are How Solution Architects Actually Learn Agentic AI</h1>
-      <p class="post-meta">August 31, 2026 &middot; Lab Notes</p>
+      <p class="lede">Same format as Lab Notes, different tense. Each entry below is something I am actively building &mdash; the spec it has to meet, what is working, and what is still unresolved. Entries graduate to <a href="../lab-notes/index.html">Lab Notes</a> once there is a finished lesson worth writing down.</p>
 
-      <p class="lede">Enterprise Solution Architects pride themselves on being leaders in their core technology &mdash; but the job also means spending real cycles learning new tech, and the proliferation of AI has made that harder, not easier. So how do you run your business, stay on top of your stack, and still get deep enough into something new that you&rsquo;re comfortable putting it in front of a customer?</p>
-
-      <p>My answer: hands-on labs. Pick one AI product, actually explore its ecosystem, and play with different models inside it &mdash; rather than stopping at prompting a single tool well. Most SAs aren&rsquo;t programmers, but the bar is moving past &ldquo;prompt an AI product effectively&rdquo; toward leveraging an AI platform: agentic AI, not just AI-assisted work.</p>
-
-      <h2>Where I started: NotebookLM</h2>
-      <p>Personally, I started with NotebookLM (Gemini). It&rsquo;s an interesting entry point precisely because it demands a real understanding of AI ingestion before it gives you anything useful &mdash; a notebook is only as good as what, and how, you feed it.</p>
-
-      <h2>What I watched go wrong</h2>
-      <p>I watched plenty of people dump countless documents into a notebook &mdash; personal archives, corporate repositories &mdash; chasing a quick win against the sheer noise of enterprise product docs, Distinguished Architect and Tier 2 architect write-ups, and general SA &ldquo;noise.&rdquo; The problem showed up fast: uncurated content led to massive hallucination. Feed a model a pile of unvetted documents and it will confidently synthesize an answer from the worst of them right alongside the best.</p>
-
-      <h2>The fix: curate before you ingest</h2>
-      <p>That&rsquo;s the actual opportunity &mdash; not one AI product, but combining several. First, scrub the content. Validate that a document is even accurate before it goes in. If you can&rsquo;t find or confirm the author, have your product team validate it instead of trusting it on faith. From there &mdash;</p>
-
-      <div class="callout">This is where my original draft trails off &mdash; the next step was &ldquo;leverage the platform to clean&hellip;&rdquo; and I want to finish it with the actual tools and steps I used, not a guess. More on the cleaning pipeline soon.</div>
+      <ul class="post-list">
+        <li>
+          <span class="tag">3D Design &amp; Print</span><span class="status-badge validated">Model validated</span>
+          <h3><a href="drawer-organizer.html">Drawer Organizer: A Watertight STEP File Generated Straight From the Change Request</a></h3>
+          <p class="post-meta">September 15, 2026</p>
+          <p class="excerpt">A 165 &times; 148 &times; 70&nbsp;mm open-top drawer organizer with 60 elongated-diamond wall cutouts, modeled parametrically in CadQuery from a written spec &mdash; 19.5% less material than solid walls, validated against every dimension in the ticket.</p>
+          <p class="status-note">Open: no test print yet. The geometry passes validation; whether 2&nbsp;mm walls with this much perforation survive a real drawer is still unproven.</p>
+        </li>
+      </ul>
 
     </div>
   </main>
   <footer>
     <div class="container">
-      <p>&copy; 2026 LittleDevLab &middot; SF Bay Area &middot; <a href="index.html">All Lab Notes</a> &middot; <a href="../index.html">Home</a></p>
+      <p>&copy; 2026 LittleDevLab &middot; SF Bay Area &middot; <a href="index.html">All In-Development Entries</a> &middot; <a href="../index.html">Home</a></p>
     </div>
   </footer>
 
