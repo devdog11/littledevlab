@@ -11,8 +11,6 @@ Format for a new item:
 
 ## Open
 
-*   2026.09.14.1900 - SNOW CHG0030001: Just log confirmation of reading new SNOW instance — https://dev387941.service-now.com/nav_to.do?uri=change_request.do?sys_id=c6aa9a820f97c310e6eb4bc530d1b2cb
-
 2026.09.04.1600 - For daily logging, worked on consolidating AI projects into a central master repository. Created a new MCP integration into Simplifi to help automate finanical tracking of projects as well as Google Sheets MCP integration to help with other financial tracking activity. More details to come.  
 2026.09.03.1118 - I've created an etsy page https://www.etsy.com/shop/LittleDevLab?ref=dashboard-header  
 Review the page and content for apprriateness and identify areas of improvement. Act as an expert Etsy site design specialist who focuses on brand consistancy.
@@ -39,6 +37,8 @@ Review the page and content for apprriateness and identify areas of improvement.
 *   **Status:** Open — awaiting your confirmation on #2 before this becomes a build CR.
 
 ## Done
+
+2026.09.14.1900 - SNOW CHG0030001: Just log confirmation of reading new SNOW instance — https://dev387941.service-now.com/nav_to.do?uri=change_request.do?sys_id=c6aa9a820f97c310e6eb4bc530d1b2cb. **2026-09-15** — Confirmed `scripts/sync_servicenow.py` reads correctly from the new instance: this run pointed it at `SERVICENOW_INSTANCE_URL=https://dev387941.service-now.com` with `--proxy-auth`, and it queried the `category=littledevlab` change requests successfully (returned "no new littledevlab tickets found," i.e. connected and read cleanly, just nothing new to pull). Logged in build-log.html. Commit: (this run).
 
 2026.09.12.1915 - SNOW CHG0030007: Update Home Page Text — https://dev322229.service-now.com/nav_to.do?uri=change_request.do?sys_id=0563c46d83930314e757f7efeeaad3ca. **2026-09-12** — Rewrote the homepage hero in `index.html`: eyebrow now reads "SF Bay Area · Dev'd by a curious engineer," the H1 is "A little dev. / A little lab. / A lot of 'why doesn't this exist?'" with "little dev" and "little lab" in the existing `--hero-accent` green (no new color introduced), and the description is replaced with the two supplied first-person paragraphs. Hero buttons are now "See What I've Made" (linked to `products.html`, replacing a stale `#products` anchor left over from when Products moved to its own page) and "Enter the Lab" (linked to `lab-notes/index.html`, replacing the old `#contact` target). Verified via headless-browser render at desktop and mobile widths: three headline lines stay visually distinct, no Markdown artifacts, no console errors from the change itself. Commit: 68dfc11.
 
