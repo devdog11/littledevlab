@@ -527,6 +527,7 @@
           <a href="lab-notes/index.html">Lab Journey</a>
           <div class="nav-dropdown-menu">
           <a href="lab-notes/index.html">Lab Notes</a>
+          <a href="in-development/index.html">In Development</a>
           <a href="build-log.html" class="current">Build Log</a>
           </div>
         </li>
@@ -573,6 +574,7 @@
         </button>
         <div class="mobile-submenu" id="mobile-journey-submenu">
           <a href="lab-notes/index.html" class="mobile-link">Lab Notes</a>
+          <a href="in-development/index.html" class="mobile-link">In Development</a>
           <a href="build-log.html" class="mobile-link current">Build Log</a>
         </div>
       </li>
@@ -646,6 +648,20 @@
   <section class="log-stream">
     <div class="container">
       <div class="log-stream-inner">
+
+        <p class="log-day-label">September 15, 2026</p>
+
+        <div class="log-entry">
+          <div class="log-entry-card">
+            <div class="log-entry-meta">
+              <span class="log-entry-time">4:20 AM</span>
+              <span class="log-entry-tag">3D Print</span>
+            </div>
+            <h3>SNOW CHG0030004 &mdash; new &ldquo;In Development&rdquo; section, opened with a CadQuery drawer organizer</h3>
+            <p>Added <code>in-development/</code> as a third Lab Journey sub-menu alongside Lab Notes and Build Log, in the same format as Lab Notes but written in the present tense for work still on the bench. Its first entry is a 165 &times; 148 &times; 70&nbsp;mm open-top drawer organizer with 60 elongated-diamond wall cutouts, modeled parametrically in CadQuery straight from the ticket's written spec. The exported STEP re-imports as a single watertight solid at exactly 106,968&nbsp;mm&sup3; &mdash; 19.5% less material than unperforated 2&nbsp;mm walls &mdash; and the mesh's Euler characteristic independently confirms genus 60. No external CAD API was needed; the ticket's fallback plan for handing the job to another model went unused.</p>
+            <span class="log-entry-commit">commit b69487d</span>
+          </div>
+        </div>
 
         <p class="log-day-label">September 14, 2026</p>
 
