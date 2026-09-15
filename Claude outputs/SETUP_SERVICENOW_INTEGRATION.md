@@ -5,6 +5,18 @@
 > this repo. Enter all secrets manually through the Home Assistant UI
 > (see "Known friction" below) — never via API/automation.
 
+## Status: not in use (2026-09-15)
+
+This self-hosted track is **no longer part of the ServiceNow pipeline.** The
+live automation is a scheduled Claude cloud routine that reaches ServiceNow
+directly over the internet, with Basic auth injected by an API credential on
+its cloud environment — no NUC, Home Assistant, or Cloudflare Tunnel involved.
+See the "ServiceNow enhancement sync" section of the repo README.
+
+The add-on and tunnel described below still exist but point at the retired
+`dev322229` PDI, so the `snow-mcp` connector fails until it is repointed at
+`dev387941`. Kept as a record of how the self-hosted MCP track was built.
+
 ## Goal
 
 Self-host a ServiceNow MCP server as a Home Assistant add-on on the NUC,
@@ -32,7 +44,9 @@ This ties together three pieces:
   (`github.com/jschuller/mcp-server-servicenow`), run via `uvx` with
   `--transport streamable-http`.
 - ServiceNow instance: a dev/PDI instance at `dev322229.service-now.com`
-  (OAuth).
+  (OAuth). **Stale as of 2026-09-15** — that PDI was released and replaced by
+  `dev387941`. The add-on has not been repointed, so this connector currently
+  fails against a dead instance (see the status note at the top).
 - **Two independent auth layers** on the add-on's Configuration page —
   don't conflate them:
   - `username` / `password` / `client_id` / `client_secret` — the add-on's

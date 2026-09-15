@@ -44,17 +44,20 @@ Requires two repo secrets to be set for deploys to work: `CLOUDFLARE_API_TOKEN` 
 
 ## ServiceNow enhancement sync
 
-Daily product-enhancement tickets are filed in ServiceNow (instance `dev322229`) with **Category = `littledevlab`** on a Change Request. They get pulled into [CHANGES.md](CHANGES.md) rather than tracked in ServiceNow itself.
+Product-enhancement tickets are filed in ServiceNow (instance `dev387941`) as Change Requests with **Category = `littledevlab`**. They're tracked in [CHANGES.md](CHANGES.md) rather than in ServiceNow itself.
 
-**Steps:**
+A scheduled Claude cloud routine (`littledevlab: pull, implement, notify`) runs every 4 hours and:
 
-1. File the ticket in ServiceNow as a Change Request with Category set to `littledevlab`.
-2. In a Claude Code session on this repo (needs the local `servicenow` MCP connection — check with `claude mcp list`), run `/sync-servicenow`.
-3. It appends any tickets not already referenced in `CHANGES.md` under `## Open`, with the ticket number, description, and a link back to ServiceNow. It only edits the file — review the diff and commit/push yourself.
+1. Pulls `category=littledevlab` change requests via `scripts/sync_servicenow.py --proxy-auth`, appending any not already referenced in `CHANGES.md` under `## Open`.
+2. Works through `## Open` top to bottom — pulled tickets and hand-written items alike — implementing only what is clearly safe unattended and leaving anything needing judgment open.
+3. Moves what it implements to `## Done`, logs an entry in `build-log.html`, and pushes to `main`, which triggers the Cloudflare Pages deploy.
+4. Emails a run summary every run, including quiet ones.
 
-**Frequency:** run it once a day (e.g. ~9am) — or any time you know a new ticket landed. It's idempotent (safe to re-run; already-synced tickets are skipped by number).
+**Two ways to request a change:** file a ServiceNow Change Request, or add an item under `## Open` in `CHANGES.md` directly. Both are picked up identically. To force a cycle rather than wait for the schedule, use **Run now** on the routine.
 
-Cloud/background scheduling isn't wired up yet — the ServiceNow connection is local-only (a stdio MCP server, not a claude.ai connector), so this has to be run from a local Claude Code session for now.
+The routine authenticates with Basic auth injected by an API credential on its `ldl-snow` cloud environment, so no ServiceNow credentials exist inside the run. That instance restricts Basic auth to holders of the `snc_basic_auth_api_access` role, which is why the integration uses a dedicated `claude_integration` user rather than `admin`.
+
+`scripts/sync_servicenow.py` also runs standalone against OAuth (`SERVICENOW_INSTANCE_URL`, `SERVICENOW_CLIENT_ID`, `SERVICENOW_CLIENT_SECRET`, `SERVICENOW_USERNAME`, `SERVICENOW_PASSWORD`), which is how it is used from a local Claude Code session.
 
 ## Local development
 
