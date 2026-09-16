@@ -34,8 +34,15 @@ for (const page of pages) {
   console.log(`  prerendered ${page.path} (${html.length.toLocaleString()} chars)`);
 }
 
-// Images (and the GLB models the 3D viewers load) live at the site root and are
-// referenced as /images/..., so they have to ship alongside the built pages.
-cpSync(resolve(siteRoot, 'images'), resolve(dist, 'images'), { recursive: true });
+// Directories that live at the site root and are linked as absolute URLs from
+// the pages (images and the GLB models the 3D viewers load; tools/ holds the
+// CadQuery source the drawer-organizer page offers for download). They are not
+// Vite inputs, so they have to be copied alongside the built pages.
+const STATIC_DIRS = ['images', 'tools'];
+for (const dir of STATIC_DIRS) {
+  cpSync(resolve(siteRoot, dir), resolve(dist, dir), { recursive: true });
+}
 
-console.log(`prerendered ${count} page(s), copied images/`);
+console.log(
+  `prerendered ${count} page(s), copied ${STATIC_DIRS.map((d) => `${d}/`).join(', ')}`,
+);
