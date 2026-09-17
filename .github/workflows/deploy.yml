@@ -13,6 +13,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Stage public static content
+        run: |
+          mkdir -p _public
+          cp index.html products.html build-log.html _public/
+          cp -R images lab-notes build-log _public/
+
       - name: Ensure Cloudflare Pages project exists
         uses: cloudflare/wrangler-action@v3
         continue-on-error: true
@@ -26,4 +32,4 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy . --project-name=littledevlab --branch=main --commit-dirty=true
+          command: pages deploy _public --project-name=littledevlab --branch=main --commit-dirty=true

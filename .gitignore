@@ -10,3 +10,5 @@ _to_delete/
 *.code-workspace
 __pycache__/
 *.pyc
+
+_public/
