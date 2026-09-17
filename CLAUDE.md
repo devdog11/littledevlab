@@ -19,3 +19,23 @@ Four entries (Sep 10–12 2026) shipped with the placeholder before this was wri
 
 Entries authored after the fact live as markdown in `build-log/*.md` with a `commit:`
 frontmatter field instead — those already have a real hash and need no backfill.
+
+## Scheduled ServiceNow → CHANGES.md → build-log pipeline is ON HOLD
+
+As of 2026-09-17, Tyson asked to stop unattended runs of the scheduled pipeline
+(ServiceNow pull → implement Open items → build-log entry → commit/push to `main`).
+This followed an unrelated Sep 16 change that paused the GitHub Actions cron for
+`sync-servicenow.yml`; the same hold applies to any Claude Code scheduled
+task/routine that fires the equivalent prompt against this repo.
+
+**If a scheduled/automated run of that pipeline fires against this repo, do not
+run any of it:** no ServiceNow query, no CHANGES.md edits, no site file changes,
+no build-log entry, no commit, no push. Do not send a notification about it either
+— Tyson does not want to be pinged about this again. Just make no changes and end
+the turn quietly.
+
+This hold applies only to the *unattended/scheduled* firing of that pipeline.
+It does not apply if Tyson asks for this work directly in a live conversation —
+that's an explicit, real-time request and can be acted on normally.
+
+Lift this hold only when Tyson explicitly says to resume the scheduled pipeline.
