@@ -14,14 +14,14 @@ function CheckIcon() {
 export default function ProductBlock() {
   return (
     <div className="product-block" id="gaming-card-display">
-      <div className="product-gallery" style={{ backgroundImage: "url('/images/gaming-card-display/gaming-card-display-blueprint.svg')" }}>
+      <div className="product-gallery" style={{ backgroundImage: "url('/images/card/gaming-card-display-blueprint.svg')" }}>
         <div className="gallery-view-toggle">
           <button type="button">Photo</button>
           <button className="active" type="button">Rotate in 3D</button>
         </div>
         <model-viewer
           class="main-photo main-3d active"
-          src="/images/gaming-card-display/gaming-card-display.glb"
+          src="/images/card/gaming-card-display.glb"
           camera-controls=""
           auto-rotate=""
           auto-rotate-delay="0"
@@ -32,20 +32,20 @@ export default function ProductBlock() {
           alt="Interactive 3D model of the trading card display rack"
         ></model-viewer>
         <div className="gallery-3d-hint" style={{ opacity: 1 }}>Drag to rotate · scroll to zoom</div>
-        <img className="main-photo is-3d-hidden" src="/images/gaming-card-display/gaming-card-display-3.jpg" alt="Trading card display rack stocked with Magic: The Gathering booster packs at a game shop counter" />
+        <img className="main-photo is-3d-hidden" src="/images/card/gaming-card-display-3.jpg" alt="Trading card display rack stocked with Magic: The Gathering booster packs at a game shop counter" />
         <div className="gallery-zoom-hint">Click to enlarge</div>
         <div className="product-thumbs-wrap">
           <div className="thumb-scroll-zone left">&#10094;</div>
           <div className="product-thumbs">
-            <img src="/images/gaming-card-display/gaming-card-display-3.jpg" alt="Card holder at a game shop counter, stocked" className="active" />
-            <img src="/images/gaming-card-display/card-holder-left.png" alt="Card holder, loaded, angle 1" />
-            <img src="/images/gaming-card-display/card-holder-right.png" alt="Card holder, loaded, angle 2" />
-            <img src="/images/gaming-card-display/card-holder-pulled-out.jpg" alt="Card holder with a pack pulled out" />
-            <img src="/images/gaming-card-display/gaming-card-display-5.jpg" alt="Multiple card holders in retail use at a game shop" />
-            <img src="/images/gaming-card-display/gaming-card-display-1.jpg" alt="Card display photo 1" />
-            <img src="/images/gaming-card-display/gaming-card-display-2.jpg" alt="Card display photo 2" />
-            <img src="/images/gaming-card-display/gaming-card-display-4.jpg" alt="Card display photo 4" />
-            <img src="/images/gaming-card-display/gaming-card-display-white.png" alt="Rendered view" />
+            <img src="/images/card/gaming-card-display-3.jpg" alt="Card holder at a game shop counter, stocked" className="active" />
+            <img src="/images/card/card-holder-left.png" alt="Card holder, loaded, angle 1" />
+            <img src="/images/card/card-holder-right.png" alt="Card holder, loaded, angle 2" />
+            <img src="/images/card/card-holder-pulled-out.jpg" alt="Card holder with a pack pulled out" />
+            <img src="/images/card/gaming-card-display-5.jpg" alt="Multiple card holders in retail use at a game shop" />
+            <img src="/images/card/gaming-card-display-1.jpg" alt="Card display photo 1" />
+            <img src="/images/card/gaming-card-display-2.jpg" alt="Card display photo 2" />
+            <img src="/images/card/gaming-card-display-4.jpg" alt="Card display photo 4" />
+            <img src="/images/card/gaming-card-display-white.png" alt="Rendered view" />
           </div>
           <div className="thumb-scroll-zone right">&#10094;</div>
         </div>
@@ -53,7 +53,7 @@ export default function ProductBlock() {
       <div className="product-info">
         <span className="tag">Retail Display Box</span>
         <h3>Trading Card Display Rack</h3>
-        <div className="price">$35</div>
+        <div className="price">$15</div>
         <div className="product-variants">
           <span className="tag" style={{ fontSize: '.7rem', marginBottom: 8, display: 'block', width: '100%' }}>Available colors</span>
           <span className="variant-chip active">Warm White</span>
