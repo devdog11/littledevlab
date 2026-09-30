@@ -13,11 +13,31 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Stage public static content
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+
+      - name: Build the products page
+        working-directory: app
+        run: |
+          npm ci
+          npm run build
+
+      # The React build is the products page. The old static products.html stays
+      # in the repo for rollback but is no longer published. To roll back, revert
+      # the commit that made this change.
+      - name: Stage public content
         run: |
           mkdir -p _public
-          cp index.html products.html build-log.html _public/
+          cp index.html build-log.html _public/
+          cp app/dist/index.html _public/products.html
+          cp -R app/dist/assets _public/assets
           cp -R images lab-notes build-log _public/
+          test -s _public/products.html
+          grep -q 'id="root"' _public/products.html
+          ls _public/assets/*.js _public/assets/*.css
 
       - name: Ensure Cloudflare Pages project exists
         uses: cloudflare/wrangler-action@v3
