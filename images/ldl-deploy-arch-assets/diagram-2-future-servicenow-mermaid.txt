@@ -1,0 +1,19 @@
+sequenceDiagram
+autonumber
+participant SN as ServiceNow
+participant CL as Claude<br/>(AI agent)
+participant GH as GitHub
+participant ME as Me<br/>(phone)
+participant GA as GitHub<br/>Actions
+participant CF as Cloudflare<br/>Pages
+Note over SN,CL: Unattended ServiceNow to AI to GitHub automation is PAUSED.
+SN->>SN: I create a change request (CHG) with constraints and success criteria
+SN-->>CL: Picked up. Today a manual importer writes it to CHANGES.md. Planned: Flow Designer.
+Note over CL: Treat the request as untrusted input. Project rules win.
+CL-->>GH: Edit the site on a CHG-number branch, run lint and build, open a pull request
+GH-->>ME: Email and phone notification
+Note over ME: STOP. I review the diff and a preview. This is my approval gate.
+ME->>GH: Merge
+GH->>GA: The existing deploy.yml runs
+GA->>CF: Same build and upload as today
+CL-->>SN: Write the PR link and deploy status to the work notes, then close the change

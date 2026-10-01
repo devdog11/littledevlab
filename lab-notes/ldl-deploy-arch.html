@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="../images/profile/littledevlab-icon.png" />
+  <title>Who Should Be Allowed to Deploy My Website? — Lab Notes</title>
+  <meta name="description" content="LittleDevLab lab note: weighing deployment trigger options for GitHub Actions, Node, npm, Vite, React, Wrangler and Cloudflare Pages." />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --paper: #f8f4ea;
+      --ink: #2c2820;
+      --ink-soft: #55503f;
+      --accent: #b0492a;
+      --sand: #ece4d4;
+      --white: #f8f4ea;
+      --gray-100: #efe8da;
+      --gray-200: #e3dac8;
+      --gray-400: #a49a82;
+      --gray-800: #2c2820;
+      --radius: 3px;
+      --radius-lg: 6px;
+      --shadow-md: 0 4px 16px rgba(44,40,32,.12), 0 2px 6px rgba(44,40,32,.08);
+      --max-w: 760px;
+    }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      font-family: Georgia, 'Iowan Old Style', 'Palatino Linotype', serif;
+      color: var(--ink);
+      background: var(--paper);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    img { display: block; max-width: 100%; height: auto; }
+    .container { max-width: var(--max-w); margin: 0 auto; padding: 0 24px; }
+    header.site-nav {
+      border-bottom: 1px solid var(--gray-200);
+      padding: 18px 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      position: relative;
+    }
+    header.site-nav .container { display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { display: flex; align-items: center; gap: 8px; font-weight: 700; color: var(--ink); font-size: .95rem; letter-spacing: -.01em; }
+    .nav-links { display: flex; align-items: center; gap: 22px; list-style: none; }
+    .nav-links a { color: var(--ink-soft); font-size: .84rem; }
+    .nav-links a:hover { color: var(--accent); }
+    .nav-cta {
+      background: var(--accent);
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: var(--radius);
+      font-size: .82rem;
+      font-weight: 600;
+      margin-left: 8px;
+    }
+    .nav-cta:hover { opacity: .88; text-decoration: none; }
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .nav-toggle span { display: block; width: 22px; height: 2px; background: var(--ink); border-radius: 2px; transition: all .25s; }
+    .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-toggle.open span:nth-child(2) { opacity: 0; }
+    .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .mobile-nav { display: none; border-top: 1px solid var(--gray-200); margin-top: 16px; padding-top: 4px; }
+    .mobile-nav.open { display: block; }
+    .mobile-nav > ul { list-style: none; }
+    .mobile-nav > ul > li { border-top: 1px solid var(--gray-200); }
+    .mobile-nav > ul > li:first-child { border-top: none; }
+    .mobile-nav a, .mobile-nav .mobile-link-toggle { display: block; padding: 12px 0; font-size: .88rem; color: var(--ink-soft); }
+    @media (max-width: 700px) {
+      .nav-links, header.site-nav .nav-cta { display: none; }
+      .nav-toggle { display: flex; }
+    }
+
+    /* ── Nav dropdown (Home / Products / Lab Journey) ── */
+    .nav-item-dropdown { position: relative; }
+    .nav-dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      padding: 8px;
+      min-width: 240px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateX(-50%) translateY(4px);
+      transition: opacity .15s, transform .15s, visibility .15s;
+      z-index: 20;
+    }
+    .nav-item-dropdown:hover .nav-dropdown-menu,
+    .nav-item-dropdown:focus-within .nav-dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(0);
+    }
+    .nav-dropdown-menu a {
+      display: block;
+      padding: 8px 12px;
+      font-size: .84rem;
+      border-radius: var(--radius);
+      white-space: nowrap;
+      color: var(--gray-800);
+    }
+    .nav-dropdown-menu a:hover { background: var(--gray-100); }
+    .mobile-link-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font: inherit;
+      color: inherit;
+      text-align: left;
+      padding: 0;
+    }
+    .mobile-link-toggle svg { transition: transform .2s; flex-shrink: 0; }
+    .mobile-link-toggle.open svg { transform: rotate(180deg); }
+    .mobile-submenu {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .2s ease;
+    }
+    .mobile-submenu.open { max-height: 400px; }
+    .mobile-submenu a { display: block; padding: 10px 0 10px 16px; font-size: .92rem; opacity: .85; }
+
+    /* ── Per-section nav accent colors ── */
+    :root {
+      --products-accent: #b8873d;
+      --journey-accent: #1e3a5f; /* matches Build Log's navy */
+    }
+    .nav-container { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+    .nav-item-dropdown[data-accent="home"] > a:hover,
+    .nav-item-dropdown[data-accent="home"]:focus-within > a { color: var(--accent); }
+    .nav-item-dropdown[data-accent="products"] > a:hover,
+    .nav-item-dropdown[data-accent="products"]:focus-within > a { color: var(--products-accent); }
+    .nav-item-dropdown[data-accent="journey"] > a:hover,
+    .nav-item-dropdown[data-accent="journey"]:focus-within > a { color: var(--journey-accent); }
+    .nav-item-dropdown[data-accent] .nav-dropdown-menu { border-top: 3px solid var(--gray-200); }
+    .nav-item-dropdown[data-accent="home"] .nav-dropdown-menu { border-top-color: var(--accent); }
+    .nav-item-dropdown[data-accent="products"] .nav-dropdown-menu { border-top-color: var(--products-accent); }
+    .nav-item-dropdown[data-accent="journey"] .nav-dropdown-menu { border-top-color: var(--journey-accent); }
+    .nav-dropdown-menu a.current { color: var(--ink); font-weight: 600; }
+    .mobile-link-toggle[data-accent="home"].open { color: var(--accent); }
+    .mobile-link-toggle[data-accent="products"].open { color: var(--products-accent); }
+    .mobile-link-toggle[data-accent="journey"].open { color: var(--journey-accent); }
+    .mobile-link.current { color: var(--accent); font-weight: 600; }
+    .tag {
+      display: inline-block;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: var(--sand);
+      padding: 4px 10px;
+      border-radius: var(--radius);
+    }
+    .post-meta {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: .8rem;
+      color: var(--ink-soft);
+      margin-top: 10px;
+    }
+    main { padding: 56px 0 80px; }
+    h1 {
+      font-size: 2rem;
+      line-height: 1.25;
+      margin: 16px 0 6px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-weight: 700;
+      letter-spacing: -.01em;
+    }
+    h2 {
+      font-size: 1.3rem;
+      margin: 40px 0 14px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-weight: 700;
+      color: var(--ink);
+    }
+    h3 {
+      font-size: 1.05rem;
+      margin: 28px 0 10px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-weight: 700;
+      color: var(--ink);
+    }
+    p { margin-bottom: 18px; font-size: 1.05rem; }
+    .lede { font-size: 1.15rem; color: var(--ink-soft); }
+    .callout {
+      background: var(--sand);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 16px 20px;
+      margin: 28px 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: .92rem;
+      color: var(--ink-soft);
+    }
+    .placeholder {
+      display: block;
+      background: var(--gray-100);
+      border: 1px dashed var(--gray-400);
+      border-radius: var(--radius);
+      padding: 12px 16px;
+      margin: 10px 0 18px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: .88rem;
+      color: var(--ink-soft);
+      font-style: italic;
+    }
+    .example {
+      background: var(--gray-100);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 14px 20px 2px;
+      margin: 10px 0 18px;
+    }
+    .example-source {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+    .example p { font-size: .98rem; }
+    footer {
+      border-top: 1px solid var(--gray-200);
+      padding: 28px 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: .8rem;
+      color: var(--ink-soft);
+      text-align: center;
+    }
+    footer a { color: var(--ink-soft); margin: 0 8px; }
+    .post-list { list-style: none; margin-top: 32px; }
+    .post-list li { padding: 20px 0; border-bottom: 1px solid var(--gray-200); }
+    .post-list li:first-child { padding-top: 0; }
+    .post-list h3 { margin: 8px 0 6px; }
+    .post-list .excerpt { color: var(--ink-soft); font-size: .95rem; margin: 0; }
+
+
+    /* ── Page-specific components, restyled with the brand tokens in BRAND.md ── */
+    :root {
+      --paper-2: #f3ede1;
+      --gold: #c8a96e;
+      --mono: 'Courier New', ui-monospace, SFMono-Regular, Menlo, monospace;
+      --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+    a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+    section { margin: 0 0 8px; }
+    ul { margin: 0 0 18px; padding-left: 1.4em; }
+    li { margin-bottom: 8px; font-size: 1.05rem; }
+    section + section { margin-top: 8px; }
+    section > h2:first-child { margin-top: 36px; }
+    code {
+      font-family: var(--mono);
+      font-size: .88em;
+      background: var(--gray-100);
+      padding: .1em .35em;
+      border-radius: var(--radius);
+    }
+    pre {
+      font-family: var(--mono);
+      font-size: .88rem;
+      line-height: 1.5;
+      overflow-x: auto;
+      background: var(--ink);
+      color: var(--white);
+      padding: 16px 20px;
+      border-radius: var(--radius);
+      margin: 0 0 18px;
+    }
+    pre code { background: none; padding: 0; font-size: inherit; color: inherit; }
+    blockquote {
+      background: var(--sand);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 16px 20px;
+      margin: 28px 0;
+      font-size: 1.05rem;
+    }
+    blockquote p:last-child { margin-bottom: 0; }
+    .option {
+      background: var(--paper-2);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-lg);
+      padding: 22px 24px 6px;
+      margin: 18px 0 28px;
+    }
+    .option .badge { margin-bottom: 16px; }
+    .badge {
+      display: inline-block;
+      font-family: var(--sans);
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      border-radius: var(--radius);
+      padding: 3px 9px;
+    }
+    .decision {
+      font-family: var(--sans);
+      font-size: .92rem;
+      color: var(--ink);
+      background: var(--sand);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 14px 18px;
+      margin: 20px 0 18px;
+    }
+    .flow {
+      font-family: var(--mono);
+      font-size: .88rem;
+      line-height: 1.5;
+      white-space: pre-wrap;
+      overflow-x: auto;
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      margin: 0 0 18px;
+    }
+    .option .flow { background: var(--white); }
+    figure.figure-card {
+      margin: 28px 0 32px;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      background: var(--white);
+    }
+    .figure-copy { padding: 14px 18px 16px; border-top: 1px solid var(--gray-200); }
+    .figure-copy p { font-family: var(--sans); font-size: .9rem; color: var(--ink-soft); margin-bottom: 10px; }
+    .figure-links { display: flex; flex-wrap: wrap; gap: 10px; }
+    .figure-links a {
+      font-family: var(--sans);
+      font-size: .82rem;
+      font-weight: 600;
+      color: var(--ink);
+      border: 1px solid var(--ink);
+      border-radius: var(--radius);
+      padding: 7px 12px;
+    }
+    .figure-links a:hover { color: var(--accent); border-color: var(--accent); text-decoration: none; }
+    table { width: 100%; border-collapse: collapse; margin: 24px 0; font-size: .98rem; }
+    th, td { padding: 12px 10px; border-bottom: 1px solid var(--gray-200); text-align: left; vertical-align: top; }
+    th {
+      font-family: var(--sans);
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      border-bottom: 1px solid var(--gray-400);
+    }
+    section.rule {
+      background: var(--ink);
+      color: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 28px 28px 14px;
+      margin: 44px 0 8px;
+    }
+    section.rule > strong {
+      display: block;
+      font-family: var(--sans);
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+    section.rule p { font-size: 1.1rem; }
+    @media (max-width: 700px) {
+      h1 { font-size: 1.7rem; }
+      .option { padding: 18px 16px 2px; }
+      section.rule { padding: 22px 18px 8px; }
+      th, td { padding: 10px 6px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-nav">
+    <div class="container">
+      <a href="../index.html" class="nav-logo"><svg width="24" height="24" viewBox="0 0 28 28">
+          <rect width="28" height="28" rx="7" fill="#f3ede1"/>
+          <path d="M10.4 14.7 Q14 13.5 17.6 14.7 L19.8 19.5 Q19.8 22 17.2 22 L10.8 22 Q8.2 22 8.2 19.5 Z" fill="#b0492a"/>
+          <path d="M12.3 7.6 L12.3 10.5 L8.2 19.5 Q8.2 22 10.8 22 L17.2 22 Q19.8 22 19.8 19.5 L15.7 10.5 L15.7 7.6" fill="none" stroke="#2c2820" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>
+          <rect x="11.7" y="6.3" width="4.6" height="1.3" rx="0.65" fill="#2c2820"/>
+          <path d="M10.6 7.3 L9.0 8.8 L10.6 10.3" fill="none" stroke="#c8a96e" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M17.4 7.3 L19.0 8.8 L17.4 10.3" fill="none" stroke="#c8a96e" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M11.3 19.3 L14 17.3 L16.2 18.6" fill="none" stroke="#f3ede1" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round"/>
+          <rect x="13.3" y="16.6" width="1.4" height="1.4" fill="#c8a96e" transform="rotate(45 14 17.3)"/>
+          <rect x="10.6" y="18.6" width="1.4" height="1.4" fill="#c8a96e" transform="rotate(45 11.3 19.3)"/>
+          <rect x="15.5" y="17.9" width="1.4" height="1.4" fill="#c8a96e" transform="rotate(45 16.2 18.6)"/>
+        </svg>LittleDevLab</a>
+        <ul class="nav-links">
+          <li class="nav-item-dropdown" data-accent="home">
+            <a href="../index.html">Home</a>
+            <div class="nav-dropdown-menu">
+            <a href="../index.html#about">About</a>
+            <a href="../index.html#gallery">Gallery</a>
+            <a href="../index.html#process">How It's Made</a>
+            </div>
+          </li>
+          <li class="nav-item-dropdown" data-accent="products">
+            <a href="../products.html">Products</a>
+            <div class="nav-dropdown-menu">
+            <a href="../products.html#glasses-holder">Glasses + Contact Lens Holder</a>
+            <a href="../products.html#coaster-holder">Chilewich Coaster Holder</a>
+            <a href="../products.html#gaming-card-display">Trading Card Display Rack</a>
+            <a href="../products.html#hunter-douglas-mount">Hunter Douglas Remote Wall Mount</a>
+            <a href="../products.html#steak-knife-holder">Steak Knife Holder</a>
+            <a href="../products.html#zbiotic-gift-box">ZBiotic Six-Pack Gift Carrier</a>
+            </div>
+          </li>
+          <li class="nav-item-dropdown" data-accent="journey">
+            <a href="index.html">Lab Journey</a>
+            <div class="nav-dropdown-menu">
+            <a href="index.html" class="current">Lab Notes</a>
+            <a href="../build-log.html">Build Log</a>
+            </div>
+          </li>
+        </ul>
+      <a href="../index.html#contact" class="nav-cta">Get in Touch</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="mobile-nav" id="mobileNav">
+      <ul>
+      <li>
+        <button type="button" class="mobile-link-toggle" data-toggle="mobile-home-submenu" data-accent="home">
+          Home
+          <svg width="10" height="10" viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="mobile-submenu" id="mobile-home-submenu">
+          <a href="../index.html#about" class="mobile-link">About</a>
+          <a href="../index.html#gallery" class="mobile-link">Gallery</a>
+          <a href="../index.html#process" class="mobile-link">How It's Made</a>
+        </div>
+      </li>
+      <li>
+        <button type="button" class="mobile-link-toggle" data-toggle="mobile-products-submenu" data-accent="products">
+          Products
+          <svg width="10" height="10" viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="mobile-submenu" id="mobile-products-submenu">
+          <a href="../products.html#glasses-holder" class="mobile-link">Glasses + Contact Lens Holder</a>
+          <a href="../products.html#coaster-holder" class="mobile-link">Chilewich Coaster Holder</a>
+          <a href="../products.html#gaming-card-display" class="mobile-link">Trading Card Display Rack</a>
+          <a href="../products.html#hunter-douglas-mount" class="mobile-link">Hunter Douglas Remote Wall Mount</a>
+          <a href="../products.html#steak-knife-holder" class="mobile-link">Steak Knife Holder</a>
+          <a href="../products.html#zbiotic-gift-box" class="mobile-link">ZBiotic Six-Pack Gift Carrier</a>
+        </div>
+      </li>
+      <li>
+        <button type="button" class="mobile-link-toggle" data-toggle="mobile-journey-submenu" data-accent="journey">
+          Lab Journey
+          <svg width="10" height="10" viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="mobile-submenu" id="mobile-journey-submenu">
+          <a href="index.html" class="mobile-link current">Lab Notes</a>
+          <a href="../build-log.html" class="mobile-link">Build Log</a>
+        </div>
+      </li>
+        <li><a href="../index.html#contact" class="mobile-link">Get in Touch</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <span class="tag">Deployment Architecture</span>
+      <h1>Who Should Be Allowed to Deploy My Website?</h1>
+      <p class="post-meta">October 1, 2026 &middot; Lab Notes &middot; Status: decision finalized</p>
+
+      <p class="lede">I mapped the build chain, separated “building” from “publishing,” weighed three deployment-trigger options, and ended up with GitHub as the gatekeeper.</p>
+
+
+<section>
+<p>In an effort to “just get it out,” I gave Claude too much agentic power, and it led to my site getting updates I hadn’t expected. I over-rotated and removed all agentic deployment, only to increase the complexity — and to challenge my rusty developer-tool experience.</p>
+
+<p>While mapping how LittleDevLab gets from code to <code>littledevlab.com</code>, I realized I had been lumping several very different jobs together. Node, npm, Vite, React, GitHub Actions, Wrangler and Cloudflare all participate in publishing the site, but they do not all do the same thing.</p>
+
+<p>That raised the useful architecture question:</p>
+
+<blockquote><strong>Who should actually be allowed to trigger a production deployment?</strong></blockquote>
+
+<p>This matters even more as I add ServiceNow and an AI coding agent into the workflow. If Claude is allowed to edit code and run builds, I do not want “run a build” to quietly mean “publish this to the internet.”</p>
+</section>
+
+<section>
+<h2>First: what each piece actually does</h2>
+
+<h3>React</h3>
+<p>React is the JavaScript library the interactive products page is written with. It does not deploy anything. Vite takes the React code and turns it into files a browser can use.</p>
+
+<h3>Vite</h3>
+<p>Vite is the build tool that bundles the code. In my setup it turns the React app into ordinary static files: HTML, JavaScript and CSS.</p>
+
+<h3>Node</h3>
+<p>Node is the JavaScript runtime used during the build. GitHub Actions starts a temporary machine with Node installed so the build tools can run.</p>
+
+<h3>npm</h3>
+<p>npm installs the project dependencies and gives me convenient commands such as <code>npm ci</code> and <code>npm run build</code>. It can also run a deployment command if I decide to define one.</p>
+
+<h3>Wrangler</h3>
+<p>Wrangler is the Cloudflare command-line tool that actually uploads the finished files to Cloudflare Pages.</p>
+
+<h3>GitHub Actions</h3>
+<p>GitHub Actions is the automation engine. It watches for the event I care about — a push to <code>main</code>, which in my process means a reviewed pull request was merged — and then runs the build and deployment process.</p>
+
+<blockquote>A trigger decides <em>when</em> something is allowed to happen. A tool performs the work after that decision has been made.</blockquote>
+</section>
+
+<section>
+<h2>Option 1: building the site automatically deploys it</h2>
+<div class="option">
+<span class="badge">Option 1</span>
+<pre><code>npm run build
+      ↓
+Vite builds the React app
+      ↓
+Wrangler deploys it
+      ↓
+Production changes</code></pre>
+
+<p>The obvious advantage is simplicity: run one command and everything happens. I could wire this through an npm <code>postbuild</code> script, a Vite plugin, or another build hook.</p>
+
+<p>But I want a build to be safe to run anywhere. I should be able to run <code>npm run build</code> in a Codespace just to check whether the code works. Claude should also be able to run builds while validating a change.</p>
+
+<p>If “build” can implicitly change production, then a routine validation command suddenly has a very surprising side effect. That gets especially uncomfortable once an AI agent is involved.</p>
+
+<div class="decision"><strong>Decision: rejected.</strong> Building software and publishing software should remain separate operations.</div>
+</div>
+</section>
+
+<section>
+<h2>Option 2: let npm own the deployment</h2>
+<div class="option">
+<span class="badge">Option 2</span>
+<pre><code>npm run deploy
+      ↓
+npm run build
+      ↓
+Vite builds React
+      ↓
+Wrangler deploys the result</code></pre>
+
+<p>This is a much better idea. The deployment implementation can live with the project instead of being buried in workflow YAML, and the same command could be used from GitHub Actions or another CI system later.</p>
+
+<p>I actually like that portability. A GitHub Actions workflow could become almost trivial:</p>
+
+<pre><code>npm ci
+npm run deploy</code></pre>
+
+<p>But there is still a distinction I want to preserve: npm may know <em>how</em> to deploy, but I do not want npm deciding <em>when</em> production deployment is allowed.</p>
+
+<p>If Cloudflare credentials were available in every environment that could run npm, a developer — or an agent — could bypass the approval path.</p>
+
+<div class="decision"><strong>Decision: useful, but not sufficient by itself.</strong> I may package more deployment mechanics into npm later, while keeping the production gate somewhere else.</div>
+</div>
+</section>
+
+<section>
+<h2>Option 3: GitHub decides when production deployment happens</h2>
+<div class="option">
+<span class="badge">Selected</span>
+
+<p>This is the model I am using. One caveat: today it is enforced mostly by my habits, not by GitHub settings. The section on what is locked down covers that.</p>
+
+<blockquote><strong>The trigger is a reviewed pull request being merged into <code>main</code>.</strong></blockquote>
+
+<div class="flow">Merge to main
+      ↓
+GitHub Actions starts deploy.yml
+      ↓
+Set up Node
+      ↓
+npm ci
+      ↓
+npm run build
+      ↓
+Vite builds the React application
+      ↓
+Stage the static website files
+      ↓
+Wrangler uploads them
+      ↓
+Cloudflare Pages</div>
+
+<p>That gives each part one clear responsibility. GitHub decides <strong>when</strong>. GitHub Actions coordinates <strong>what happens next</strong>. Node/npm/Vite build the application. Wrangler uploads it. Cloudflare serves it.</p>
+
+<div class="decision"><strong>Decision: selected.</strong> This gives me the clearest human approval boundary and fits the future ServiceNow + Claude workflow best.</div>
+</div>
+</section>
+
+<section>
+<h2>Current workflow</h2>
+<p>This is the build-and-publish path that exists today. Click the image to open it full size.</p>
+
+<figure class="figure-card">
+  <a href="../images/ldl-deploy-arch-assets/diagram-1-today.png">
+    <img src="../images/ldl-deploy-arch-assets/diagram-1-today.png" alt="Flowchart with a lane each for me, GitHub, GitHub Actions, the build tools, Cloudflare Pages and the visitor’s browser. It follows a change from editing a file to a pull request, my review and merge, the build, the upload and the page loading in a browser.">
+  </a>
+  <figcaption class="figure-copy">
+    <p><strong>Diagram 1 — How a change reaches littledevlab.com today.</strong> Everything here is built and working. The note marked STOP is my review.</p>
+    <div class="figure-links">
+      <a href="../images/ldl-deploy-arch-assets/diagram-1-today.png">Open full-size diagram</a>
+      <a href="../images/ldl-deploy-arch-assets/diagram-1-today-mermaid.txt">Mermaid source</a>
+    </div>
+  </figcaption>
+</figure>
+</section>
+
+<section>
+<h2>Why this gets more important with ServiceNow + Claude</h2>
+
+<p>The future workflow I am designing gives Claude enough power to do real engineering work without quietly giving it the keys to production.</p>
+
+<div class="flow">ServiceNow Change Request
+          ↓
+Claude reads the request
+          ↓
+Claude creates a branch
+          ↓
+Claude modifies the site
+          ↓
+Claude runs lint + build tests
+          ↓
+Claude opens a pull request
+          ↓
+GitHub notifies me
+          ↓
+        STOP
+     I review it
+          ↓
+     I click Merge
+          ↓
+GitHub Actions deploys
+          ↓
+Cloudflare Pages</div>
+
+<p>The key word there is <strong>STOP</strong>. Claude can write most or even all of a change, but the branch is not production. A pull request is not production. Even a successful production build is not production.</p>
+
+<p>Only a merge to <code>main</code> starts a deployment. Whether that is really only me depends on what GitHub enforces, which is the next section.</p>
+
+<figure class="figure-card">
+  <a href="../images/ldl-deploy-arch-assets/diagram-2-future-servicenow.png">
+    <img src="../images/ldl-deploy-arch-assets/diagram-2-future-servicenow.png" alt="Flowchart with a lane each for ServiceNow, Claude, GitHub, me on my phone, GitHub Actions and Cloudflare Pages. A change request leads to a Claude pull request, my review and merge, and then the same deployment as today. The unattended automation is marked as paused.">
+  </a>
+  <figcaption class="figure-copy">
+    <p><strong>Diagram 2 — Planned ServiceNow-driven workflow.</strong> Solid arrows exist today. Dashed arrows are planned, not built. The notes mark the pause on unattended automation and my review.</p>
+    <div class="figure-links">
+      <a href="../images/ldl-deploy-arch-assets/diagram-2-future-servicenow.png">Open full-size diagram</a>
+      <a href="../images/ldl-deploy-arch-assets/diagram-2-future-servicenow-mermaid.txt">Mermaid source</a>
+    </div>
+  </figcaption>
+</figure>
+</section>
+
+<section>
+<h2>What is locked down today, and what is not</h2>
+
+<p>Labeling my review an “approval gate” on a diagram is not the same as GitHub enforcing it. When I checked the repository, the gaps were real.</p>
+
+<h3>Enforced now</h3>
+<ul>
+<li>A failed build stops the deployment before Wrangler runs.</li>
+<li>My Codespace login can push content, but GitHub will not let it change the workflow files. I found that out when a push was rejected.</li>
+</ul>
+
+<h3>Still on my list</h3>
+<ul>
+<li><strong>Require a pull request to change <code>main</code>.</strong> Right now <code>main</code> has no protection, so a direct push to it also deploys. Review is my habit, not a rule.</li>
+<li><strong>Limit the deploy job to <code>main</code>.</strong> The workflow also has a manual trigger. A manual run from another branch would build that branch and publish it. A two-line check in the workflow fixes that.</li>
+<li><strong>Keep the Cloudflare credentials in a GitHub environment that only <code>main</code> can use.</strong> A check inside the workflow file only goes so far, because anyone with write access could edit that file on a branch. A credential that other branches cannot read cannot be bypassed that way.</li>
+<li><strong>Run lint and the build on every pull request.</strong> A green check would tell me the page builds before I merge, even from my phone.</li>
+</ul>
+
+<p>Until those are in place, “my approval gate” describes the process I follow. It does not describe what GitHub prevents. That matters most once an AI agent has credentials, so I would rather say it plainly than overstate the setup.</p>
+</section>
+
+<section>
+<h2>Failure behavior: another reason I like this model</h2>
+
+<p>If I merge a change and the build fails, the deployment stops before Wrangler runs. Cloudflare continues serving the previous version.</p>
+
+<div class="flow">Merge to main
+      ↓
+Attempt build
+      ↓
+   Success?
+   /     \
+ No       Yes
+ ↓         ↓
+STOP     Deploy
+ ↓
+Old site remains live</div>
+
+<p>A broken build does not automatically become a broken website. That is exactly the behavior I want.</p>
+</section>
+
+<section>
+<h2>Final workflow plan</h2>
+
+<table>
+<thead>
+<tr><th>Component</th><th>Responsibility</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>GitHub</strong></td><td>Decides when: a merge to <code>main</code> starts a deployment.</td></tr>
+<tr><td><strong>GitHub Actions</strong></td><td>Orchestrates the build and deployment.</td></tr>
+<tr><td><strong>Node / npm / Vite</strong></td><td>Build the application.</td></tr>
+<tr><td><strong>React</strong></td><td>The library the products page is written with.</td></tr>
+<tr><td><strong>Wrangler</strong></td><td>Uploads the finished static site.</td></tr>
+<tr><td><strong>Cloudflare Pages</strong></td><td>Hosts and serves the finished site.</td></tr>
+</tbody>
+</table>
+
+<p>I may still move more of the deployment mechanics into <code>package.json</code> later. For example, GitHub Actions could eventually run:</p>
+
+<pre><code>npm ci
+npm run deploy:production</code></pre>
+
+<p>That would give me the portability of npm without changing the approval model.</p>
+</section>
+
+<section class="rule">
+<strong>The rule I am keeping:</strong>
+<p>GitHub controls <em>when</em>.<br>
+Node, npm and Vite handle <em>how</em> the application is built.<br>
+Wrangler performs the upload.<br>
+Cloudflare serves the result.</p>
+
+<p><strong>Most importantly: building the website is not permission to publish the website.</strong></p>
+</section>
+
+
+    </div>
+  </main>
+  <footer>
+    <div class="container">
+      <p>&copy; 2026 LittleDevLab &middot; SF Bay Area &middot; <a href="index.html">All Lab Notes</a> &middot; <a href="../index.html">Home</a></p>
+    </div>
+  </footer>
+
+  <script>
+    const navToggle = document.getElementById('navToggle');
+    const mobileNav = document.getElementById('mobileNav');
+    if (navToggle && mobileNav) {
+      navToggle.addEventListener('click', () => {
+        navToggle.classList.toggle('open');
+        mobileNav.classList.toggle('open');
+      });
+    }
+    // ── Mobile dropdown submenu toggles (Home / Products / Lab Journey) ──
+    document.querySelectorAll('.mobile-link-toggle[data-toggle]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const submenu = document.getElementById(btn.getAttribute('data-toggle'));
+        if (submenu) submenu.classList.toggle('open');
+        btn.classList.toggle('open');
+      });
+    });
+  </script>
+</body>
+</html>
