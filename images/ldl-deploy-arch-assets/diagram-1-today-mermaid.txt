@@ -1,0 +1,22 @@
+sequenceDiagram
+autonumber
+participant ME as Me
+participant GH as GitHub
+participant GA as GitHub<br/>Actions
+participant BT as Build<br/>tools
+participant CF as Cloudflare Pages
+participant VB as Visitor's<br/>browser
+ME->>GH: Push a branch and open a pull request
+Note over ME,GH: STOP. I review the diff. This is my approval gate.
+ME->>GH: Click Merge into main
+GH->>GA: The push to main starts deploy.yml
+GA->>BT: Set up Node 22, then run npm ci and npm run build
+BT->>GA: Vite bundles React into one HTML, JS and CSS file
+alt The build fails
+  Note over GA,CF: Nothing deploys. The old site stays live.
+else The build succeeds
+  GA->>GA: Stage the built app, static pages, images and lab notes
+  GA->>CF: wrangler pages deploy
+  CF->>VB: Serves the files at littledevlab.com
+  Note over VB: The browser runs React, which draws the page.
+end
