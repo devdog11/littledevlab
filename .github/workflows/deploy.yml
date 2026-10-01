@@ -7,6 +7,10 @@ on:
 
 jobs:
   deploy:
+    # Only main deploys. A manual run started from any other branch is skipped.
+    if: github.ref == 'refs/heads/main'
+    # The Cloudflare secrets live in this environment, which only main can use.
+    environment: production
     runs-on: ubuntu-latest
     permissions:
       contents: read
