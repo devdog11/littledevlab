@@ -659,6 +659,19 @@ LittleDevLab
         <section class="log-stream">
             <div class="container">
                 <div class="log-stream-inner">
+                    <p class="log-day-label">October 1, 2026</p>
+                    <div class="log-entry">
+                        <div class="log-entry-card">
+                            <div class="log-entry-meta">
+                                <span class="log-entry-time">17:40 PDT</span>
+                                <span class="log-entry-tag">Infra</span>
+                            </div>
+                            <h3>Made my deploy approval gate something GitHub enforces</h3>
+                            <p>Published a <a href="lab-notes/ldl-deploy-arch.html">Lab Note on who should be allowed to deploy this site</a>, then closed the four gaps it named the same day. <code>main</code> now requires a pull request and a passing build check, only <code>main</code> can deploy, and the Cloudflare credentials live in a GitHub environment that only <code>main</code> can use, on a new token scoped to one account.</p>
+                            <p>I also removed a one-time setup step that logged a fake &ldquo;Action failed&rdquo; on every deploy, and moved the workflow&rsquo;s actions to current versions. All of it is live across pull requests #7, #8 and #9. The Lab Note now covers what is enforced and the one gap left: with zero required approvals, the review is still mine to do.</p>
+<span class="log-entry-commit">commit 6710cd4</span>
+                        </div>
+                    </div>
                     <p class="log-day-label">
                         September 18<span style="font-size:0.72rem;letter-spacing:0.12em;">, 2026</span>
                     </p>
