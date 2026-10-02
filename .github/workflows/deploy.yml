@@ -15,9 +15,9 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: npm
@@ -42,18 +42,12 @@ jobs:
           test -s _public/products.html
           grep -q 'id="root"' _public/products.html
           ls _public/assets/*.js _public/assets/*.css
-
-      - name: Ensure Cloudflare Pages project exists
-        uses: cloudflare/wrangler-action@v3
-        continue-on-error: true
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages project create littledevlab --production-branch=main
-
+          
       - name: Deploy to Cloudflare Pages
-        uses: cloudflare/wrangler-action@v3
+        uses: cloudflare/wrangler-action@v4
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          # Stay on Wrangler 4.x so a new major version can't change deploys unannounced.
+          wranglerVersion: "4"
           command: pages deploy _public --project-name=littledevlab --branch=main --commit-dirty=true
