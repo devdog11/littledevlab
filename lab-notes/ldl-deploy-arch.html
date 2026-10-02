@@ -492,7 +492,7 @@
     <div class="container">
       <span class="tag">Deployment Architecture</span>
       <h1>Who Should Be Allowed to Deploy My Website?</h1>
-      <p class="post-meta">October 1, 2026 &middot; Lab Notes &middot; Status: decision finalized</p>
+      <p class="post-meta">October 1, 2026 &middot; Updated October 2, 2026 &middot; Lab Notes &middot; Status: gate enforced</p>
 
       <p class="lede">I mapped the build chain, separated “building” from “publishing,” weighed three deployment-trigger options, and ended up with GitHub as the gatekeeper.</p>
 
@@ -680,25 +680,26 @@ Cloudflare Pages</div>
 </section>
 
 <section>
-<h2>What is locked down today, and what is not</h2>
+<h2>What is locked down now</h2>
 
-<p>Labeling my review an “approval gate” on a diagram is not the same as GitHub enforcing it. When I checked the repository, the gaps were real.</p>
+<p>Labeling my review an “approval gate” on a diagram is not the same as GitHub enforcing it. When I first published this note, the gaps were real: <code>main</code> had no protection, any branch could deploy by hand, the Cloudflare credentials were readable from any branch, and nothing checked a pull request before I merged it. Within a day of publishing, I closed all four.</p>
 
 <h3>Enforced now</h3>
 <ul>
 <li>A failed build stops the deployment before Wrangler runs.</li>
-<li>My Codespace login can push content, but GitHub will not let it change the workflow files. I found that out when a push was rejected.</li>
+<li><strong>Changing <code>main</code> takes a pull request.</strong> A ruleset on <code>main</code> requires a pull request and a passing build check, and it blocks force pushes and deleting the branch. The first time I tried to edit a file on <code>main</code> in GitHub’s web editor afterward, it refused and offered to make a new branch instead.</li>
+<li><strong>Only <code>main</code> deploys.</strong> The deploy job checks the branch before it runs, so a manual run started from any other branch is skipped.</li>
+<li><strong>The Cloudflare credentials belong to <code>main</code>.</strong> They live in a GitHub environment named <code>production</code> that only <code>main</code> can use. I created a new Cloudflare token for it, scoped to one account, instead of moving the old one, which could reach every account.</li>
+<li><strong>Every pull request is linted and built.</strong> A separate workflow runs lint, the Vite build and the same staging step as the deploy. It has no Cloudflare access. It passed on its first run.</li>
+<li>My Codespace login can push content, but GitHub will not let it change the workflow files. I found that out when a push was rejected. I kept it that way, so I made every workflow change on this list myself in GitHub’s web editor, each through its own pull request.</li>
 </ul>
 
-<h3>Still on my list</h3>
-<ul>
-<li><strong>Require a pull request to change <code>main</code>.</strong> Right now <code>main</code> has no protection, so a direct push to it also deploys. Review is my habit, not a rule.</li>
-<li><strong>Limit the deploy job to <code>main</code>.</strong> The workflow also has a manual trigger. A manual run from another branch would build that branch and publish it. A two-line check in the workflow fixes that.</li>
-<li><strong>Keep the Cloudflare credentials in a GitHub environment that only <code>main</code> can use.</strong> A check inside the workflow file only goes so far, because anyone with write access could edit that file on a branch. A credential that other branches cannot read cannot be bypassed that way.</li>
-<li><strong>Run lint and the build on every pull request.</strong> A green check would tell me the page builds before I merge, even from my phone.</li>
-</ul>
+<h3>What it still does not do</h3>
+<p>The ruleset requires a pull request, but zero approvals. I work alone, and GitHub does not let me approve my own pull request. That means anything with write access, including my Codespace login, can open a pull request and merge it once the check is green. The rule guarantees a pull request and a passing build. The review is still mine to do.</p>
 
-<p>Until those are in place, “my approval gate” describes the process I follow. It does not describe what GitHub prevents. That matters most once an AI agent has credentials, so I would rather say it plainly than overstate the setup.</p>
+<p>One cleanup came out of this too. The deploy workflow had a step that created the Cloudflare Pages project. It only mattered on the first deploy, and after that it logged “Action failed” on every run while the deploy itself succeeded. A fake failure on every run teaches you to ignore real ones, so I removed it and updated the workflow’s actions to their current versions in the same pull request.</p>
+
+<p>“My approval gate” now describes what GitHub prevents, not just the process I follow, with the one caveat above.</p>
 </section>
 
 <section>
