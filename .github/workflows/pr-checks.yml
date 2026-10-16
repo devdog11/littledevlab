@@ -13,6 +13,12 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v7
+        with:
+          # Full history, so the attribution check can read every commit in the PR.
+          fetch-depth: 0
+
+      - name: Check commit attribution
+        run: tools/check-attribution.sh "${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }}"
 
       - uses: actions/setup-node@v7
         with:
