@@ -16,6 +16,21 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v7
+        with:
+          # Full history, so the attribution check can read every pushed commit.
+          fetch-depth: 0
+
+      # Blocks the deploy if a pushed commit credits an AI tool. A manual run has
+      # no push range, so it skips this check.
+      - name: Check commit attribution
+        if: github.event_name == 'push'
+        run: |
+          before="${{ github.event.before }}"
+          if [ "$before" = "0000000000000000000000000000000000000000" ]; then
+            tools/check-attribution.sh "${{ github.sha }}^!"
+          else
+            tools/check-attribution.sh "$before..${{ github.sha }}"
+          fi
 
       - uses: actions/setup-node@v7
         with:
