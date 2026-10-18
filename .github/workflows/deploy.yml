@@ -44,9 +44,7 @@ jobs:
           npm ci
           npm run build
 
-      # The React build is the products page. The old static products.html stays
-      # in the repo for rollback but is no longer published. To roll back, revert
-      # the commit that made this change.
+      # The React build is published as products.html.
       - name: Stage public content
         run: |
           mkdir -p _public

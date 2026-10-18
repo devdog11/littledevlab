@@ -1,6 +1,6 @@
 # app
 
-React + Vite source for site pages. The products page is first, and it is the live products page. `.github/workflows/deploy.yml` builds it and publishes `dist/index.html` as `products.html`. The old static `../products.html` is kept only for rollback and is not published. Edit products here (`products.js`, `src/pages/products/`), not in that file.
+React + Vite source for site pages. The products page is first, and it is the live products page. `.github/workflows/deploy.yml` builds it and publishes `dist/index.html` as `products.html`. Edit products here (`products.js`, `src/pages/products/`).
 
 ```
 npm install
