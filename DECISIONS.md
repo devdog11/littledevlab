@@ -64,3 +64,17 @@ Choices made while moving littledevlab.com to a pre-rendered React site
 | Each note is its own chunk, modulepreloaded on its page | A post downloads only its own text. |
 | Same-day notes order by file name, Z to A | Keeps the old list order (Aug 31: prompt engineering, then hands-on labs) without a manual order field. |
 | Post links and images use clean absolute URLs (`/lab-notes/x`, `/images/...`) | Same targets, no redirect; relative `../` paths would break at `/lab-notes/x` without `.html`. |
+
+## Stage 5: Home
+
+| Decision | Why |
+| --- | --- |
+| Markup converted from index.html by a script (HTML to JSX), then wired up by hand | Keeps every class, id and string as it was; the screenshots at 1280px and 390px match the old page. |
+| Scroll reveal: a `<Reveal>` wrapper (same elements the old script picked: section headers, about blocks, contact blocks, title block) | React owns the class instead of a script adding it after load. |
+| Gallery: a data list + the shared `Lightbox`; tiles are buttons for the keyboard (Enter/Space opens, Escape closes, focus returns to the tile) | The old tiles were click-only `div`s. |
+| Contact form: same FormSubmit AJAX call, button states and mailto fallback, in `ContactForm.jsx`; the form also has `action`/`method` pointing at FormSubmit | With JavaScript off, the form now still sends (FormSubmit's own thank-you page) instead of doing nothing. |
+| `blueprint.js` became `useDimension` + `DimensionLabel` (ResizeObserver, state) | Labels start empty in both the static HTML and the first render, then fill in, so hydration never mismatches. |
+| Hash re-scroll after load ported as `useHashScrollFix` | Same double-rAF + 600 ms correction as the inline script. |
+| Scroll spy kept: the Nav highlights the home dropdown link for the section in view | Same behavior as the old script. |
+| The old home script's product helpers (`setProductColor`, `toggle3D`, Hunter Douglas/coaster/glasses swaps) were dropped | The home page has no product blocks or 3D viewers; that code was left over from before Products moved to its own page. The model-viewer color swap lives in `ProductBlock.jsx` (already React). model-viewer no longer loads on the home page. |
+| Theme rule `#root > section + section` became `:where(#root) > section + section` | With an id in it, the rule out-ranked `#custom`'s dark top border; `:where()` gives it the same weight as the old `body > section + section`. |

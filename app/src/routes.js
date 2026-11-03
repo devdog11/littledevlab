@@ -13,6 +13,7 @@ import { labNotesIndex } from './content/labNotesIndex.js'
 export const pageModules = import.meta.glob('./pages/*/*Page.jsx')
 
 const STATIC_PAGES = [
+  { path: '/', file: 'index.html', module: './pages/home/HomePage.jsx' },
   { path: '/products', file: 'products.html', module: './pages/products/ProductsPage.jsx' },
   { path: '/lab/', file: 'lab/index.html', module: './pages/lab/LabPage.jsx' },
   { path: '/build-log', file: 'build-log.html', module: './pages/build-log/BuildLogPage.jsx' },
