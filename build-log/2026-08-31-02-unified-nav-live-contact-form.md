@@ -1,9 +1,10 @@
 ---
 date: "2026-08-31"
 time: "10:50 PM"
-title: "One nav for the whole site, contact form goes live, real photos swapped in"
+title: "One nav for the whole site, Gallery and Lab Journey come home, contact form goes live"
 tags: [Infra, Design, Products]
-commit: a69f860
+skills: [CI/CD & infra, Product design, Web & design]
+commit: "a69f860"
 ---
 
-Replaced the patchwork of per-page navs with a single unified one — Home, Products, and a new Lab Journey dropdown (Lab Notes + Build Log) — and the contact form finally sends to hello@littledevlab.com instead of doing nothing. An hour later, swapped in the confirmed real installed print for the Hunter Douglas mount and the actual game-shop counter shot for the Trading Card Display Rack, and gave the Lab Notes hub the same dark-banner header treatment as Build Log.
+Replaced the patchwork of per-page navs with a single unified one: Home, Products, and a new Lab Journey dropdown (Lab Notes + Build Log), each with its own accent color on the shared warm palette. Moved the Gallery section from Products back onto the homepage, added a new Lab Journey section linking out to both build-in-public tracks, and — the big one — the contact form now actually sends to hello@littledevlab.com instead of doing nothing.

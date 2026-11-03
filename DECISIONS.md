@@ -23,3 +23,18 @@ Choices made while moving littledevlab.com to a pre-rendered React site
 | `tools/stage-site.sh` assembles `_public/` for both workflows | One staging script, so the PR check and the deploy can't drift apart. |
 | `npm run serve` (`app/scripts/serve.mjs`) previews the build with Cloudflare's URL rules | `python3 -m http.server` doesn't map `/products` to `products.html`. |
 | Added `sitemap.xml` to the build | Free once every page is listed in one place; lists canonical URLs. |
+
+## Stage 2: Build Log
+
+| Decision | Why |
+| --- | --- |
+| The page is built from `build-log/*.md`; the 17 existing files were rewritten to match the live page, and the 11 entries that only existed on the page became new files | The live page is what readers saw (titles, times, tags and wording had drifted from the files). Nothing visible changes; the earlier file wording is still in git history (`45ff1f6`). |
+| Markdown is rendered at build time by a small Vite transform (`app/build/markdown.js`, using `marked`) | No Markdown library ships to the browser; `x.md?meta` imports only the front matter for lists. |
+| Front matter gained `skills:` | The Lab's skill filter reads it, so its hand-kept list can go. Existing skills came from `lab/lab-data.js`; new entries map from their tags. |
+| Entries sort by date, then time of day | Works for new files without hand ordering. One visible change: on Sept 5 the 5:26 PM entry now sits above the 12:39 AM one. |
+| Spaces restored around inline code (`via wrangler-action on`) | The old page's formatter had glued them to the words; the Markdown files already had the spaces. |
+| Dates formatted by hand, not `toLocaleDateString` | Build-time and browser output must match exactly, whatever the visitor's locale or time zone. |
+| Each entry has an `id` (its file name) | The Lab links to the exact entry (`/build-log#2026-10-01-01-...`). |
+| Closing note now says the page is built from the folder | "Hand-rendered view of that folder for now" is no longer true. |
+| `build-log/*.md` stays published | Those files were public URLs before; the staging step still copies the folder. |
+| Pages now have `<!DOCTYPE html>` | The old build-log.html had none (quirks mode); a few pixels of vertical spacing changed. |

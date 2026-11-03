@@ -12,6 +12,7 @@ export const pageModules = import.meta.glob('./pages/*/*Page.jsx')
 
 const STATIC_PAGES = [
   { path: '/products', file: 'products.html', module: './pages/products/ProductsPage.jsx' },
+  { path: '/build-log', file: 'build-log.html', module: './pages/build-log/BuildLogPage.jsx' },
 ]
 
 export function listPages() {
