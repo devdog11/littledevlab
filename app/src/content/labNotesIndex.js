@@ -1,7 +1,7 @@
 // Every Lab Note's front matter (no bodies), read from ../lab-notes/*.md.
 // Front matter: title, date, category, skills, pinned, summary (The Lab card),
 // excerpt (Lab Notes list), description (meta tag), optional status and image.
-const files = import.meta.glob('../../../lab-notes/*.md', { eager: true, import: 'default', query: '?meta' })
+const files = import.meta.glob(['../../../lab-notes/*.md', '!../../../lab-notes/README.md'], { eager: true, import: 'default', query: '?meta' })
 
 export const noteSlug = (path) => path.split('/').pop().replace(/\.md$/, '')
 

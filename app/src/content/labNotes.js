@@ -1,6 +1,6 @@
 // One Lab Note with its rendered body. Each note is its own chunk, so a post
 // page downloads only its own text.
-const files = import.meta.glob('../../../lab-notes/*.md', { import: 'default' })
+const files = import.meta.glob(['../../../lab-notes/*.md', '!../../../lab-notes/README.md'], { import: 'default' })
 
 export async function loadNote(slug) {
   const load = files[`../../../lab-notes/${slug}.md`]

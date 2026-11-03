@@ -10,6 +10,9 @@ import fs from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 
+// Render with React's production build, as the browser gets.
+process.env.NODE_ENV = 'production'
+
 const appDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const dist = path.join(appDir, 'dist')
 const SITE_URL = 'https://littledevlab.com'
