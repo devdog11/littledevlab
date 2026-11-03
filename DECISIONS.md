@@ -38,3 +38,15 @@ Choices made while moving littledevlab.com to a pre-rendered React site
 | Closing note now says the page is built from the folder | "Hand-rendered view of that folder for now" is no longer true. |
 | `build-log/*.md` stays published | Those files were public URLs before; the staging step still copies the folder. |
 | Pages now have `<!DOCTYPE html>` | The old build-log.html had none (quirks mode); a few pixels of vertical spacing changed. |
+
+## Stage 3: The Lab
+
+| Decision | Why |
+| --- | --- |
+| Ported `lab/lab-app.js` (htm + CDN React 18) to `app/src/pages/lab/LabPage.jsx` and removed `lab/` | Same components and markup in JSX; React now comes from the build, not unpkg. |
+| Build Log items come from `build-log/*.md` front matter (`?meta`, no bodies) and link to the exact entry | Replaces the hand-kept `logs` list; The Lab now shows all 28 entries, not 17. |
+| Lab Notes items come from a temporary module until stage 4 | Stage 4 replaces it with the notes' own front matter. |
+| `?skill=` filter uses React Router's `useSearchParams` and applies after hydration | The pre-rendered page is the unfiltered list (good for no-JS readers and crawlers); reading the URL during hydration would mismatch the static HTML. |
+| Products shipped = number of products in `app/products.js` | Was a hand-typed `6`. |
+| Kept the prototype's stylesheet order: Lab Notes sheet, theme, then `lab.css` | `lab.css` relies on loading after the theme. |
+| Gave the two series buttons padding | The shared base sheet has no `.btn` rule, so they rendered as bare text blocks. |

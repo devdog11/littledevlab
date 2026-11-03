@@ -1,4 +1,4 @@
-/* The Lab landing page. Loads after blueprint.css and uses its tokens. */
+/* The Lab landing page (was lab/lab.css). Loads after blueprint.css and uses its tokens. */
 
 /* Text follows the site: system sans for reading, osifont for labels. */
 #lab-root { font-family: var(--font-sans); }
@@ -80,3 +80,7 @@
   .lab-entry { grid-template-columns: auto 1fr; }
   .lab-entry-title { grid-column: 1 / -1; }
 }
+
+/* The Lab's base sheet (shared with Lab Notes) has no .btn rule, so the two
+   series buttons rendered with no padding in the prototype. */
+.lab-series .btn { display: inline-block; padding: 10px 20px; font-size: .82rem; text-decoration: none; }
