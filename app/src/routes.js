@@ -7,6 +7,8 @@
 // The pre-render step and the browser both load the module (and its data)
 // before rendering, so the first browser render matches the static HTML.
 
+import { labNotesIndex } from './content/labNotesIndex.js'
+
 // One lazy chunk per page, so each page only downloads its own code.
 export const pageModules = import.meta.glob('./pages/*/*Page.jsx')
 
@@ -14,10 +16,23 @@ const STATIC_PAGES = [
   { path: '/products', file: 'products.html', module: './pages/products/ProductsPage.jsx' },
   { path: '/lab/', file: 'lab/index.html', module: './pages/lab/LabPage.jsx' },
   { path: '/build-log', file: 'build-log.html', module: './pages/build-log/BuildLogPage.jsx' },
+  { path: '/lab-notes/', file: 'lab-notes/index.html', module: './pages/lab-notes/LabNotesIndexPage.jsx' },
 ]
 
+// One page per lab-notes/<slug>.md. `preload` names the note's own chunk
+// (as the build manifest keys it) so the pre-render can modulepreload it.
+function notePages() {
+  return labNotesIndex().map(({ slug }) => ({
+    path: `/lab-notes/${slug}`,
+    file: `lab-notes/${slug}.html`,
+    module: './pages/lab-notes/LabNotePage.jsx',
+    params: { slug },
+    preload: [`../lab-notes/${slug}.md`],
+  }))
+}
+
 export function listPages() {
-  return STATIC_PAGES.map((p) => ({ params: {}, ...p }))
+  return [...STATIC_PAGES.map((p) => ({ params: {}, ...p })), ...notePages()]
 }
 
 // The other spellings a page answers to: Cloudflare redirects x.html to /x,

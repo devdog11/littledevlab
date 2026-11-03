@@ -23,8 +23,8 @@ const { listPages, render } = await import(pathToFileURL(path.join(appDir, 'dist
 
 // Module-preload the page's own chunk and what it imports, so the browser
 // fetches them alongside the entry script instead of after it.
-function preloadTags(moduleKey) {
-  const key = path.posix.join('src', moduleKey)
+function preloadTags(page) {
+  const keys = [path.posix.join('src', page.module), ...(page.preload ?? [])]
   const files = new Set()
   const visit = (k) => {
     const chunk = manifest[k]
@@ -32,7 +32,7 @@ function preloadTags(moduleKey) {
     files.add(chunk.file)
     ;(chunk.imports ?? []).forEach(visit)
   }
-  visit(key)
+  keys.forEach(visit)
   return [...files]
     .filter((f) => !template.includes(`/${f}"`)) // already preloaded by Vite
     .map((f) => `<link rel="modulepreload" crossorigin href="/${f}" />`)
@@ -49,7 +49,7 @@ for (const page of pages) {
   if (!html.trim()) throw new Error(`${page.file}: rendered empty`)
 
   const out = template
-    .replace('<!--app-head-->', [headTags, ...preloadTags(page.module)].join('\n    '))
+    .replace('<!--app-head-->', [headTags, ...preloadTags(page)].join('\n    '))
     .replace('<!--app-late-head-->', lateHeadTags)
     .replace('<div id="root"></div>', `<div id="root" data-page="${page.file}">${html}</div>`)
 

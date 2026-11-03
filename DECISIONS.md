@@ -50,3 +50,17 @@ Choices made while moving littledevlab.com to a pre-rendered React site
 | Products shipped = number of products in `app/products.js` | Was a hand-typed `6`. |
 | Kept the prototype's stylesheet order: Lab Notes sheet, theme, then `lab.css` | `lab.css` relies on loading after the theme. |
 | Gave the two series buttons padding | The shared base sheet has no `.btn` rule, so they rendered as bare text blocks. |
+
+## Stage 4: Lab Notes
+
+| Decision | Why |
+| --- | --- |
+| Markdown (`lab-notes/<slug>.md`) rendered at build time, not MDX | The posts are prose plus a few styled HTML blocks; Markdown allows inline HTML, so no MDX compiler or JSX-in-content is needed. |
+| Converted with a script that round-trips every block through the site's own renderer and keeps a block as raw HTML if it doesn't come back identical | Guarantees the text and structure are unchanged. Result: all six posts render to the same DOM as the old pages. Prose, headings and plain lists are Markdown; callouts, step lists, figures, tables, the option cards and 4 `<pre>` blocks stay HTML. |
+| Six posts + the index page = the 7 old files | The index list is now generated from front matter. |
+| Front matter also carries `excerpt`, `description`, `status`, `image` | The Lab's short `summary` and the Lab Notes list's longer teaser were different texts; the meta description and the deploy post's "Status: gate enforced" line had to live somewhere. |
+| One `lab-notes.css` for all posts; each post's extra rules are scoped with `:where(.note-<slug>)` | The seven `<style>` blocks shared a base and differed in post-specific rules (two posts styled `code` differently). `:where()` adds no specificity, so each post keeps exactly its old cascade. |
+| Narrowed one theme rule: `#root section + section` became `#root > section + section` | The old Products app needed it; now that every page renders in `#root` it drew rules between the deploy post's inner sections. Top-level sections still get the separator. |
+| Each note is its own chunk, modulepreloaded on its page | A post downloads only its own text. |
+| Same-day notes order by file name, Z to A | Keeps the old list order (Aug 31: prompt engineering, then hands-on labs) without a manual order field. |
+| Post links and images use clean absolute URLs (`/lab-notes/x`, `/images/...`) | Same targets, no redirect; relative `../` paths would break at `/lab-notes/x` without `.html`. |

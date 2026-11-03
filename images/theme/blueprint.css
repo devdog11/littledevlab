@@ -154,7 +154,7 @@ body.blueprint-theme::before {
 }
 .blueprint-theme main > section + section,
 body.blueprint-theme > section + section,
-.blueprint-theme #root section + section {
+.blueprint-theme #root > section + section {
   border-top: 1px solid var(--blueprint-ink-faint);
 }
 
