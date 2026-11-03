@@ -9,10 +9,9 @@ rm -rf _public
 mkdir -p _public
 cp -R images _public/
 
-# Static pages not yet moved to React. React output copied below replaces them.
-for legacy in index.html build-log.html lab lab-notes build-log; do
-  if [ -e "$legacy" ]; then cp -R "$legacy" _public/; fi
-done
+# The Build Log's Markdown files were always published; keep their URLs.
+mkdir -p _public/build-log
+cp build-log/*.md _public/build-log/
 
 cp -R app/dist/. _public/
 rm -rf _public/.vite
@@ -25,6 +24,12 @@ for page in $pages; do
   grep -q '<div id="root" data-page="' "_public/$page" || { echo "Not pre-rendered: $page"; exit 1; }
   grep -q '<title>' "_public/$page" || { echo "No <title>: $page"; exit 1; }
 done
-test -s _public/products.html
+for page in index.html products.html build-log.html lab/index.html lab-notes/index.html; do
+  test -s "_public/$page" || { echo "Missing page: $page"; exit 1; }
+done
+for note in lab-notes/*.md; do
+  [ "$(basename "$note")" = README.md ] && continue
+  test -s "_public/${note%.md}.html" || { echo "Lab Note not built: $note"; exit 1; }
+done
 ls _public/assets/*.js _public/assets/*.css > /dev/null
 echo "Staged $(echo "$pages" | wc -l | tr -d ' ') pre-rendered page(s) in _public/"

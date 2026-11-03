@@ -78,3 +78,13 @@ Choices made while moving littledevlab.com to a pre-rendered React site
 | Scroll spy kept: the Nav highlights the home dropdown link for the section in view | Same behavior as the old script. |
 | The old home script's product helpers (`setProductColor`, `toggle3D`, Hunter Douglas/coaster/glasses swaps) were dropped | The home page has no product blocks or 3D viewers; that code was left over from before Products moved to its own page. The model-viewer color swap lives in `ProductBlock.jsx` (already React). model-viewer no longer loads on the home page. |
 | Theme rule `#root > section + section` became `:where(#root) > section + section` | With an id in it, the rule out-ranked `#custom`'s dark top border; `:where()` gives it the same weight as the old `body > section + section`. |
+
+## Stage 6: cleanup and deploy
+
+| Decision | Why |
+| --- | --- |
+| Removed `index.html`, `build-log.html`, `lab-notes/*.html`, `partials/site-nav.html`, `tools/sync-nav.py`, `images/theme/blueprint.js` | Each is now produced or replaced by `app/` (pages, `Nav`, `useDimension`). |
+| Kept `font-specimens.html` | Not part of the site or the deploy; it's a type reference page, not something this work replaced. |
+| Workflows: same trigger, `production` environment and attribution check; the build step runs `npm run build` (pre-render) and staging is `tools/stage-site.sh` | Both workflows now build and check the full pre-rendered site, with one shared staging script. |
+| Staging publishes `app/dist` + `images/` + `build-log/*.md`; `lab/` is now published too | The old deploy never copied `lab/`, so the menu's "Lab Journey" link would have 404'd in production. |
+| Product "Order" links use `/#contact` | Same target as `/index.html#contact`, without the redirect. |

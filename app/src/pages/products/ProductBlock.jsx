@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import pressable from '../../components/pressable.js'
 import useReveal from '../../components/useReveal.js'
+import { URLS } from '../../site.js'
 import ThumbStrip from './ThumbStrip.jsx'
 
 function CheckIcon() {
@@ -142,7 +143,7 @@ export default function ProductBlock({ product, onEnlarge }) {
               ),
             )}
             {group.options[selected[groupIndex]]?.contact && (
-              <a href="/index.html#contact" style={{ display: 'block', width: '100%', marginTop: 10, fontSize: '.82rem', color: 'var(--accent)' }}>
+              <a href={URLS.contact} style={{ display: 'block', width: '100%', marginTop: 10, fontSize: '.82rem', color: 'var(--accent)' }}>
                 Start a Custom Order →
               </a>
             )}
@@ -160,8 +161,8 @@ export default function ProductBlock({ product, onEnlarge }) {
           ))}
         </ul>
         <div className="product-actions">
-          <a href="/index.html#contact" className="btn btn-primary">Order This</a>
-          <a href="/index.html#contact" className="btn btn-outline">Request a Variation</a>
+          <a href={URLS.contact} className="btn btn-primary">Order This</a>
+          <a href={URLS.contact} className="btn btn-outline">Request a Variation</a>
         </div>
       </div>
     </div>
