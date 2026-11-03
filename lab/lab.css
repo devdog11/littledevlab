@@ -1,0 +1,82 @@
+/* The Lab landing page. Loads after blueprint.css and uses its tokens. */
+
+/* Text follows the site: system sans for reading, osifont for labels. */
+#lab-root { font-family: var(--font-sans); }
+#lab-root :is(.lab-sheet-no, .lab-date, .lab-skills, .lab-kind-badge, .lab-count, .lab-chips button, .lab-stats dt) { font-family: var(--font-label); }
+
+.lab-cover { padding: 72px 0 56px; }
+.lab-cover h1 { font-size: clamp(2.4rem, 5vw, 3.4rem); margin: 10px 0 14px; }
+.lab-cover-lede { max-width: 60ch; font-size: 1.05rem; line-height: 1.7; }
+/* Stats sit on a dimension line with end ticks, like the home hero. */
+.lab-stats { display: flex; flex-wrap: wrap; gap: 36px; margin-top: 32px; padding-top: 22px; position: relative; max-width: 480px; border-top: 1px solid var(--blueprint-ink-medium); }
+.lab-stats::before, .lab-stats::after { content: ""; position: absolute; top: -6px; width: 1px; height: 11px; background: var(--blueprint-ink-medium); }
+.lab-stats::before { left: 0; }
+.lab-stats::after { right: 0; }
+.lab-stats dd { order: -1; font-family: var(--font-hand); font-size: 2.2rem; line-height: 1; color: var(--blueprint-ink-dark); }
+.lab-stats div { display: flex; flex-direction: column; gap: 6px; }
+.lab-stats dt { font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; color: var(--blueprint-ink-soft); }
+
+.lab-section { padding: 56px 0 8px; }
+.lab-section > .container > h2 { font-size: clamp(1.6rem, 3vw, 2.1rem); margin: 12px 0 24px; }
+.lab-sheet-no { font-size: .74rem; letter-spacing: .08em; text-transform: uppercase; color: var(--blueprint-accent); }
+.lab-date { font-size: .8rem; color: var(--blueprint-ink-soft); white-space: nowrap; }
+.lab-skills { font-size: .78rem; color: var(--blueprint-ink-soft); }
+
+/* Two sheet-series cards */
+.lab-series-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.lab-series { padding: 28px; display: flex; flex-direction: column; gap: 12px; }
+.lab-series h2 { font-size: 1.9rem; margin: 0; }
+.lab-series h2 a { color: inherit; text-decoration: none; }
+.lab-series .btn { align-self: flex-start; margin-top: auto; }
+.lab-mini-list { list-style: none; border-top: 1px solid var(--blueprint-rule); margin: 4px 0 12px; }
+.lab-mini-list li { padding: 9px 0; border-bottom: 1px solid var(--blueprint-rule); line-height: 1.45; }
+.lab-mini-list .lab-date { display: block; }
+
+/* Pinned case studies: the whole card is the link. */
+.lab-pinned { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.blueprint-theme a.lab-case { display: flex; flex-direction: column; gap: 10px; padding: 22px; color: var(--blueprint-ink-dark); text-decoration: none; }
+.lab-case h3 { font-size: 1.2rem; line-height: 1.3; margin: 0; }
+.lab-case p { line-height: 1.6; color: var(--blueprint-ink); }
+.lab-case .lab-skills { margin-top: auto; }
+.lab-case:hover, .lab-case:focus-visible { box-shadow: 5px 5px 0 var(--blueprint-ink-faint); border-color: var(--blueprint-accent); }
+.lab-case:hover h3 { text-decoration: underline 1.5px var(--blueprint-accent); text-underline-offset: .2em; }
+
+/* Filters */
+.lab-filters { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 24px; margin-bottom: 10px; }
+.lab-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.lab-chips button {
+  font: inherit; font-size: .82rem; min-height: 36px; padding: 6px 12px; cursor: pointer;
+  color: var(--blueprint-ink-dark); background: var(--paper-veil);
+  border: 1px solid var(--blueprint-ink-medium); border-radius: 0;
+}
+.lab-chips button:hover { background: var(--blueprint-paper-blue); }
+.lab-chips button[aria-pressed="true"] { color: #fff; background: var(--blueprint-accent); border-color: var(--blueprint-accent); }
+.lab-count { font-size: .85rem; color: var(--blueprint-ink); margin-bottom: 8px; }
+
+/* Activity timeline: a rule down the left with a badge per entry. */
+.lab-timeline { list-style: none; position: relative; padding-left: 28px; margin-bottom: 48px; }
+.lab-timeline::before { content: ""; position: absolute; left: 7px; top: 6px; bottom: 6px; width: 1px; background: var(--blueprint-ink-medium); }
+.lab-entry {
+  position: relative; display: grid; grid-template-columns: auto auto 1fr; gap: 4px 12px; align-items: baseline;
+  padding: 14px 16px; margin-bottom: 10px; background: var(--paper-veil); border: 1px solid var(--blueprint-rule);
+}
+.lab-entry::before {
+  content: ""; position: absolute; left: -26px; top: 20px; width: 11px; height: 11px;
+  border: 1.5px solid var(--blueprint-accent); background: var(--blueprint-paper);
+}
+.lab-entry--note::before { border-radius: 50%; }
+.lab-entry > p, .lab-entry > .lab-skills { grid-column: 1 / -1; }
+.lab-entry > p { line-height: 1.6; }
+.lab-kind-badge {
+  font-size: .7rem; letter-spacing: .08em; text-transform: uppercase; padding: 2px 8px;
+  border: 1px solid var(--blueprint-accent); background: transparent; color: var(--blueprint-accent);
+}
+.lab-entry--log .lab-kind-badge { color: var(--blueprint-ink-soft); border-color: var(--blueprint-ink-medium); }
+.blueprint-theme .lab-entry-title { color: var(--blueprint-ink-dark); text-decoration: underline 1.5px var(--blueprint-accent); text-underline-offset: .22em; font-size: 1.02rem; }
+.blueprint-theme .lab-entry-title:hover { color: var(--blueprint-accent-dark); }
+
+@media (max-width: 900px) {
+  .lab-series-grid, .lab-pinned { grid-template-columns: 1fr; }
+  .lab-entry { grid-template-columns: auto 1fr; }
+  .lab-entry-title { grid-column: 1 / -1; }
+}

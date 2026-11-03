@@ -1,0 +1,870 @@
+/* LittleDevLab drafting theme: "Quiet drafting studio"
+   Recycled drafting paper, graphite lettering and one muted blue-green
+   accent. A curious engineer's workspace, kept calm so the products and
+   the writing stay in front.
+
+   Turn it on with <body class="blueprint-theme">. Each page keeps its own
+   <style> block; this file loads after it and remaps the shared tokens
+   (--ink, --paper, --accent, ...) so most of the restyle comes from those.
+   The rules below cover what a token swap can't reach: the hero and header
+   bands, photos, and the drafting details.
+
+   Type hierarchy
+     Architects Daughter  main headline and short section headings
+     system sans          paragraphs, forms, longer descriptions
+     osifont              short technical labels, dimensions, specs, revisions
+     Courier Prime        code
+
+   Lives under images/ because that folder is already published by the deploy
+   workflow and linked into the React app's public/ folder.
+   Architects Daughter and osifont load from CDNs for now; self-host both in
+   fonts/ (like Courier Prime) before this ships. */
+@import url("https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap");
+
+@font-face {
+  font-family: "osifont";
+  src: url("https://cdn.jsdelivr.net/gh/hikikomori82/osifont@master/osifont-lgpl3fe.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Courier Prime";
+  src: url("fonts/courier-prime-latin-400-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Courier Prime";
+  src: url("fonts/courier-prime-latin-700-normal.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ── Tokens ────────────────────────────────────── */
+.blueprint-theme {
+  /* Contrast on the paper: ink 10.7:1, ink-soft 5.9:1, accent 4.9:1;
+     on the secondary surface: ink-soft 5.6:1, accent 4.7:1;
+     white on the accent 5.8:1, on accent-dark 7.6:1. */
+  --blueprint-paper: #eeece4;          /* recycled drafting paper */
+  --blueprint-paper-blue: #e3e7e4;     /* secondary surface (old name kept) */
+  --blueprint-ink: #2e3438;            /* graphite: main text */
+  --blueprint-ink-dark: #2e3438;       /* headings */
+  --blueprint-ink-soft: #525b60;       /* secondary text */
+  --blueprint-accent: #426b78;         /* blue-green: actions, selected details */
+  --blueprint-accent-dark: #355966;    /* hover/active */
+  --blueprint-ink-medium: rgb(46 52 56 / .36);  /* lines only, not text */
+  --blueprint-ink-faint: rgb(46 52 56 / .09);   /* lines only, not text */
+  --blueprint-rule: rgb(46 52 56 / .18);
+  --blueprint-grid: rgb(66 107 120 / .08);
+  --blueprint-grid-major: rgb(66 107 120 / .15);
+  --paper-veil: color-mix(in srgb, var(--blueprint-paper) 90%, transparent);
+
+  --font-hand: "Architects Daughter", "Patrick Hand", "Comic Neue", cursive;
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-label: "osifont", var(--font-sans);
+  --font-mono: "Courier Prime", "Courier New", ui-monospace, monospace;
+  /* Older names, still used by page CSS and the specimen page. */
+  --blueprint-font: var(--font-sans);
+  --blueprint-hand: var(--font-hand);
+  --blueprint-mono: var(--font-mono);
+
+  /* Remap the site's existing tokens. Legacy names (--navy, --gray-*) are
+     used across every page, so redefining them restyles most components. */
+  --paper:    var(--blueprint-paper);
+  --paper2:   var(--blueprint-paper-blue);
+  --white:    var(--blueprint-paper);
+  --sand:     var(--blueprint-paper-blue);
+  --ink:      var(--blueprint-ink-dark);
+  --ink-soft: var(--blueprint-ink-soft);
+  --navy:     var(--blueprint-ink);
+  --navy-mid: var(--blueprint-ink-dark);
+  --navy-lt:  var(--blueprint-ink-soft);
+  --accent:   var(--blueprint-accent);
+  --hero-accent: var(--blueprint-accent);
+  --gray-100: var(--blueprint-paper-blue);
+  --gray-200: var(--blueprint-rule);
+  --gray-400: var(--blueprint-ink-soft);
+  --gray-600: var(--blueprint-ink-soft);
+  --gray-800: var(--blueprint-ink);
+  --products-accent: var(--blueprint-accent);
+  --journey-accent: var(--blueprint-accent);
+  --bl-navy: var(--blueprint-ink);
+  --bl-navy-soft: var(--blueprint-ink-soft);
+  --bl-gold: var(--blueprint-ink-medium);
+  --shadow-sm: 2px 2px 0 var(--blueprint-ink-faint);
+  --shadow-md: 4px 4px 0 var(--blueprint-ink-faint);
+  --shadow-lg: 6px 6px 0 var(--blueprint-ink-faint);
+  --font: var(--font-sans);
+}
+
+/* 17px base so body text lands at 17–18px; rem-sized page CSS scales with it. */
+html:has(> body.blueprint-theme) { font-size: 106.25%; }
+
+/* ── Paper, grid, and grain ────────────────────── */
+/* Engineering grid (5 squares per major square) printed across the sheet,
+   with a soft paper veil over the reading column so the ruling mostly shows
+   in the margins and open areas. On narrow screens the veil covers it all. */
+body.blueprint-theme {
+  color: var(--blueprint-ink);
+  font-family: var(--font-sans);
+  line-height: 1.7;
+  background-color: var(--blueprint-paper);
+  background-image:
+    linear-gradient(90deg,
+      transparent calc(50% - 700px),
+      var(--paper-veil) calc(50% - 600px),
+      var(--paper-veil) calc(50% + 600px),
+      transparent calc(50% + 700px)),
+    linear-gradient(var(--blueprint-grid-major) 1px, transparent 1px),
+    linear-gradient(90deg, var(--blueprint-grid-major) 1px, transparent 1px),
+    linear-gradient(var(--blueprint-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--blueprint-grid) 1px, transparent 1px);
+  background-size: 100% 100%, 120px 120px, 120px 120px, 24px 24px, 24px 24px;
+  background-attachment: fixed, scroll, scroll, scroll, scroll;
+  overflow-x: clip;
+}
+/* Recycled-paper tooth: fine neutral grain behind the content. */
+body.blueprint-theme::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: .35;
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .18 0 0 0 0 .2 0 0 0 0 .22 0 0 0 .22 0'/></filter><rect width='100%' height='100%' filter='url(%23g)'/></svg>");
+  background-size: 240px 240px;
+}
+
+/* Section bands go transparent so the sheet runs through the whole page. */
+.blueprint-theme section,
+.blueprint-theme #products,
+.blueprint-theme #process,
+.blueprint-theme #gallery,
+.blueprint-theme #about,
+.blueprint-theme #contact,
+.blueprint-theme .sheet-titleblock,
+.blueprint-theme .product-block,
+.blueprint-theme .products-landing-tile,
+.blueprint-theme .log-stream {
+  background-color: transparent;
+}
+.blueprint-theme main > section + section,
+body.blueprint-theme > section + section,
+.blueprint-theme #root section + section {
+  border-top: 1px solid var(--blueprint-ink-faint);
+}
+
+/* ── Type ──────────────────────────────────────── */
+/* Handwriting only for the headline and short headings; Architects
+   Daughter has one weight, so no faux bold. */
+.blueprint-theme :is(h1, h2, h3) {
+  font-family: var(--font-hand);
+  font-weight: 400;
+  letter-spacing: 0;
+  color: var(--blueprint-ink-dark);
+  text-shadow: none;
+}
+.blueprint-theme h4 { font-family: var(--font-sans); font-weight: 600; color: var(--blueprint-ink-dark); }
+.blueprint-theme :is(p, li, td, input, select, textarea, label, blockquote) { font-family: var(--font-sans); }
+.blueprint-theme :is(p, li) { color: inherit; }
+.blueprint-theme strong { color: var(--blueprint-ink-dark); }
+.blueprint-theme ::selection { background: rgb(66 107 120 / .2); color: var(--blueprint-ink-dark); }
+.blueprint-theme :is(code, pre, kbd) { font-family: var(--font-mono); }
+
+/* Technical labels: osifont, small caps-style tracking. */
+.blueprint-theme :is(.tag, .hero-eyebrow, .lab-eyebrow, .log-eyebrow, .post-meta,
+  .hero-badge-label, .stat-label, .bp-dim, .titleblock, .log-entry-time,
+  .log-entry-commit, .log-entry-tag, .log-day-label, .price, .variant-chip,
+  .gallery-view-toggle button, .btn, .nav-cta, .form-group label) {
+  font-family: var(--font-label);
+}
+/* Figures read as hand-lettered callouts. */
+.blueprint-theme :is(.hero-badge-num, .stat-num) {
+  font-family: var(--font-hand);
+  font-weight: 400;
+  color: var(--blueprint-ink-dark);
+}
+
+/* ── Focus & links ─────────────────────────────── */
+.blueprint-theme :focus-visible {
+  outline: 2px solid var(--blueprint-accent);
+  outline-offset: 3px;
+}
+.blueprint-theme main a:not(.btn):not(.tag) { color: var(--blueprint-ink); }
+/* Links in running text: graphite with an accent underline, so they don't
+   rely on color alone. Headings, buttons, tags and the contact list keep
+   their own styles. */
+.blueprint-theme :is(main, section, article) :is(p, li, td, blockquote, figcaption) a:not(.btn):not(.tag):not(:is(h1, h2, h3, h4, .contact-links) *) {
+  color: var(--blueprint-ink-dark);
+  text-decoration: underline 1.5px var(--blueprint-accent);
+  text-underline-offset: .22em;
+}
+.blueprint-theme :is(main, section, article) :is(p, li, td, blockquote, figcaption) a:not(.btn):not(.tag):not(:is(h1, h2, h3, h4, .contact-links) *):hover {
+  color: var(--blueprint-accent-dark);
+  text-decoration-thickness: 3px;
+}
+
+/* ── Section labels (.tag) ─────────────────────── */
+.blueprint-theme .tag {
+  color: var(--blueprint-accent);
+  background: transparent;
+  border: 1px solid var(--blueprint-accent);
+  border-radius: 0;
+  padding: 3px 10px;
+  letter-spacing: .12em;
+  font-weight: 400;
+}
+/* Leader ticks either side of a centered section label. */
+.blueprint-theme .section-header .tag { position: relative; }
+.blueprint-theme .section-header .tag::before,
+.blueprint-theme .section-header .tag::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 56px;
+  height: 9px;
+  margin-top: -4px;
+  border-top: 1px solid var(--blueprint-ink-medium);
+  transform: translateY(4px);
+  pointer-events: none;
+}
+.blueprint-theme .section-header .tag::before {
+  right: calc(100% + 8px);
+  border-left: 1px solid var(--blueprint-ink-medium);
+}
+.blueprint-theme .section-header .tag::after {
+  left: calc(100% + 8px);
+  border-right: 1px solid var(--blueprint-ink-medium);
+}
+
+/* ── Buttons ───────────────────────────────────── */
+.blueprint-theme .btn,
+.blueprint-theme .nav-cta {
+  border-radius: 0;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  font-weight: 400;
+}
+/* Primary: the one accent action on each screen. */
+.blueprint-theme .btn-primary,
+.blueprint-theme .nav-cta {
+  color: #fff;
+  background: var(--blueprint-accent);
+  border: 1px solid var(--blueprint-accent);
+  box-shadow: 3px 3px 0 var(--blueprint-ink-faint);
+}
+.blueprint-theme .btn-primary:hover,
+.blueprint-theme .nav-cta:hover {
+  color: #fff;
+  background: var(--blueprint-accent-dark);
+  border-color: var(--blueprint-accent-dark);
+  opacity: 1;
+  text-decoration: none;
+}
+/* Outline and ghost: drawn outlines in graphite. */
+.blueprint-theme .btn-outline,
+.blueprint-theme .btn-ghost {
+  color: var(--blueprint-ink-dark);
+  background: transparent;
+  border: 1px solid var(--blueprint-ink);
+}
+.blueprint-theme .btn-outline:hover,
+.blueprint-theme .btn-ghost:hover {
+  color: var(--blueprint-ink-dark);
+  background: var(--blueprint-paper-blue);
+  border-color: var(--blueprint-ink);
+  box-shadow: 3px 3px 0 var(--blueprint-ink-faint);
+}
+
+/* ── Header & navigation ───────────────────────── */
+.blueprint-theme .nav,
+.blueprint-theme header.site-nav {
+  background: color-mix(in srgb, var(--blueprint-paper) 90%, transparent);
+  border-bottom: 1px solid var(--blueprint-ink);
+  box-shadow: 0 3px 0 -2px var(--blueprint-ink-faint);
+}
+/* Logo: shown in ink, inside a small drafted box. Done with a CSS filter so
+   the logo artwork itself is unchanged. */
+.blueprint-theme .nav-logo,
+.blueprint-theme .footer-logo { color: var(--blueprint-ink-dark); }
+.blueprint-theme .nav-logo svg,
+.blueprint-theme .nav-logo img,
+.blueprint-theme .footer-logo svg {
+  filter: grayscale(1) contrast(1.25);
+  outline: 1px solid var(--blueprint-ink);
+  outline-offset: 3px;
+}
+.blueprint-theme .nav-links a,
+.blueprint-theme .nav-links > li > a {
+  color: var(--blueprint-ink);
+  position: relative;
+}
+/* Hover draws a line under the link, left to right. */
+.blueprint-theme .nav-links > li > a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -5px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .2s ease;
+}
+.blueprint-theme .nav-links > li > a:hover::after,
+.blueprint-theme .nav-links > li > a:focus-visible::after,
+.blueprint-theme .nav-links > li:focus-within > a::after,
+.blueprint-theme .nav-links > li > a.current::after {
+  transform: scaleX(1);
+}
+.blueprint-theme .nav-links > li > a:hover { color: var(--blueprint-ink-dark); text-decoration: none; }
+/* Thin tick separators between top-level items, like a dimension chain. */
+@media (min-width: 901px) {
+  .blueprint-theme .nav-links > li { position: relative; }
+  .blueprint-theme .nav-links > li + li::before {
+    content: "";
+    position: absolute;
+    left: -16px;
+    top: -6px;
+    bottom: -6px;
+    width: 1px;
+    background: var(--blueprint-ink-medium);
+    pointer-events: none;
+  }
+}
+.blueprint-theme .nav-dropdown-menu {
+  background: var(--blueprint-paper);
+  border: 1px solid var(--blueprint-ink);
+  border-top: 3px solid var(--blueprint-ink);
+  border-radius: 0;
+  box-shadow: 5px 5px 0 var(--blueprint-ink-faint);
+}
+.blueprint-theme .nav-dropdown-menu a { color: var(--blueprint-ink); border-radius: 0; }
+.blueprint-theme .nav-dropdown-menu a:hover { background: var(--blueprint-paper-blue); text-decoration: none; }
+.blueprint-theme .nav-toggle span { background: var(--blueprint-ink); }
+.blueprint-theme .nav-toggle { min-width: 44px; min-height: 44px; align-items: center; justify-content: center; }
+.blueprint-theme .mobile-nav {
+  background: var(--blueprint-paper);
+  border-color: var(--blueprint-ink);
+  box-shadow: 0 6px 0 -3px var(--blueprint-ink-faint);
+}
+.blueprint-theme header.site-nav .mobile-nav { background: transparent; box-shadow: none; }
+.blueprint-theme .mobile-nav a,
+.blueprint-theme .mobile-nav ul li a,
+.blueprint-theme .mobile-link-toggle {
+  color: var(--blueprint-ink);
+  border-color: var(--blueprint-rule);
+}
+
+/* ── Home hero: the cover sheet ────────────────── */
+/* Light paper, graphite lettering. The old dark band and its unrelated
+   machine-part pattern are gone; the annotations now describe the products
+   in the photos. */
+.blueprint-theme .hero { background: transparent; }
+.blueprint-theme .hero::before { display: none; }
+.blueprint-theme .hero-content,
+.blueprint-theme .log-header .container { position: relative; z-index: 1; }
+.blueprint-theme .hero h1 { color: var(--blueprint-ink-dark); line-height: 1.15; }
+.blueprint-theme .hero h1 em { font-style: normal; color: var(--blueprint-accent); }
+/* Eyebrow: a short leader tick into a plain technical label. */
+.blueprint-theme :is(.hero-eyebrow, .lab-eyebrow, .log-eyebrow) {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--blueprint-ink-soft);
+  background: none;
+  border: 0;
+  padding: 0;
+  font-size: .8rem;
+  font-weight: 400;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.blueprint-theme :is(.hero-eyebrow, .lab-eyebrow, .log-eyebrow)::before {
+  content: "";
+  width: 28px;
+  height: 7px;
+  border-left: 1px solid var(--blueprint-accent);
+  border-bottom: 1px solid var(--blueprint-accent);
+  transform: translateY(-3px);
+}
+.blueprint-theme .hero-sub { color: var(--blueprint-ink-soft); font-size: 1.06rem; line-height: 1.75; }
+.blueprint-theme .hero-sub:first-of-type { color: var(--blueprint-ink); }
+/* Badges sit on a dimension line: end ticks, no colored stripe. */
+.blueprint-theme .hero-badges {
+  position: relative;
+  border-top: 1px solid var(--blueprint-ink-medium);
+}
+.blueprint-theme .hero-badges::before,
+.blueprint-theme .hero-badges::after {
+  content: "";
+  position: absolute;
+  top: -6px;
+  width: 1px;
+  height: 11px;
+  background: var(--blueprint-ink-medium);
+}
+.blueprint-theme .hero-badges::before { left: 0; }
+.blueprint-theme .hero-badges::after { right: 0; }
+.blueprint-theme .hero-badge-label { color: var(--blueprint-ink-soft); text-transform: uppercase; letter-spacing: .08em; font-size: .7rem; }
+
+/* Hero photos: natural color, cropped so each product sits in frame,
+   with figure tags naming the product (see .hero-figs in index.html). */
+.blueprint-theme .hero-visual { position: relative; }
+/* The photos are landscape, so the lead product gets the full-width top
+   row instead of a narrow tall slot that cropped the holder out. */
+.blueprint-theme .hero-photo-grid { gap: 12px; grid-template-rows: 1.15fr 1fr; }
+.blueprint-theme .hero-photo-grid img:first-child { grid-row: auto; grid-column: span 2; object-position: 72% 62%; }
+.blueprint-theme .hero-photo-grid img:nth-child(2) { object-position: 50% 58%; }
+.blueprint-theme .hero-photo-grid img:nth-child(3) { object-position: 50% 62%; }
+.blueprint-theme .hero-figs {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1.15fr 1fr;
+  gap: 12px;
+  padding: 40px 24px 40px 16px;
+  margin: 0;
+  list-style: none;
+  pointer-events: none;
+}
+.blueprint-theme .hero-figs li:first-child { grid-column: span 2; }
+.blueprint-theme .hero-figs li { display: flex; align-items: flex-end; padding: 10px; }
+.blueprint-theme .hero-figs span {
+  font-family: var(--font-label);
+  font-size: .72rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  line-height: 1.3;
+  color: var(--blueprint-ink-dark);
+  background: var(--blueprint-paper);
+  border: 1px solid var(--blueprint-ink-medium);
+  padding: 4px 8px;
+}
+.blueprint-theme .hero-figs b { color: var(--blueprint-accent); font-weight: 400; margin-right: 6px; }
+
+/* ── Photo treatment ───────────────────────────── */
+/* Every product photo stays in natural color (filament color and finish
+   matter), framed like a print pasted onto the sheet. */
+.blueprint-theme .bp-photo,
+.blueprint-theme .bp-photo-color,
+.blueprint-theme .hero-photo-grid img,
+.blueprint-theme .about-image-stack img,
+.blueprint-theme .journey-image img,
+.blueprint-theme .gallery-item img,
+.blueprint-theme .product-gallery img.main-photo,
+.blueprint-theme .product-thumbs img,
+.blueprint-theme .products-landing-tile img,
+.blueprint-theme .post-figure img {
+  background-color: var(--blueprint-paper-blue);
+  border: 1px solid var(--blueprint-ink-medium);
+  border-radius: 0;
+  box-shadow: 4px 4px 0 var(--blueprint-ink-faint);
+  filter: none;
+}
+/* Transparent cut-outs and icons shouldn't get a frame. */
+.blueprint-theme .journey-image img { border: 0; box-shadow: none; background: transparent; }
+.blueprint-theme .journey-image {
+  border-radius: 0;
+  box-shadow: none;
+  border: 1px solid var(--blueprint-ink-medium);
+  background:
+    linear-gradient(var(--blueprint-grid) 1px, transparent 1px) 0 0 / 16px 16px,
+    linear-gradient(90deg, var(--blueprint-grid) 1px, transparent 1px) 0 0 / 16px 16px,
+    var(--blueprint-paper-blue);
+}
+.blueprint-theme .product-thumbs img.active { border-color: var(--blueprint-accent); outline: 2px solid var(--blueprint-accent); }
+
+/* ── How It's Made cards ───────────────────────── */
+.blueprint-theme .process-card,
+.blueprint-theme .contact-form,
+.blueprint-theme .log-entry-card,
+.blueprint-theme .callout,
+.blueprint-theme .bp-panel {
+  background-color: var(--blueprint-paper);
+  border: 1px solid var(--blueprint-ink-medium);
+  border-radius: 0;
+  box-shadow: 4px 4px 0 var(--blueprint-ink-faint);
+}
+.blueprint-theme .process-card:hover { box-shadow: 7px 7px 0 var(--blueprint-ink-faint); }
+.blueprint-theme .process-icon {
+  background: transparent;
+  border: 1px solid var(--blueprint-ink);
+  border-radius: 0;
+  background-image: repeating-linear-gradient(135deg, var(--blueprint-ink-faint) 0 1px, transparent 1px 5px);
+}
+.blueprint-theme .process-icon svg { color: var(--blueprint-ink-dark); }
+
+/* ── About: the drawing from the concept sheet ─── */
+.blueprint-theme .about-image-stack img:last-of-type { border: 1px solid var(--blueprint-ink); outline: 6px solid var(--blueprint-paper); }
+.blueprint-theme .about-content { position: relative; }
+/* Construction lines under each line of the heading, running past the text. */
+.blueprint-theme .about-content h2 {
+  line-height: 1.25;
+  margin-left: -14px;
+  margin-right: -14px;
+  padding: 0 14px;
+  background-image: repeating-linear-gradient(to bottom,
+    transparent 0, transparent calc(1.25em - 1px),
+    var(--blueprint-ink-faint) calc(1.25em - 1px), var(--blueprint-ink-faint) 1.25em);
+  border-top: 1px solid var(--blueprint-ink-faint);
+}
+.blueprint-theme .about-content p { color: var(--blueprint-ink); }
+.blueprint-theme .stat-num { color: var(--blueprint-ink-dark); }
+.blueprint-theme .stat-label { color: var(--blueprint-ink-soft); }
+.blueprint-theme .about-stats { border-top-color: var(--blueprint-ink-medium); }
+@media (min-width: 1001px) {
+  /* Vertical construction line along the text column. */
+  .blueprint-theme .about-content::before {
+    content: "";
+    position: absolute;
+    left: -22px;
+    top: -40px;
+    bottom: -40px;
+    width: 1px;
+    background: var(--blueprint-ink-faint);
+    pointer-events: none;
+  }
+  /* Registration crosshair in the sheet corner. */
+  .blueprint-theme #about { position: relative; }
+  .blueprint-theme #about::after {
+    content: "";
+    position: absolute;
+    top: 36px;
+    right: 48px;
+    width: 64px;
+    height: 64px;
+    pointer-events: none;
+    background:
+      linear-gradient(var(--blueprint-ink-medium), var(--blueprint-ink-medium)) center / 1px 100% no-repeat,
+      linear-gradient(var(--blueprint-ink-medium), var(--blueprint-ink-medium)) center / 100% 1px no-repeat,
+      radial-gradient(circle, transparent 0 21px, var(--blueprint-ink-medium) 21px 22px, transparent 22px);
+  }
+}
+
+/* ── Dimension annotations ─────────────────────── */
+/* Markup: <span class="bp-dim bp-dim--x" aria-hidden="true"><span>520</span></span>
+   --x draws a horizontal dimension, --y a vertical one. Position with inline
+   top/left/width/height or a page rule. blueprint.js can fill in the measured
+   size from data-bp-measure. Always decorative, always aria-hidden. */
+.bp-dim {
+  position: absolute;
+  pointer-events: none;
+  color: var(--blueprint-ink);
+  font-family: var(--blueprint-font);
+  font-size: .7rem;
+  line-height: 1;
+  letter-spacing: .04em;
+}
+.bp-dim--x { height: 0; border-top: 1px solid var(--blueprint-ink-medium); }
+.bp-dim--y { width: 0; border-left: 1px solid var(--blueprint-ink-medium); }
+.bp-dim::before,
+.bp-dim::after {
+  content: "";
+  position: absolute;
+  background: var(--blueprint-ink-medium);
+}
+.bp-dim--x::before,
+.bp-dim--x::after { top: -6px; width: 1px; height: 11px; }
+.bp-dim--x::before { left: 0; }
+.bp-dim--x::after { right: 0; }
+.bp-dim--y::before,
+.bp-dim--y::after { left: -6px; height: 1px; width: 11px; }
+.bp-dim--y::before { top: 0; }
+.bp-dim--y::after { bottom: 0; }
+.bp-dim > span {
+  position: absolute;
+  padding: 2px 5px;
+  background: var(--blueprint-paper);
+  white-space: nowrap;
+}
+.bp-dim--x > span { left: 50%; top: 0; transform: translate(-50%, -50%); }
+.bp-dim--y > span { top: 50%; left: 0; transform: translate(-50%, -50%); }
+
+/* About-section dimensions follow the two photos' own percentages. */
+.blueprint-theme .about-image-stack .bp-dim--x.bp-dim-a { top: -22px; left: 0; width: 80%; }
+.blueprint-theme .about-image-stack .bp-dim--y.bp-dim-a { left: -22px; top: 0; height: 80%; }
+.blueprint-theme .about-image-stack .bp-dim--x.bp-dim-b { bottom: -22px; right: 0; width: 55%; }
+.blueprint-theme .about-image-stack .bp-dim--y.bp-dim-b { right: -22px; bottom: 0; height: 55%; }
+@media (max-width: 1100px) {
+  .bp-dim--y { display: none; }
+}
+@media (max-width: 900px) {
+  .bp-dim { display: none; }
+}
+
+/* ── Utilities: crosshair, hatching, title block bits ── */
+.bp-crosshair {
+  display: inline-block;
+  width: 48px;
+  height: 48px;
+  pointer-events: none;
+  background:
+    linear-gradient(var(--blueprint-ink-medium), var(--blueprint-ink-medium)) center / 1px 100% no-repeat,
+    linear-gradient(var(--blueprint-ink-medium), var(--blueprint-ink-medium)) center / 100% 1px no-repeat,
+    radial-gradient(circle, transparent 0 15px, var(--blueprint-ink-medium) 15px 16px, transparent 16px);
+}
+.bp-hatch {
+  background-image: repeating-linear-gradient(135deg, var(--blueprint-ink-faint) 0 1px, transparent 1px 6px);
+}
+.bp-rule {
+  border: 0;
+  border-top: 1px solid var(--blueprint-ink-medium);
+}
+
+/* ── Gallery ───────────────────────────────────── */
+.blueprint-theme .gallery-item { border-radius: 0; position: relative; }
+.blueprint-theme .gallery-item img { box-shadow: none; }
+.blueprint-theme .gallery-item .overlay {
+  background: linear-gradient(to top, rgb(46 52 56 / .78), transparent 60%);
+  z-index: 1;
+}
+
+/* ── Custom-order band: hatched drawing panel ─── */
+.blueprint-theme #custom {
+  background-color: transparent;
+  background-image: repeating-linear-gradient(135deg, var(--blueprint-ink-faint) 0 1px, transparent 1px 7px);
+  border-top: 1px solid var(--blueprint-ink);
+  border-bottom: 1px solid var(--blueprint-ink);
+}
+.blueprint-theme #custom::before { display: none; }
+.blueprint-theme .custom-inner {
+  background: var(--blueprint-paper);
+  border: 1px solid var(--blueprint-ink);
+  padding: 36px 40px;
+  box-shadow: 6px 6px 0 var(--blueprint-ink-faint);
+}
+.blueprint-theme .custom-inner h2 { color: var(--blueprint-ink-dark); }
+.blueprint-theme .custom-inner p { color: var(--blueprint-ink); }
+
+/* ── Product blocks (products page) ────────────── */
+.blueprint-theme .product-block {
+  border: 1px solid var(--blueprint-ink);
+  border-radius: 0;
+  box-shadow: 8px 8px 0 var(--blueprint-ink-faint);
+  background-color: color-mix(in srgb, var(--blueprint-paper) 90%, transparent);
+}
+.blueprint-theme .product-gallery {
+  background-color: var(--blueprint-paper-blue);
+  border-right: 1px solid var(--blueprint-ink-medium);
+}
+.blueprint-theme .product-block.reverse .product-gallery { border-right: 0; border-left: 1px solid var(--blueprint-ink-medium); }
+/* The product blueprint SVGs are drawn in tan. A color-blend layer sits
+   between that background and the photo/3D view, recoloring only the drawing.
+   isolation keeps the blend inside the gallery. */
+@supports (mix-blend-mode: color) {
+  .blueprint-theme .product-gallery { isolation: isolate; }
+  .blueprint-theme .product-gallery::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--blueprint-accent);
+    mix-blend-mode: color;
+    opacity: .45;               /* a hint of blue-green, not a cyan wash */
+    pointer-events: none;
+  }
+}
+.blueprint-theme .product-info h3 { color: var(--blueprint-ink-dark); }
+.blueprint-theme .product-info p { color: var(--blueprint-ink); }
+.blueprint-theme .price { color: var(--blueprint-ink-dark); }
+.blueprint-theme .product-features li .icon { background: transparent; border: 1px solid var(--blueprint-ink); border-radius: 0; color: var(--blueprint-ink); }
+.blueprint-theme .variant-chip {
+  border-radius: 0;
+  border-color: var(--blueprint-ink-medium);
+  color: var(--blueprint-ink);
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+}
+.blueprint-theme .variant-chip:hover,
+.blueprint-theme .variant-chip.active {
+  border-color: var(--blueprint-accent);
+  color: var(--blueprint-ink-dark);
+  background: var(--blueprint-paper-blue);
+  box-shadow: inset 0 -2px 0 var(--blueprint-accent);
+}
+.blueprint-theme .gallery-view-toggle button {
+  border-radius: 0;
+  background: var(--blueprint-paper);
+  color: var(--blueprint-ink);
+  border: 1px solid var(--blueprint-ink);
+  font-family: var(--blueprint-font);
+}
+.blueprint-theme .gallery-view-toggle button.active { background: var(--blueprint-accent); border-color: var(--blueprint-accent); color: #fff; }
+.blueprint-theme .gallery-3d-hint,
+.blueprint-theme .gallery-zoom-hint {
+  background: var(--blueprint-paper);
+  color: var(--blueprint-ink);
+  border: 1px solid var(--blueprint-ink-medium);
+  border-radius: 0;
+}
+.blueprint-theme .products-landing-tile {
+  border: 1px solid var(--blueprint-ink-medium);
+  border-radius: 0;
+  background-color: color-mix(in srgb, var(--blueprint-paper-blue) 55%, transparent);
+}
+.blueprint-theme .products-landing-tile:hover { border-color: var(--blueprint-ink); box-shadow: 6px 6px 0 var(--blueprint-ink-faint); }
+.blueprint-theme .products-landing-tile span { color: var(--blueprint-ink-dark); }
+.blueprint-theme .products-landing-tile img { box-shadow: none; }
+
+/* ── Contact & forms ───────────────────────────── */
+.blueprint-theme .contact-info h3 { color: var(--blueprint-ink-dark); }
+.blueprint-theme .contact-info p,
+.blueprint-theme .contact-links li a { color: var(--blueprint-ink); }
+.blueprint-theme .contact-links li a { min-height: 44px; }
+.blueprint-theme .contact-links .icon-wrap {
+  background: transparent;
+  border: 1px solid var(--blueprint-ink);
+  border-radius: 0;
+}
+.blueprint-theme .form-group label {
+  color: var(--blueprint-ink-dark);
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  font-size: .74rem;
+}
+.blueprint-theme .form-group input,
+.blueprint-theme .form-group select,
+.blueprint-theme .form-group textarea {
+  font-family: var(--blueprint-font);
+  color: var(--blueprint-ink-dark);
+  background: #f8f7f2;
+  border: 1px solid var(--blueprint-ink-medium);
+  border-bottom: 2px solid var(--blueprint-ink-soft);
+  border-radius: 0;
+}
+.blueprint-theme .form-group input::placeholder,
+.blueprint-theme .form-group textarea::placeholder { color: var(--blueprint-ink-soft); opacity: .85; }
+.blueprint-theme .form-group input:focus,
+.blueprint-theme .form-group select:focus,
+.blueprint-theme .form-group textarea:focus {
+  outline: 2px solid var(--blueprint-accent);
+  outline-offset: 2px;
+  border-color: var(--blueprint-accent);
+  box-shadow: none;
+}
+
+/* ── Drawing title block ───────────────────────── */
+.blueprint-theme .sheet-titleblock { padding: 40px 0 28px; }
+.blueprint-theme .titleblock {
+  max-width: 640px;
+  margin-left: auto;
+  border: 1.5px solid var(--blueprint-ink);
+  border-radius: 0;
+  background: var(--blueprint-paper);
+  box-shadow: 0 0 0 4px var(--blueprint-paper), 0 0 0 5px var(--blueprint-ink-medium);
+  color: var(--blueprint-ink-dark);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  font-size: .74rem;
+}
+.blueprint-theme .titleblock div { border-color: var(--blueprint-ink); padding: 8px 12px; }
+.blueprint-theme .titleblock .label { color: var(--blueprint-ink-soft); }
+@media (max-width: 700px) {
+  .blueprint-theme .titleblock div:nth-child(-n+2) { border-bottom: 1.5px solid var(--blueprint-ink); }
+}
+
+/* ── Footer: back to paper ─────────────────────── */
+.blueprint-theme footer {
+  background: transparent;
+  color: var(--blueprint-ink-soft);
+  border-top: 1px solid var(--blueprint-ink);
+}
+.blueprint-theme footer::before { display: none; }
+.blueprint-theme footer a,
+.blueprint-theme .footer-links a { color: var(--blueprint-ink); }
+.blueprint-theme footer a:hover,
+.blueprint-theme .footer-links a:hover { color: var(--blueprint-ink-dark); text-decoration: underline; text-underline-offset: 3px; }
+.blueprint-theme .footer-copy { color: var(--blueprint-ink-soft); }
+
+/* ── Lightbox: paper scrim, color photo ────────── */
+.blueprint-theme .lightbox { background: color-mix(in srgb, var(--blueprint-paper) 94%, transparent); }
+.blueprint-theme .lightbox img {
+  border: 1px solid var(--blueprint-ink);
+  border-radius: 0;
+  box-shadow: 10px 10px 0 var(--blueprint-ink-faint);
+}
+.blueprint-theme .lightbox-close {
+  background: var(--blueprint-ink);
+  color: var(--blueprint-paper);
+  border-radius: 0;
+  width: 44px;
+  height: 44px;
+}
+.blueprint-theme .lightbox-close:hover { background: var(--blueprint-accent); }
+
+/* ── Lab Notes & Build Log headers ─────────────── */
+/* Same light cover sheet as the home hero. */
+.blueprint-theme .lab-header,
+.blueprint-theme .log-header {
+  background: transparent;
+  color: var(--blueprint-ink);
+  border-bottom: 1px solid var(--blueprint-ink-medium);
+}
+.blueprint-theme .lab-header::before,
+.blueprint-theme .log-header::before { display: none; }
+.blueprint-theme :is(.lab-header, .log-header) h1 { color: var(--blueprint-ink-dark); }
+.blueprint-theme :is(.lab-header, .log-header) p { color: var(--blueprint-ink-soft); }
+.blueprint-theme :is(.lab-header-visual, .log-header-visual) .edge-solid { stroke: var(--blueprint-accent); }
+.blueprint-theme :is(.lab-header-visual, .log-header-visual) .dim-text { fill: var(--blueprint-ink-soft); opacity: 1; }
+
+/* Lab Notes article bits */
+.blueprint-theme .post-meta,
+.blueprint-theme .lede,
+.blueprint-theme .post-list .excerpt { color: var(--blueprint-ink-soft); }
+.blueprint-theme .post-meta { font-size: .8rem; letter-spacing: .04em; }
+.blueprint-theme .post-list li { border-bottom-color: var(--blueprint-rule); }
+.blueprint-theme main h3 a { color: var(--blueprint-ink-dark); }
+.blueprint-theme main :is(p, li) { line-height: 1.75; }
+.blueprint-theme table,
+.blueprint-theme th,
+.blueprint-theme td { border-color: var(--blueprint-rule); }
+.blueprint-theme th { background: var(--blueprint-paper-blue); color: var(--blueprint-ink-dark); }
+.blueprint-theme code,
+.blueprint-theme pre {
+  color: var(--blueprint-ink-dark);
+  background: var(--blueprint-paper-blue);
+  border-radius: 0;
+}
+/* Long file paths in inline code must wrap on phones. */
+.blueprint-theme :not(pre) > code { overflow-wrap: anywhere; }
+.blueprint-theme blockquote { border-left-color: var(--blueprint-accent); color: var(--blueprint-ink); background: var(--blueprint-paper-blue); }
+.blueprint-theme hr { border-color: var(--blueprint-rule); }
+
+/* Build Log stream */
+.blueprint-theme .log-stream-inner::before { background: var(--blueprint-ink-medium); }
+.blueprint-theme .log-entry::before { background: var(--blueprint-paper); border-color: var(--blueprint-accent); }
+.blueprint-theme .log-day-label { color: var(--blueprint-ink-dark); border-color: var(--blueprint-ink-medium); background: var(--blueprint-paper); }
+.blueprint-theme .log-entry-time,
+.blueprint-theme .log-entry-commit { color: var(--blueprint-ink-soft); }
+.blueprint-theme .log-entry-tag {
+  color: var(--blueprint-accent);
+  background: transparent;
+  border: 1px solid var(--blueprint-accent);
+  border-radius: 0;
+}
+
+/* ── Reduced motion ────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .blueprint-theme *,
+  .blueprint-theme *::before,
+  .blueprint-theme *::after {
+    transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+  .blueprint-theme .reveal { opacity: 1 !important; transform: none !important; }
+  .blueprint-theme .btn:hover,
+  .blueprint-theme .process-card:hover,
+  .blueprint-theme .products-landing-tile:hover,
+  .blueprint-theme .gallery-item:hover img,
+  .blueprint-theme .product-gallery:hover img.main-photo { transform: none !important; }
+}

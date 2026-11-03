@@ -256,8 +256,9 @@
     .post-list .excerpt { color: var(--ink-soft); font-size: .95rem; margin: 0; }
 
   </style>
+  <link rel="stylesheet" href="../images/theme/blueprint.css" />
 </head>
-<body>
+<body class="blueprint-theme">
   <header class="site-nav">
     <div class="container">
       <a href="../index.html" class="nav-logo"><svg width="24" height="24" viewBox="0 0 28 28">
@@ -273,6 +274,7 @@
           <rect x="15.5" y="17.9" width="1.4" height="1.4" fill="#c8a96e" transform="rotate(45 16.2 18.6)"/>
         </svg>LittleDevLab</a>
         <ul class="nav-links">
+          <!-- nav-links:start -->
           <li class="nav-item-dropdown" data-accent="home">
             <a href="../index.html">Home</a>
             <div class="nav-dropdown-menu">
@@ -293,12 +295,14 @@
             </div>
           </li>
           <li class="nav-item-dropdown" data-accent="journey">
-            <a href="index.html">Lab Journey</a>
+            <a href="../lab/index.html">Lab Journey</a>
             <div class="nav-dropdown-menu">
-            <a href="index.html" class="current">Lab Notes</a>
+            <a href="../lab/index.html">The Lab (overview)</a>
+            <a href="../lab-notes/index.html" class="current">Lab Notes</a>
             <a href="../build-log.html">Build Log</a>
             </div>
           </li>
+          <!-- nav-links:end -->
         </ul>
       <a href="../index.html#contact" class="nav-cta">Get in Touch</a>
       <button class="nav-toggle" id="navToggle" aria-label="Menu">
@@ -307,42 +311,45 @@
     </div>
     <div class="mobile-nav" id="mobileNav">
       <ul>
-      <li>
-        <button type="button" class="mobile-link-toggle" data-toggle="mobile-home-submenu" data-accent="home">
-          Home
-          <svg width="10" height="10" viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-        <div class="mobile-submenu" id="mobile-home-submenu">
-          <a href="../index.html#about" class="mobile-link">About</a>
-          <a href="../index.html#gallery" class="mobile-link">Gallery</a>
-          <a href="../index.html#process" class="mobile-link">How It's Made</a>
-        </div>
-      </li>
-      <li>
-        <button type="button" class="mobile-link-toggle" data-toggle="mobile-products-submenu" data-accent="products">
-          Products
-          <svg width="10" height="10" viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-        <div class="mobile-submenu" id="mobile-products-submenu">
-          <a href="../products.html#glasses-holder" class="mobile-link">Glasses + Contact Lens Holder</a>
-          <a href="../products.html#coaster-holder" class="mobile-link">Chilewich Coaster Holder</a>
-          <a href="../products.html#gaming-card-display" class="mobile-link">Trading Card Display Rack</a>
-          <a href="../products.html#hunter-douglas-mount" class="mobile-link">Hunter Douglas Remote Wall Mount</a>
-          <a href="../products.html#steak-knife-holder" class="mobile-link">Steak Knife Holder</a>
-          <a href="../products.html#zbiotic-gift-box" class="mobile-link">ZBiotic Six-Pack Gift Carrier</a>
-        </div>
-      </li>
-      <li>
-        <button type="button" class="mobile-link-toggle" data-toggle="mobile-journey-submenu" data-accent="journey">
-          Lab Journey
-          <svg width="10" height="10" viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-        <div class="mobile-submenu" id="mobile-journey-submenu">
-          <a href="index.html" class="mobile-link current">Lab Notes</a>
-          <a href="../build-log.html" class="mobile-link">Build Log</a>
-        </div>
-      </li>
+        <!-- mobile-links:start -->
+        <li>
+          <button type="button" class="mobile-link-toggle" data-toggle="mobile-home-submenu" data-accent="home">
+            Home
+            <svg width="10" height="10" viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="mobile-submenu" id="mobile-home-submenu">
+            <a href="../index.html#about" class="mobile-link">About</a>
+            <a href="../index.html#gallery" class="mobile-link">Gallery</a>
+            <a href="../index.html#process" class="mobile-link">How It's Made</a>
+          </div>
+        </li>
+        <li>
+          <button type="button" class="mobile-link-toggle" data-toggle="mobile-products-submenu" data-accent="products">
+            Products
+            <svg width="10" height="10" viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="mobile-submenu" id="mobile-products-submenu">
+            <a href="../products.html#glasses-holder" class="mobile-link">Glasses + Contact Lens Holder</a>
+            <a href="../products.html#coaster-holder" class="mobile-link">Chilewich Coaster Holder</a>
+            <a href="../products.html#gaming-card-display" class="mobile-link">Trading Card Display Rack</a>
+            <a href="../products.html#hunter-douglas-mount" class="mobile-link">Hunter Douglas Remote Wall Mount</a>
+            <a href="../products.html#steak-knife-holder" class="mobile-link">Steak Knife Holder</a>
+            <a href="../products.html#zbiotic-gift-box" class="mobile-link">ZBiotic Six-Pack Gift Carrier</a>
+          </div>
+        </li>
+        <li>
+          <button type="button" class="mobile-link-toggle" data-toggle="mobile-journey-submenu" data-accent="journey">
+            Lab Journey
+            <svg width="10" height="10" viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="mobile-submenu" id="mobile-journey-submenu">
+            <a href="../lab/index.html" class="mobile-link">The Lab (overview)</a>
+            <a href="../lab-notes/index.html" class="mobile-link current">Lab Notes</a>
+            <a href="../build-log.html" class="mobile-link">Build Log</a>
+          </div>
+        </li>
         <li><a href="../index.html#contact" class="mobile-link">Get in Touch</a></li>
+        <!-- mobile-links:end -->
       </ul>
     </div>
   </header>

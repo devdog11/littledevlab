@@ -1,0 +1,78 @@
+<!--
+  Shared site navigation. The single source for the menu links on every
+  static page. After editing, run:  python3 tools/sync-nav.py
+
+  Placeholders, filled per page by the script:
+    {{root}}  path back to the site root ("" or "../")
+    {{home}}  prefix for home-page anchors ("" on the home page, else {{root}}index.html)
+  The script also marks the current page's link with "current".
+
+  products.html is built from site/app/ in the real repo and does NOT use
+  this file: mirror any menu change there by hand.
+-->
+<!-- section:nav-links -->
+<li class="nav-item-dropdown" data-accent="home">
+  <a href="{{root}}index.html">Home</a>
+  <div class="nav-dropdown-menu">
+  <a href="{{home}}#about">About</a>
+  <a href="{{home}}#gallery">Gallery</a>
+  <a href="{{home}}#process">How It's Made</a>
+  </div>
+</li>
+<li class="nav-item-dropdown" data-accent="products">
+  <a href="{{root}}products.html">Products</a>
+  <div class="nav-dropdown-menu">
+  <a href="{{root}}products.html#glasses-holder">Glasses + Contact Lens Holder</a>
+  <a href="{{root}}products.html#coaster-holder">Chilewich Coaster Holder</a>
+  <a href="{{root}}products.html#gaming-card-display">Trading Card Display Rack</a>
+  <a href="{{root}}products.html#hunter-douglas-mount">Hunter Douglas Remote Wall Mount</a>
+  <a href="{{root}}products.html#steak-knife-holder">Steak Knife Holder</a>
+  <a href="{{root}}products.html#zbiotic-gift-box">ZBiotic Six-Pack Gift Carrier</a>
+  </div>
+</li>
+<li class="nav-item-dropdown" data-accent="journey">
+  <a href="{{root}}lab/index.html">Lab Journey</a>
+  <div class="nav-dropdown-menu">
+  <a href="{{root}}lab/index.html">The Lab (overview)</a>
+  <a href="{{root}}lab-notes/index.html">Lab Notes</a>
+  <a href="{{root}}build-log.html">Build Log</a>
+  </div>
+</li>
+<!-- section:mobile-links -->
+<li>
+  <button type="button" class="mobile-link-toggle" data-toggle="mobile-home-submenu" data-accent="home">
+    Home
+    <svg width="10" height="10" viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <div class="mobile-submenu" id="mobile-home-submenu">
+    <a href="{{home}}#about" class="mobile-link">About</a>
+    <a href="{{home}}#gallery" class="mobile-link">Gallery</a>
+    <a href="{{home}}#process" class="mobile-link">How It's Made</a>
+  </div>
+</li>
+<li>
+  <button type="button" class="mobile-link-toggle" data-toggle="mobile-products-submenu" data-accent="products">
+    Products
+    <svg width="10" height="10" viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <div class="mobile-submenu" id="mobile-products-submenu">
+    <a href="{{root}}products.html#glasses-holder" class="mobile-link">Glasses + Contact Lens Holder</a>
+    <a href="{{root}}products.html#coaster-holder" class="mobile-link">Chilewich Coaster Holder</a>
+    <a href="{{root}}products.html#gaming-card-display" class="mobile-link">Trading Card Display Rack</a>
+    <a href="{{root}}products.html#hunter-douglas-mount" class="mobile-link">Hunter Douglas Remote Wall Mount</a>
+    <a href="{{root}}products.html#steak-knife-holder" class="mobile-link">Steak Knife Holder</a>
+    <a href="{{root}}products.html#zbiotic-gift-box" class="mobile-link">ZBiotic Six-Pack Gift Carrier</a>
+  </div>
+</li>
+<li>
+  <button type="button" class="mobile-link-toggle" data-toggle="mobile-journey-submenu" data-accent="journey">
+    Lab Journey
+    <svg width="10" height="10" viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <div class="mobile-submenu" id="mobile-journey-submenu">
+    <a href="{{root}}lab/index.html" class="mobile-link">The Lab (overview)</a>
+    <a href="{{root}}lab-notes/index.html" class="mobile-link">Lab Notes</a>
+    <a href="{{root}}build-log.html" class="mobile-link">Build Log</a>
+  </div>
+</li>
+<li><a href="{{home}}#contact" class="mobile-link">Get in Touch</a></li>
