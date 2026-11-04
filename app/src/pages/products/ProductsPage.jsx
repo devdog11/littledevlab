@@ -1,14 +1,16 @@
 import { useCallback, useLayoutEffect, useState } from 'react'
-import './products.css'
+import productsCss from './products.css?url'
 import products from '../../../products.js'
 import ProductBlock from './ProductBlock.jsx'
-import SiteNav from '../../components/SiteNav.jsx'
+import Nav from '../../components/Nav.jsx'
+import { MODEL_VIEWER_SRC } from '../../site.js'
 import SiteFooter from '../../components/SiteFooter.jsx'
 import Lightbox from '../../components/Lightbox.jsx'
 import useReveal from '../../components/useReveal.js'
 
-// React renders after the browser's own jump to #anchor, so the target didn't
-// exist yet. Snap to it once the page has rendered and settled.
+// The browser jumps to #anchor before images, 3D models and the fade-in have
+// settled, so the first jump can land in the wrong place. Snap to it once the
+// page has hydrated, and again after everything has loaded.
 function correctHashScroll() {
   let target
   try {
@@ -23,6 +25,18 @@ function correctHashScroll() {
   for (let el = target; el; el = el.offsetParent) top += el.offsetTop
   const navH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 0
   window.scrollTo({ top: top - navH - 16, behavior: 'instant' })
+}
+
+export function head() {
+  return {
+    title: 'Products — LittleDevLab',
+    description: 'Custom 3D printed home organizers: glasses + contact lens holders, Chilewich coaster holders, trading card displays, Hunter Douglas remote mounts, steak knife holders, and gift carriers. Designed in Shapr3D, printed in the SF Bay Area.',
+    path: '/products',
+    image: products[0].photos[0].src,
+    // This sheet has always loaded after the theme on this page.
+    lateStyles: [productsCss],
+    scripts: [MODEL_VIEWER_SRC],
+  }
 }
 
 export default function ProductsPage() {
@@ -49,7 +63,7 @@ export default function ProductsPage() {
 
   return (
     <>
-      <SiteNav />
+      <Nav />
       <section id="products">
         <div className="container">
           <div ref={headerRef} className={`section-header ${headerReveal}`}>

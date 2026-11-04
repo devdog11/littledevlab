@@ -38,24 +38,17 @@ jobs:
           cache: npm
           cache-dependency-path: app/package-lock.json
 
-      - name: Build the products page
+      # Builds every page with React and pre-renders it to static HTML in app/dist.
+      - name: Build the site
         working-directory: app
         run: |
           npm ci
           npm run build
 
-      # The React build is published as products.html.
+      # Pre-rendered pages + images/ into _public. Fails if a page is missing.
       - name: Stage public content
-        run: |
-          mkdir -p _public
-          cp index.html build-log.html _public/
-          cp app/dist/index.html _public/products.html
-          cp -R app/dist/assets _public/assets
-          cp -R images lab-notes build-log _public/
-          test -s _public/products.html
-          grep -q 'id="root"' _public/products.html
-          ls _public/assets/*.js _public/assets/*.css
-          
+        run: tools/stage-site.sh
+
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v4
         with:

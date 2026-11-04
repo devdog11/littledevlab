@@ -1,0 +1,987 @@
+/* LittleDevLab drafting theme: "Quiet drafting studio"
+   Recycled drafting paper, graphite lettering and one muted blue-green
+   accent. A curious engineer's workspace, kept calm so the products and
+   the writing stay in front.
+
+   Turn it on with <body class="engr-theme">. Each page keeps its own
+   <style> block; this file loads after it and remaps the shared tokens
+   (--ink, --paper, --accent, ...) so most of the restyle comes from those.
+   The rules below cover what a token swap can't reach: the hero and header
+   bands, photos, and the drafting details.
+
+   Type hierarchy
+     Architects Daughter  main headline and short section headings
+     system sans          paragraphs, forms, longer descriptions
+     osifont              short technical labels, dimensions, specs, revisions
+     Courier Prime        code
+
+   Lives under images/ because that folder is already published by the deploy
+   workflow and linked into the React app's public/ folder.
+   All fonts are self-hosted in fonts/ with their licenses (OFL for
+   Architects Daughter and Courier Prime, LGPL v3 + font exception for
+   osifont). */
+@font-face {
+  font-family: "Architects Daughter";
+  src: url("fonts/architects-daughter-latin-400-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "osifont";
+  src: url("fonts/osifont-lgpl3fe.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Courier Prime";
+  src: url("fonts/courier-prime-latin-400-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Courier Prime";
+  src: url("fonts/courier-prime-latin-700-normal.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ── Tokens ────────────────────────────────────── */
+.engr-theme {
+  /* Contrast on the paper: ink 10.7:1, ink-soft 5.9:1, accent 4.9:1;
+     on the secondary surface: ink-soft 5.6:1, accent 4.7:1;
+     white on the accent 5.8:1, on accent-dark 7.6:1. */
+  --engr-paper: #eeece4;          /* recycled drafting paper */
+  --engr-paper-blue: #e3e7e4;     /* secondary surface (old name kept) */
+  --engr-ink: #2e3438;            /* graphite: main text */
+  --engr-ink-dark: #2e3438;       /* headings */
+  --engr-ink-soft: #525b60;       /* secondary text */
+  --engr-accent: #426b78;         /* blue-green: actions, selected details */
+  --engr-accent-dark: #355966;    /* hover/active */
+  --engr-highlight: #e8742a;      /* logo beaker orange: 4.81:1 on the band, 2.55:1 on paper (fills/large text only) */
+  --engr-ink-medium: rgb(46 52 56 / .36);  /* lines only, not text */
+  --engr-ink-faint: rgb(46 52 56 / .09);   /* lines only, not text */
+  --engr-rule: rgb(46 52 56 / .18);
+  --engr-grid: rgb(66 107 120 / .18);
+  --engr-grid-major: rgb(66 107 120 / .32);
+  /* 60% veil keeps soft text >= 4.97:1 where it crosses a major line. */
+  --paper-veil: color-mix(in srgb, var(--engr-paper) 60%, transparent);
+  /* Dark hero band (ink reversed out) and the light accent used on it. */
+  --engr-band: color-mix(in srgb, var(--engr-ink-dark) 80%, black); /* #252a2d */
+  --engr-accent-on-band: #9fc4cf; /* 7.79:1 on the band */
+
+  --font-hand: "Architects Daughter", "Patrick Hand", "Comic Neue", cursive;
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-label: "osifont", var(--font-sans);
+  --font-mono: "Courier Prime", "Courier New", ui-monospace, monospace;
+  /* Older names, still used by page CSS and the specimen page. */
+  --engr-font: var(--font-sans);
+  --engr-hand: var(--font-hand);
+  --engr-mono: var(--font-mono);
+
+  /* Remap the site's existing tokens. Legacy names (--navy, --gray-*) are
+     used across every page, so redefining them restyles most components. */
+  --paper:    var(--engr-paper);
+  --paper2:   var(--engr-paper-blue);
+  --white:    var(--engr-paper);
+  --sand:     var(--engr-paper-blue);
+  --ink:      var(--engr-ink-dark);
+  --ink-soft: var(--engr-ink-soft);
+  --navy:     var(--engr-ink);
+  --navy-mid: var(--engr-ink-dark);
+  --navy-lt:  var(--engr-ink-soft);
+  --accent:   var(--engr-accent);
+  --hero-accent: var(--engr-accent);
+  --gray-100: var(--engr-paper-blue);
+  --gray-200: var(--engr-rule);
+  --gray-400: var(--engr-ink-soft);
+  --gray-600: var(--engr-ink-soft);
+  --gray-800: var(--engr-ink);
+  --products-accent: var(--engr-accent);
+  --journey-accent: var(--engr-accent);
+  --bl-navy: var(--engr-ink);
+  --bl-navy-soft: var(--engr-ink-soft);
+  --bl-gold: var(--engr-ink-medium);
+  --shadow-sm: 2px 2px 0 var(--engr-ink-faint);
+  --shadow-md: 4px 4px 0 var(--engr-ink-faint);
+  --shadow-lg: 6px 6px 0 var(--engr-ink-faint);
+  --font: var(--font-sans);
+}
+
+/* 17px base so body text lands at 17–18px; rem-sized page CSS scales with it. */
+html:has(> body.engr-theme) { font-size: 106.25%; }
+
+/* ── Paper, grid, and grain ────────────────────── */
+/* Engineering grid (5 squares per major square) printed across the sheet,
+   with a soft paper veil over the reading column so the ruling mostly shows
+   in the margins and open areas. On narrow screens the veil covers it all. */
+body.engr-theme {
+  color: var(--engr-ink);
+  font-family: var(--font-sans);
+  line-height: 1.7;
+  background-color: var(--engr-paper);
+  background-image:
+    linear-gradient(90deg,
+      transparent calc(50% - 700px),
+      var(--paper-veil) calc(50% - 600px),
+      var(--paper-veil) calc(50% + 600px),
+      transparent calc(50% + 700px)),
+    linear-gradient(var(--engr-grid-major) 1px, transparent 1px),
+    linear-gradient(90deg, var(--engr-grid-major) 1px, transparent 1px),
+    linear-gradient(var(--engr-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--engr-grid) 1px, transparent 1px);
+  background-size: 100% 100%, 120px 120px, 120px 120px, 24px 24px, 24px 24px;
+  background-attachment: fixed, scroll, scroll, scroll, scroll;
+  overflow-x: clip;
+}
+/* Recycled-paper tooth: fine neutral grain behind the content. */
+body.engr-theme::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: .35;
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .18 0 0 0 0 .2 0 0 0 0 .22 0 0 0 .22 0'/></filter><rect width='100%' height='100%' filter='url(%23g)'/></svg>");
+  background-size: 240px 240px;
+}
+
+/* Section bands go transparent so the sheet runs through the whole page. */
+.engr-theme section,
+.engr-theme #products,
+.engr-theme #process,
+.engr-theme #gallery,
+.engr-theme #about,
+.engr-theme #contact,
+.engr-theme .sheet-titleblock,
+.engr-theme .product-block,
+.engr-theme .products-landing-tile,
+.engr-theme .log-stream {
+  background-color: transparent;
+}
+.engr-theme main > section + section,
+body.engr-theme > section + section,
+.engr-theme :where(#root) > section + section {
+  border-top: 1px solid var(--engr-ink-faint);
+}
+
+/* ── Type ──────────────────────────────────────── */
+/* Handwriting only for the headline and short headings; Architects
+   Daughter has one weight, so no faux bold. */
+.engr-theme :is(h1, h2, h3) {
+  font-family: var(--font-hand);
+  font-weight: 400;
+  letter-spacing: 0;
+  color: var(--engr-ink-dark);
+  text-shadow: none;
+}
+.engr-theme h4 { font-family: var(--font-sans); font-weight: 600; color: var(--engr-ink-dark); }
+.engr-theme :is(p, li, td, input, select, textarea, label, blockquote) { font-family: var(--font-sans); }
+.engr-theme :is(p, li) { color: inherit; }
+.engr-theme strong { color: var(--engr-ink-dark); }
+.engr-theme ::selection { background: rgb(66 107 120 / .2); color: var(--engr-ink-dark); }
+.engr-theme :is(code, pre, kbd) { font-family: var(--font-mono); }
+
+/* Technical labels: osifont, small caps-style tracking. */
+.engr-theme :is(.tag, .hero-eyebrow, .lab-eyebrow, .log-eyebrow, .post-meta,
+  .hero-badge-label, .stat-label, .bp-dim, .titleblock, .log-entry-time,
+  .log-entry-commit, .log-entry-tag, .log-day-label, .price, .variant-chip,
+  .gallery-view-toggle button, .btn, .nav-cta, .form-group label) {
+  font-family: var(--font-label);
+}
+/* Figures read as hand-lettered callouts. */
+.engr-theme :is(.hero-badge-num, .stat-num) {
+  font-family: var(--font-hand);
+  font-weight: 400;
+  color: var(--engr-ink-dark);
+}
+
+/* ── Focus & links ─────────────────────────────── */
+.engr-theme :focus-visible {
+  outline: 2px solid var(--engr-accent);
+  outline-offset: 3px;
+}
+.engr-theme main a:not(.btn):not(.tag) { color: var(--engr-ink); }
+/* Links in running text: graphite with an accent underline, so they don't
+   rely on color alone. Headings, buttons, tags and the contact list keep
+   their own styles. */
+.engr-theme :is(main, section, article) :is(p, li, td, blockquote, figcaption) a:not(.btn):not(.tag):not(:is(h1, h2, h3, h4, .contact-links) *) {
+  color: var(--engr-ink-dark);
+  text-decoration: underline 1.5px var(--engr-accent);
+  text-underline-offset: .22em;
+}
+.engr-theme :is(main, section, article) :is(p, li, td, blockquote, figcaption) a:not(.btn):not(.tag):not(:is(h1, h2, h3, h4, .contact-links) *):hover {
+  color: var(--engr-accent-dark);
+  text-decoration-thickness: 3px;
+}
+
+/* ── Section labels (.tag) ─────────────────────── */
+.engr-theme .tag {
+  color: var(--engr-accent);
+  background: transparent;
+  border: 1px solid var(--engr-accent);
+  border-radius: 0;
+  padding: 3px 10px;
+  letter-spacing: .12em;
+  font-weight: 400;
+}
+/* Leader ticks either side of a centered section label. */
+.engr-theme .section-header .tag { position: relative; }
+.engr-theme .section-header .tag::before,
+.engr-theme .section-header .tag::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 56px;
+  height: 9px;
+  margin-top: -4px;
+  border-top: 1px solid var(--engr-ink-medium);
+  transform: translateY(4px);
+  pointer-events: none;
+}
+.engr-theme .section-header .tag::before {
+  right: calc(100% + 8px);
+  border-left: 1px solid var(--engr-ink-medium);
+}
+.engr-theme .section-header .tag::after {
+  left: calc(100% + 8px);
+  border-right: 1px solid var(--engr-ink-medium);
+}
+
+/* ── Buttons ───────────────────────────────────── */
+.engr-theme .btn,
+.engr-theme .nav-cta {
+  border-radius: 0;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  font-weight: 400;
+}
+/* Primary: the one accent action on each screen. */
+.engr-theme .btn-primary,
+.engr-theme .nav-cta {
+  color: #fff;
+  background: var(--engr-accent);
+  border: 1px solid var(--engr-accent);
+  box-shadow: 3px 3px 0 var(--engr-ink-faint);
+}
+.engr-theme .btn-primary:hover,
+.engr-theme .nav-cta:hover {
+  color: #fff;
+  background: var(--engr-accent-dark);
+  border-color: var(--engr-accent-dark);
+  opacity: 1;
+  text-decoration: none;
+}
+/* Outline and ghost: drawn outlines in graphite. */
+.engr-theme .btn-outline,
+.engr-theme .btn-ghost {
+  color: var(--engr-ink-dark);
+  background: transparent;
+  border: 1px solid var(--engr-ink);
+}
+.engr-theme .btn-outline:hover,
+.engr-theme .btn-ghost:hover {
+  color: var(--engr-ink-dark);
+  background: var(--engr-paper-blue);
+  border-color: var(--engr-ink);
+  box-shadow: 3px 3px 0 var(--engr-ink-faint);
+}
+
+/* ── Header & navigation ───────────────────────── */
+.engr-theme .nav,
+.engr-theme header.site-nav {
+  background: color-mix(in srgb, var(--engr-paper) 90%, transparent);
+  border-bottom: 1px solid var(--engr-ink);
+  box-shadow: 0 3px 0 -2px var(--engr-ink-faint);
+}
+/* Logo: full color (blue-green tile, orange beaker), no frame. */
+.engr-theme .nav-logo,
+.engr-theme .footer-logo { color: var(--engr-ink-dark); }
+.engr-theme .nav-logo svg,
+.engr-theme .nav-logo img,
+.engr-theme .footer-logo svg { outline: 0; }
+.engr-theme .nav-links a,
+.engr-theme .nav-links > li > a {
+  color: var(--engr-ink);
+  position: relative;
+}
+/* Hover draws a line under the link, left to right. */
+.engr-theme .nav-links > li > a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -5px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .2s ease;
+}
+.engr-theme .nav-links > li > a:hover::after,
+.engr-theme .nav-links > li > a:focus-visible::after,
+.engr-theme .nav-links > li:focus-within > a::after,
+.engr-theme .nav-links > li > a.current::after {
+  transform: scaleX(1);
+}
+.engr-theme .nav-links > li > a:hover { color: var(--engr-ink-dark); text-decoration: none; }
+/* Thin tick separators between top-level items, like a dimension chain. */
+@media (min-width: 901px) {
+  .engr-theme .nav-links > li { position: relative; }
+  .engr-theme .nav-links > li + li::before {
+    content: "";
+    position: absolute;
+    left: -16px;
+    top: -6px;
+    bottom: -6px;
+    width: 1px;
+    background: var(--engr-ink-medium);
+    pointer-events: none;
+  }
+}
+.engr-theme .nav-dropdown-menu {
+  background: var(--engr-paper);
+  border: 1px solid var(--engr-ink);
+  border-top: 3px solid var(--engr-ink);
+  border-radius: 0;
+  box-shadow: 5px 5px 0 var(--engr-ink-faint);
+}
+.engr-theme .nav-dropdown-menu a { color: var(--engr-ink); border-radius: 0; }
+.engr-theme .nav-dropdown-menu a:hover { background: var(--engr-paper-blue); text-decoration: none; }
+.engr-theme .nav-toggle span { background: var(--engr-ink); }
+.engr-theme .nav-toggle { min-width: 44px; min-height: 44px; align-items: center; justify-content: center; }
+.engr-theme .mobile-nav {
+  background: var(--engr-paper);
+  border-color: var(--engr-ink);
+  box-shadow: 0 6px 0 -3px var(--engr-ink-faint);
+}
+.engr-theme header.site-nav .mobile-nav { background: transparent; box-shadow: none; }
+.engr-theme .mobile-nav a,
+.engr-theme .mobile-nav ul li a,
+.engr-theme .mobile-link-toggle {
+  color: var(--engr-ink);
+  border-color: var(--engr-rule);
+}
+
+/* ── Home hero: the cover sheet ────────────────── */
+/* A dark band: graphite ink reversed out, with the white line-drawing
+   pattern. Text contrast on the band: paper 12.3:1, sub text 8.7:1,
+   labels 6.8:1, light accent 7.8:1. */
+.engr-theme .hero { background: var(--engr-band); color: var(--engr-paper); }
+.engr-theme .hero ::selection { background: var(--engr-accent-on-band); color: var(--engr-band); } /* 7.79:1 */
+.engr-theme .hero::before {
+  display: block;
+  background: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600' viewBox='0 0 600 600'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='1.4' stroke-opacity='0.14'%3E%3Crect x='40' y='40' width='150' height='90' /%3E%3Cline x1='115' y1='40' x2='115' y2='130' /%3E%3Ccircle cx='150' cy='75' r='16' /%3E%3Cline x1='150' y1='55' x2='150' y2='95' stroke-dasharray='4 3' /%3E%3Cline x1='130' y1='75' x2='170' y2='75' stroke-dasharray='4 3' /%3E%3Cpolyline points='40,170 115,170 115,150 190,150 190,215 40,215' /%3E%3Cline x1='150' y1='190' x2='150' y2='210' stroke-dasharray='3 3' /%3E%3Cline x1='163' y1='190' x2='163' y2='210' stroke-dasharray='3 3' /%3E%3Ccircle cx='430' cy='90' r='70' /%3E%3Ccircle cx='430' cy='90' r='40' /%3E%3Ccircle cx='430' cy='90' r='22' /%3E%3Ccircle cx='430' cy='34' r='9' /%3E%3Ccircle cx='479' cy='63' r='9' /%3E%3Ccircle cx='430' cy='146' r='9' /%3E%3Cline x1='430' y1='10' x2='430' y2='170' stroke-dasharray='5 3 1 3' /%3E%3Cline x1='352' y1='90' x2='508' y2='90' stroke-dasharray='5 3 1 3' /%3E%3Crect x='330' y='210' width='40' height='60' /%3E%3Crect x='370' y='195' width='24' height='30' /%3E%3Cline x1='330' y1='218' x2='370' y2='218' /%3E%3Cline x1='330' y1='230' x2='340' y2='220' /%3E%3Cline x1='340' y1='230' x2='350' y2='220' /%3E%3Cline x1='350' y1='230' x2='360' y2='220' /%3E%3Cline x1='360' y1='230' x2='370' y2='220' /%3E%3Cpath d='M60 330 q0 -55 55 -55 q55 0 55 55 v40 h-110 z' /%3E%3Cpath d='M85 370 a30 30 0 0 1 60 0' /%3E%3Ccircle cx='85' cy='320' r='9' /%3E%3Ccircle cx='145' cy='320' r='9' /%3E%3Cline x1='115' y1='275' x2='115' y2='300' stroke-dasharray='3 3' /%3E%3Cpolyline points='190,300 190,370 220,370 220,340 235,340 235,300' /%3E%3Cline x1='202' y1='300' x2='202' y2='370' stroke-dasharray='3 3' /%3E%3Cpath d='M370 330 a30 30 0 1 0 0 60 h90 l25 -30 l-25 -30 z' /%3E%3Ccircle cx='370' cy='360' r='11' /%3E%3Ccircle cx='455' cy='360' r='7' /%3E%3Cline x1='400' y1='330' x2='400' y2='390' /%3E%3Cline x1='420' y1='330' x2='420' y2='390' stroke-dasharray='3 3' /%3E%3Cline x1='250' y1='430' x2='250' y2='470' stroke-dasharray='6 3 1 3' /%3E%3Cline x1='230' y1='450' x2='270' y2='450' stroke-dasharray='6 3 1 3' /%3E%3Ccircle cx='250' cy='450' r='14' /%3E%3Cline x1='500' y1='420' x2='500' y2='470' stroke-dasharray='6 3 1 3' /%3E%3Cline x1='475' y1='445' x2='525' y2='445' stroke-dasharray='6 3 1 3' /%3E%3C/g%3E%3C/svg%3E") 0 0 / 480px 480px repeat;
+}
+.engr-theme .hero-content,
+.engr-theme .log-header .container { position: relative; z-index: 1; }
+.engr-theme .hero h1 { color: var(--engr-paper); line-height: 1.15; }
+.engr-theme .hero h1 em { font-style: normal; color: var(--engr-accent-on-band); }
+.engr-theme .hero h1 em:last-of-type { color: var(--engr-highlight); } /* "little lab" */
+.engr-theme .hero .hero-eyebrow { color: color-mix(in srgb, var(--engr-paper) 82%, transparent); }
+.engr-theme .hero .hero-eyebrow::before { border-color: var(--engr-accent-on-band); }
+/* Eyebrow: a short leader tick into a plain technical label. */
+.engr-theme :is(.hero-eyebrow, .lab-eyebrow, .log-eyebrow) {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--engr-ink-soft);
+  background: none;
+  border: 0;
+  padding: 0;
+  font-size: .8rem;
+  font-weight: 400;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.engr-theme :is(.hero-eyebrow, .lab-eyebrow, .log-eyebrow)::before {
+  content: "";
+  width: 28px;
+  height: 7px;
+  border-left: 1px solid var(--engr-accent);
+  border-bottom: 1px solid var(--engr-accent);
+  transform: translateY(-3px);
+}
+.engr-theme .hero-sub { color: color-mix(in srgb, var(--engr-paper) 82%, transparent); font-size: 1.06rem; line-height: 1.75; }
+.engr-theme .hero-sub:first-of-type { color: var(--engr-paper); }
+/* Badges sit on a dimension line: end ticks, no colored stripe. */
+.engr-theme .hero-badges {
+  position: relative;
+  border-top: 1px solid rgb(255 255 255 / .3);
+}
+.engr-theme .hero-badges::before,
+.engr-theme .hero-badges::after {
+  content: "";
+  position: absolute;
+  top: -6px;
+  width: 1px;
+  height: 11px;
+  background: rgb(255 255 255 / .3);
+}
+.engr-theme .hero-badges::before { left: 0; }
+.engr-theme .hero-badges::after { right: 0; }
+.engr-theme .hero .hero-badge-num { color: var(--engr-paper); }
+.engr-theme .hero .btn-ghost { color: var(--engr-paper); border-color: rgb(255 255 255 / .6); background: transparent; }
+.engr-theme .hero .btn-ghost:hover { border-color: var(--engr-paper); background: rgb(255 255 255 / .08); }
+.engr-theme .hero :focus-visible { outline-color: var(--engr-paper); }
+.engr-theme .hero-badge-label { color: color-mix(in srgb, var(--engr-paper) 70%, transparent); text-transform: uppercase; letter-spacing: .08em; font-size: .7rem; }
+
+/* Hero photos: natural color, cropped so each product sits in frame,
+   with figure tags naming the product (see .hero-figs in index.html). */
+.engr-theme .hero-visual { position: relative; }
+/* The photos are landscape, so the lead product gets the full-width top
+   row instead of a narrow tall slot that cropped the holder out. */
+.engr-theme .hero-photo-grid { gap: 12px; grid-template-rows: 1.15fr 1fr; }
+.engr-theme .hero-photo-grid img:first-child { grid-row: auto; grid-column: span 2; object-position: 72% 62%; }
+.engr-theme .hero-photo-grid img:nth-child(2) { object-position: 50% 58%; }
+.engr-theme .hero-photo-grid img:nth-child(3) { object-position: 50% 62%; }
+.engr-theme .hero-figs {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1.15fr 1fr;
+  gap: 12px;
+  padding: 40px 24px 40px 16px;
+  margin: 0;
+  list-style: none;
+  pointer-events: none;
+}
+.engr-theme .hero-figs li:first-child { grid-column: span 2; }
+.engr-theme .hero-figs li { display: flex; align-items: flex-end; padding: 10px; }
+.engr-theme .hero-figs span {
+  font-family: var(--font-label);
+  font-size: .72rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  line-height: 1.3;
+  color: var(--engr-ink-dark);
+  background: var(--engr-paper);
+  border: 1px solid var(--engr-ink-medium);
+  padding: 4px 8px;
+}
+.engr-theme .hero-figs b { color: var(--engr-accent); font-weight: 400; margin-right: 6px; }
+
+/* ── Photo treatment ───────────────────────────── */
+/* Every product photo stays in natural color (filament color and finish
+   matter), framed like a print pasted onto the sheet. */
+.engr-theme .bp-photo,
+.engr-theme .bp-photo-color,
+.engr-theme .hero-photo-grid img,
+.engr-theme .about-image-stack img,
+.engr-theme .journey-image img,
+.engr-theme .gallery-item img,
+.engr-theme .product-gallery img.main-photo,
+.engr-theme .product-thumbs img,
+.engr-theme .products-landing-tile img,
+.engr-theme .post-figure img {
+  background-color: var(--engr-paper-blue);
+  border: 1px solid var(--engr-ink-medium);
+  border-radius: 0;
+  box-shadow: 4px 4px 0 var(--engr-ink-faint);
+  filter: none;
+}
+/* Transparent cut-outs and icons shouldn't get a frame. */
+.engr-theme .journey-image img { border: 0; box-shadow: none; background: transparent; }
+.engr-theme .journey-image {
+  border-radius: 0;
+  box-shadow: none;
+  border: 1px solid var(--engr-ink-medium);
+  background:
+    linear-gradient(var(--engr-grid) 1px, transparent 1px) 0 0 / 16px 16px,
+    linear-gradient(90deg, var(--engr-grid) 1px, transparent 1px) 0 0 / 16px 16px,
+    var(--engr-paper-blue);
+}
+.engr-theme .product-thumbs img.active { border-color: var(--engr-accent); outline: 2px solid var(--engr-accent); }
+
+/* ── How It's Made cards ───────────────────────── */
+.engr-theme .process-card,
+.engr-theme .contact-form,
+.engr-theme .log-entry-card,
+.engr-theme .callout,
+.engr-theme .bp-panel {
+  background-color: var(--engr-paper);
+  border: 1px solid var(--engr-ink-medium);
+  border-radius: 0;
+  box-shadow: 4px 4px 0 var(--engr-ink-faint);
+}
+.engr-theme .process-card:hover { box-shadow: 7px 7px 0 var(--engr-ink-faint); }
+.engr-theme .process-icon {
+  background: transparent;
+  border: 1px solid var(--engr-ink);
+  border-radius: 0;
+  background-image: repeating-linear-gradient(135deg, var(--engr-ink-faint) 0 1px, transparent 1px 5px);
+}
+.engr-theme .process-icon svg { color: var(--engr-ink-dark); }
+
+/* ── About: the drawing from the concept sheet ─── */
+.engr-theme .about-image-stack img:last-of-type { border: 1px solid var(--engr-ink); outline: 6px solid var(--engr-paper); }
+.engr-theme .about-content { position: relative; }
+/* Construction lines under each line of the heading, running past the text. */
+.engr-theme .about-content h2 {
+  line-height: 1.25;
+  margin-left: -14px;
+  margin-right: -14px;
+  padding: 0 14px;
+  background-image: repeating-linear-gradient(to bottom,
+    transparent 0, transparent calc(1.25em - 1px),
+    var(--engr-ink-faint) calc(1.25em - 1px), var(--engr-ink-faint) 1.25em);
+  border-top: 1px solid var(--engr-ink-faint);
+}
+.engr-theme .about-content p { color: var(--engr-ink); }
+.engr-theme .stat-num { color: var(--engr-ink-dark); }
+.engr-theme .stat-label { color: var(--engr-ink-soft); }
+.engr-theme .about-stats { border-top-color: var(--engr-ink-medium); }
+@media (min-width: 1001px) {
+  /* Vertical construction line along the text column. */
+  .engr-theme .about-content::before {
+    content: "";
+    position: absolute;
+    left: -22px;
+    top: -40px;
+    bottom: -40px;
+    width: 1px;
+    background: var(--engr-ink-faint);
+    pointer-events: none;
+  }
+  /* Registration crosshair in the sheet corner. */
+  .engr-theme #about { position: relative; }
+  .engr-theme #about::after {
+    content: "";
+    position: absolute;
+    top: 36px;
+    right: 48px;
+    width: 64px;
+    height: 64px;
+    pointer-events: none;
+    background:
+      linear-gradient(var(--engr-ink-medium), var(--engr-ink-medium)) center / 1px 100% no-repeat,
+      linear-gradient(var(--engr-ink-medium), var(--engr-ink-medium)) center / 100% 1px no-repeat,
+      radial-gradient(circle, transparent 0 21px, var(--engr-ink-medium) 21px 22px, transparent 22px);
+  }
+}
+
+/* ── Dimension annotations ─────────────────────── */
+/* Markup: <span class="bp-dim bp-dim--x" aria-hidden="true"><span>520</span></span>
+   --x draws a horizontal dimension, --y a vertical one. Position with inline
+   top/left/width/height or a page rule. useDimension (app/src/components) can fill in the measured
+   size from data-bp-measure. Always decorative, always aria-hidden. */
+.bp-dim {
+  position: absolute;
+  pointer-events: none;
+  color: var(--engr-ink);
+  font-family: var(--engr-font);
+  font-size: .7rem;
+  line-height: 1;
+  letter-spacing: .04em;
+}
+.bp-dim--x { height: 0; border-top: 1px solid var(--engr-ink-medium); }
+.bp-dim--y { width: 0; border-left: 1px solid var(--engr-ink-medium); }
+.bp-dim::before,
+.bp-dim::after {
+  content: "";
+  position: absolute;
+  background: var(--engr-ink-medium);
+}
+.bp-dim--x::before,
+.bp-dim--x::after { top: -6px; width: 1px; height: 11px; }
+.bp-dim--x::before { left: 0; }
+.bp-dim--x::after { right: 0; }
+.bp-dim--y::before,
+.bp-dim--y::after { left: -6px; height: 1px; width: 11px; }
+.bp-dim--y::before { top: 0; }
+.bp-dim--y::after { bottom: 0; }
+.bp-dim > span {
+  position: absolute;
+  padding: 2px 5px;
+  background: var(--engr-paper);
+  white-space: nowrap;
+}
+.bp-dim--x > span { left: 50%; top: 0; transform: translate(-50%, -50%); }
+.bp-dim--y > span { top: 50%; left: 0; transform: translate(-50%, -50%); }
+
+/* About-section dimensions follow the two photos' own percentages. */
+.engr-theme .about-image-stack .bp-dim--x.bp-dim-a { top: -22px; left: 0; width: 80%; }
+.engr-theme .about-image-stack .bp-dim--y.bp-dim-a { left: -22px; top: 0; height: 80%; }
+.engr-theme .about-image-stack .bp-dim--x.bp-dim-b { bottom: -22px; right: 0; width: 55%; }
+.engr-theme .about-image-stack .bp-dim--y.bp-dim-b { right: -22px; bottom: 0; height: 55%; }
+@media (max-width: 1100px) {
+  .bp-dim--y { display: none; }
+}
+@media (max-width: 900px) {
+  .bp-dim { display: none; }
+}
+
+/* ── Utilities: crosshair, hatching, title block bits ── */
+.bp-crosshair {
+  display: inline-block;
+  width: 48px;
+  height: 48px;
+  pointer-events: none;
+  background:
+    linear-gradient(var(--engr-ink-medium), var(--engr-ink-medium)) center / 1px 100% no-repeat,
+    linear-gradient(var(--engr-ink-medium), var(--engr-ink-medium)) center / 100% 1px no-repeat,
+    radial-gradient(circle, transparent 0 15px, var(--engr-ink-medium) 15px 16px, transparent 16px);
+}
+.bp-hatch {
+  background-image: repeating-linear-gradient(135deg, var(--engr-ink-faint) 0 1px, transparent 1px 6px);
+}
+.bp-rule {
+  border: 0;
+  border-top: 1px solid var(--engr-ink-medium);
+}
+
+/* ── Gallery ───────────────────────────────────── */
+.engr-theme .gallery-item { border-radius: 0; position: relative; }
+.engr-theme .gallery-item img { box-shadow: none; }
+.engr-theme .gallery-item .overlay {
+  background: linear-gradient(to top, rgb(46 52 56 / .78), transparent 60%);
+  z-index: 1;
+}
+
+/* ── Custom-order band: hatched drawing panel ─── */
+.engr-theme #custom {
+  background-color: transparent;
+  background-image: repeating-linear-gradient(135deg, var(--engr-ink-faint) 0 1px, transparent 1px 7px);
+  border-top: 1px solid var(--engr-ink);
+  border-bottom: 1px solid var(--engr-ink);
+}
+.engr-theme #custom::before { display: none; }
+.engr-theme .custom-inner {
+  background: var(--engr-paper);
+  border: 1px solid var(--engr-ink);
+  padding: 36px 40px;
+  box-shadow: 6px 6px 0 var(--engr-ink-faint);
+}
+.engr-theme .custom-inner h2 { color: var(--engr-ink-dark); }
+.engr-theme .custom-inner p { color: var(--engr-ink); }
+
+/* ── Product blocks (products page) ────────────── */
+.engr-theme .product-block {
+  border: 1px solid var(--engr-ink);
+  border-radius: 0;
+  box-shadow: 8px 8px 0 var(--engr-ink-faint);
+  background-color: color-mix(in srgb, var(--engr-paper) 90%, transparent);
+}
+.engr-theme .product-gallery {
+  background-color: var(--engr-paper-blue);
+  border-right: 1px solid var(--engr-ink-medium);
+}
+.engr-theme .product-block.reverse .product-gallery { border-right: 0; border-left: 1px solid var(--engr-ink-medium); }
+/* The product blueprint SVGs are drawn in tan. A color-blend layer sits
+   between that background and the photo/3D view, recoloring only the drawing.
+   isolation keeps the blend inside the gallery. */
+@supports (mix-blend-mode: color) {
+  .engr-theme .product-gallery { isolation: isolate; }
+  .engr-theme .product-gallery::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--engr-accent);
+    mix-blend-mode: color;
+    opacity: .45;               /* a hint of blue-green, not a cyan wash */
+    pointer-events: none;
+  }
+}
+.engr-theme .product-info h3 { color: var(--engr-ink-dark); }
+.engr-theme .product-info p { color: var(--engr-ink); }
+.engr-theme .price { color: var(--engr-highlight); }
+.engr-theme .product-features li .icon { background: transparent; border: 1px solid var(--engr-ink); border-radius: 0; color: var(--engr-ink); }
+.engr-theme .variant-chip {
+  border-radius: 0;
+  border-color: var(--engr-ink-medium);
+  color: var(--engr-ink);
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+}
+.engr-theme .variant-chip:hover,
+.engr-theme .variant-chip.active {
+  border-color: var(--engr-accent);
+  color: var(--engr-ink-dark);
+  background: var(--engr-paper-blue);
+  box-shadow: inset 0 -2px 0 var(--engr-accent);
+}
+.engr-theme .gallery-view-toggle button {
+  border-radius: 0;
+  background: var(--engr-paper);
+  color: var(--engr-ink);
+  border: 1px solid var(--engr-ink);
+  font-family: var(--engr-font);
+}
+.engr-theme .gallery-view-toggle button.active { background: var(--engr-accent); border-color: var(--engr-accent); color: #fff; }
+.engr-theme .gallery-3d-hint,
+.engr-theme .gallery-zoom-hint {
+  background: var(--engr-paper);
+  color: var(--engr-ink);
+  border: 1px solid var(--engr-ink-medium);
+  border-radius: 0;
+}
+.engr-theme .products-landing-tile {
+  border: 1px solid var(--engr-ink-medium);
+  border-radius: 0;
+  background-color: color-mix(in srgb, var(--engr-paper-blue) 55%, transparent);
+}
+.engr-theme .products-landing-tile:hover { border-color: var(--engr-ink); box-shadow: 6px 6px 0 var(--engr-ink-faint); }
+.engr-theme .products-landing-tile span { color: var(--engr-ink-dark); }
+.engr-theme .products-landing-tile img { box-shadow: none; }
+
+/* ── Contact & forms ───────────────────────────── */
+.engr-theme .contact-info h3 { color: var(--engr-ink-dark); }
+.engr-theme .contact-info p,
+.engr-theme .contact-links li a { color: var(--engr-ink); }
+.engr-theme .contact-links li a { min-height: 44px; }
+.engr-theme .contact-links .icon-wrap {
+  background: transparent;
+  border: 1px solid var(--engr-ink);
+  border-radius: 0;
+}
+.engr-theme .form-group label {
+  color: var(--engr-ink-dark);
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  font-size: .74rem;
+}
+.engr-theme .form-group input,
+.engr-theme .form-group select,
+.engr-theme .form-group textarea {
+  font-family: var(--engr-font);
+  color: var(--engr-ink-dark);
+  background: #f8f7f2;
+  border: 1px solid var(--engr-ink-medium);
+  border-bottom: 2px solid var(--engr-ink-soft);
+  border-radius: 0;
+}
+.engr-theme .form-group input::placeholder,
+.engr-theme .form-group textarea::placeholder { color: var(--engr-ink-soft); opacity: .85; }
+.engr-theme .form-group input:focus,
+.engr-theme .form-group select:focus,
+.engr-theme .form-group textarea:focus {
+  outline: 2px solid var(--engr-accent);
+  outline-offset: 2px;
+  border-color: var(--engr-accent);
+  box-shadow: none;
+}
+
+/* ── Drawing title block ───────────────────────── */
+.engr-theme .sheet-titleblock { padding: 40px 0 28px; }
+.engr-theme .titleblock {
+  max-width: 640px;
+  margin-left: auto;
+  border: 1.5px solid var(--engr-ink);
+  border-radius: 0;
+  background: var(--engr-paper);
+  box-shadow: 0 0 0 4px var(--engr-paper), 0 0 0 5px var(--engr-ink-medium);
+  color: var(--engr-ink-dark);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  font-size: .74rem;
+}
+.engr-theme .titleblock div { border-color: var(--engr-ink); padding: 8px 12px; }
+.engr-theme .titleblock .label { color: var(--engr-ink-soft); }
+@media (max-width: 700px) {
+  .engr-theme .titleblock div:nth-child(-n+2) { border-bottom: 1.5px solid var(--engr-ink); }
+}
+
+/* ── Footer: back to paper ─────────────────────── */
+.engr-theme footer {
+  background: transparent;
+  color: var(--engr-ink-soft);
+  border-top: 1px solid var(--engr-ink);
+}
+.engr-theme footer::before { display: none; }
+.engr-theme footer a,
+.engr-theme .footer-links a { color: var(--engr-ink); }
+.engr-theme footer a:hover,
+.engr-theme .footer-links a:hover { color: var(--engr-ink-dark); text-decoration: underline; text-underline-offset: 3px; }
+.engr-theme .footer-copy { color: var(--engr-ink-soft); }
+
+/* ── Lightbox: paper scrim, color photo ────────── */
+.engr-theme .lightbox { background: color-mix(in srgb, var(--engr-paper) 94%, transparent); }
+.engr-theme .lightbox img {
+  border: 1px solid var(--engr-ink);
+  border-radius: 0;
+  box-shadow: 10px 10px 0 var(--engr-ink-faint);
+}
+.engr-theme .lightbox-close {
+  background: var(--engr-ink);
+  color: var(--engr-paper);
+  border-radius: 0;
+  width: 44px;
+  height: 44px;
+}
+.engr-theme .lightbox-close:hover { background: var(--engr-accent); }
+
+/* ── Lab Notes & Build Log headers ─────────────── */
+/* Same light cover sheet as the home hero. */
+.engr-theme .lab-header,
+.engr-theme .log-header {
+  background: transparent;
+  color: var(--engr-ink);
+  border-bottom: 1px solid var(--engr-ink-medium);
+}
+.engr-theme .lab-header::before,
+.engr-theme .log-header::before { display: none; }
+.engr-theme :is(.lab-header, .log-header) h1 { color: var(--engr-ink-dark); }
+.engr-theme :is(.lab-header, .log-header) p { color: var(--engr-ink-soft); }
+.engr-theme :is(.lab-header-visual, .log-header-visual) .edge-solid { stroke: var(--engr-accent); }
+.engr-theme :is(.lab-header-visual, .log-header-visual) .dim-text { fill: var(--engr-ink-soft); opacity: 1; }
+
+/* Lab Notes article bits */
+.engr-theme .post-meta,
+.engr-theme .lede,
+.engr-theme .post-list .excerpt { color: var(--engr-ink-soft); }
+.engr-theme .post-meta { font-size: .8rem; letter-spacing: .04em; }
+.engr-theme .post-list li { border-bottom-color: var(--engr-rule); }
+.engr-theme main h3 a { color: var(--engr-ink-dark); }
+.engr-theme main :is(p, li) { line-height: 1.75; }
+.engr-theme table,
+.engr-theme th,
+.engr-theme td { border-color: var(--engr-rule); }
+.engr-theme th { background: var(--engr-paper-blue); color: var(--engr-ink-dark); }
+.engr-theme code,
+.engr-theme pre {
+  color: var(--engr-ink-dark);
+  background: var(--engr-paper-blue);
+  border-radius: 0;
+}
+/* Long file paths in inline code must wrap on phones. */
+.engr-theme :not(pre) > code { overflow-wrap: anywhere; }
+.engr-theme blockquote { border-left-color: var(--engr-accent); color: var(--engr-ink); background: var(--engr-paper-blue); }
+.engr-theme hr { border-color: var(--engr-rule); }
+
+/* Build Log stream */
+.engr-theme .log-stream-inner::before { background: var(--engr-ink-medium); }
+.engr-theme .log-entry::before { background: var(--engr-highlight); border-color: var(--engr-highlight); }
+.engr-theme .log-day-label { color: var(--engr-ink-dark); border-color: var(--engr-ink-medium); background: var(--engr-paper); }
+.engr-theme .log-entry-time,
+.engr-theme .log-entry-commit { color: var(--engr-ink-soft); }
+.engr-theme .log-entry-tag {
+  color: var(--engr-accent);
+  background: transparent;
+  border: 1px solid var(--engr-accent);
+  border-radius: 0;
+}
+
+/* ── Dark cards: Build Log entries and the Lab Notes list ── */
+/* Each entry is a dark card (the hero band's ink) with reversed text.
+   Inline code and other inner panels stay off-white, floating on it.
+   Contrast on the band: title 12.3:1, body 8.7:1, meta 6.8:1,
+   light accent 7.8:1, ink on the off-white chips 10.7:1. */
+.engr-theme .log-entry-card,
+.engr-theme .post-list li {
+  --card-text: color-mix(in srgb, var(--engr-paper) 82%, transparent);
+  --card-meta: color-mix(in srgb, var(--engr-paper) 70%, transparent);
+  background: var(--engr-band);
+  color: var(--card-text);
+  border: 0;
+  box-shadow: 4px 4px 0 var(--engr-ink-faint);
+}
+.engr-theme .post-list li { padding: 22px 26px; margin-bottom: 18px; }
+.engr-theme .post-list li:first-child { padding-top: 22px; }
+.engr-theme :is(.log-entry-card, .post-list li) :is(h3, h3 a) { color: var(--engr-paper); }
+.engr-theme main :is(.log-entry-card, .post-list li) h3 a:not(.btn):not(.tag) { color: var(--engr-paper); text-decoration-color: var(--engr-accent-on-band); }
+.engr-theme :is(.log-entry-card, .post-list li) :is(p, .excerpt, li) { color: var(--card-text); }
+.engr-theme :is(.log-entry-card, .post-list li) :is(.log-entry-time, .log-entry-commit, .post-meta) { color: var(--card-meta); }
+.engr-theme :is(.log-entry-card, .post-list li) :is(.log-entry-tag, .tag) {
+  color: var(--engr-accent-on-band);
+  border-color: var(--engr-accent-on-band);
+}
+.engr-theme :is(.log-entry-card, .post-list li) :is(p, li) a:not(.btn):not(.tag) {
+  color: var(--engr-paper);
+  text-decoration-color: var(--engr-accent-on-band);
+}
+.engr-theme :is(.log-entry-card, .post-list li) :is(p, li) a:not(.btn):not(.tag):hover { color: var(--engr-accent-on-band); }
+.engr-theme :is(.log-entry-card, .post-list li) :focus-visible { outline-color: var(--engr-paper); }
+.engr-theme :is(.log-entry-card, .post-list li) :is(code, pre, .option, .callout, blockquote) {
+  color: var(--engr-ink-dark);
+  background: var(--engr-paper-blue);
+}
+.engr-theme :is(.log-entry-card, .post-list li) :not(pre) > code { padding: .08em .4em; }
+.engr-theme :is(.log-entry-card, .post-list li) ::selection { background: var(--engr-accent-on-band); color: var(--engr-band); } /* 7.79:1 */
+
+/* ── Lab Notes article: dark sheet, light cards ── */
+/* The ruled paper stays around the article; the article itself sits on the
+   dark band with reversed text. Cards inside it (option, decision, flow,
+   figures, callouts, tables, code) keep their light paper color and dark
+   text, floating on the sheet. Same contrast as the dark cards above. */
+.engr-theme main > .container:has(> .post-body) {
+  --sheet-text: color-mix(in srgb, var(--engr-paper) 85%, transparent);
+  --sheet-meta: color-mix(in srgb, var(--engr-paper) 70%, transparent);
+  max-width: calc(760px + 112px);
+  padding: 48px 56px 56px;
+  margin-top: 32px;
+  margin-bottom: 48px;
+  background: var(--engr-band);
+  color: var(--sheet-text);
+  box-shadow: 6px 6px 0 var(--engr-ink-faint);
+}
+.engr-theme main > .container:has(> .post-body) :is(h1, h2, h3, h4, strong, .lede) { color: var(--engr-paper); }
+.engr-theme main > .container:has(> .post-body) :is(p, li, dt, dd, figcaption) { color: var(--sheet-text); }
+.engr-theme main > .container:has(> .post-body) .post-meta { color: var(--sheet-meta); }
+.engr-theme main > .container:has(> .post-body) .tag {
+  color: var(--engr-accent-on-band);
+  border-color: var(--engr-accent-on-band);
+}
+.engr-theme main > .container:has(> .post-body) :is(p, li, td, blockquote, figcaption) a:not(.btn):not(.tag) {
+  color: var(--engr-paper);
+  text-decoration-color: var(--engr-accent-on-band);
+}
+.engr-theme main > .container:has(> .post-body) :focus-visible { outline-color: var(--engr-paper); }
+.engr-theme main > .container:has(> .post-body) ::selection { background: var(--engr-accent-on-band); color: var(--engr-band); } /* 7.79:1 */
+.engr-theme main > .container:has(> .post-body) hr { border-color: rgb(255 255 255 / .2); }
+
+/* Cards: back to dark ink on light paper. */
+.engr-theme main > .container:has(> .post-body) :is(.option, .decision, .flow, .figure-card, .post-figure, .callout, .example, .approval, .rule, table, pre, blockquote) {
+  color: var(--engr-ink);
+}
+.engr-theme main > .container:has(> .post-body) :is(.callout, .example, .approval, .post-figure, .rule, table) {
+  background-color: var(--engr-paper);
+}
+.engr-theme main > .container:has(> .post-body) :is(.option, .decision, .flow, .figure-card, .post-figure, .callout, .example, .approval, .rule, table, pre, blockquote) :is(h2, h3, h4, strong, p, li, dt, dd, figcaption, td, th, span, code) {
+  color: var(--engr-ink);
+}
+.engr-theme main > .container:has(> .post-body) :is(.option, .decision, .flow, .figure-card, .post-figure, .callout, .example, .approval, .rule, table, pre, blockquote) :is(.figure-copy, .example-source) { color: var(--engr-ink-soft); }
+.engr-theme main > .container:has(> .post-body) :is(.option, .decision, .flow, .figure-card, .post-figure, .callout, .example, .approval, .rule, table, pre, blockquote) a:not(.btn):not(.tag) {
+  color: var(--engr-ink-dark);
+  text-decoration-color: var(--engr-accent);
+}
+.engr-theme main > .container:has(> .post-body) :not(pre) > code { color: var(--engr-ink-dark); padding: .08em .4em; }
+@media (max-width: 640px) {
+  .engr-theme main > .container:has(> .post-body) { padding: 28px 20px 36px; }
+}
+
+/* ── Reduced motion ────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .engr-theme *,
+  .engr-theme *::before,
+  .engr-theme *::after {
+    transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+  .engr-theme .reveal { opacity: 1 !important; transform: none !important; }
+  .engr-theme .btn:hover,
+  .engr-theme .process-card:hover,
+  .engr-theme .products-landing-tile:hover,
+  .engr-theme .gallery-item:hover img,
+  .engr-theme .product-gallery:hover img.main-photo { transform: none !important; }
+}
+
+/* ── Highlight circles on light backgrounds ─────── */
+/* Numbered steps: orange disc, dark numeral (4.81:1). */
+.engr-theme ol.step-list { list-style: none; counter-reset: step; margin-left: 0; padding-left: 0; }
+.engr-theme ol.step-list > li { counter-increment: step; position: relative; padding-left: 38px; }
+.engr-theme ol.step-list > li::before {
+  content: counter(step); position: absolute; left: 0; top: .05em;
+  width: 26px; height: 26px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: var(--engr-highlight); color: var(--engr-band);
+  font: 700 .85rem/1 var(--font-label);
+}
