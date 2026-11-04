@@ -7,7 +7,7 @@ Every page on littledevlab.com is a React page in `app/`, pre-rendered to static
 - `app/` — the React + Vite source (pages, components, pre-render script). See `app/README.md`.
 - `lab-notes/<slug>.md` — one Lab Note per file (front matter + Markdown). See `lab-notes/README.md`.
 - `build-log/*.md` — one Build Log entry per file; the Build Log page and The Lab are built from these. See `build-log/README.md`.
-- `images/` — photos, 3D models and the theme (`images/theme/blueprint.css`, the global stylesheet).
+- `images/` — photos, 3D models and the theme (`images/theme/engr.css`, the global stylesheet).
 - `tools/` — `stage-site.sh` (assembles the deploy folder), `check-attribution.sh`, and optional offline asset utilities.
 - `DECISIONS.md` — why the site is built the way it is.
 

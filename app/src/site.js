@@ -17,6 +17,8 @@ export const URLS = {
   lab: '/lab/',
   labNotes: '/lab-notes/',
   buildLog: '/build-log',
+  experimenting: '/experimenting/',
+  experiment: (slug) => `/experimenting/${slug}`,
   contact: '/#contact',
   note: (slug) => `/lab-notes/${slug}`,
 }
@@ -49,10 +51,11 @@ export const MENUS = [
   },
   {
     id: 'journey',
-    label: 'Lab Journey',
+    label: 'The Lab',
     href: URLS.lab,
     links: [
       { href: URLS.lab, label: 'The Lab (overview)' },
+      { href: URLS.experimenting, label: 'Experimenting' },
       { href: URLS.labNotes, label: 'Lab Notes' },
       { href: URLS.buildLog, label: 'Build Log' },
     ],

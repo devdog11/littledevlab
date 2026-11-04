@@ -1,5 +1,5 @@
 /* Home page styles, moved from the <style> block in index.html.
-   Loads before images/theme/blueprint.css, as it did there. */
+   Loads before images/theme/engr.css, as it did there. */
 /* ── Reset & Base ──────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -657,7 +657,7 @@ model-viewer.main-3d.active { display: block; }
   letter-spacing: .02em;
 }
 
-/* ── Lab Journey ── */
+/* ── The Lab ── */
 .journey-grid {
   display: grid;
   grid-template-columns: 1fr 1.2fr;

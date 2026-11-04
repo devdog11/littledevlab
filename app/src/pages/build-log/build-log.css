@@ -1,5 +1,5 @@
 /* Build Log page styles, moved from the <style> block in build-log.html.
-   Loads before images/theme/blueprint.css, as it did there. */
+   Loads before images/theme/engr.css, as it did there. */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
@@ -163,7 +163,7 @@ a { color: inherit; text-decoration: none; }
 .mobile-nav ul { list-style: none; padding: 12px 24px 20px; }
 .mobile-nav li { border-top: 1px solid var(--gray-200); }
 
-/* ── Nav dropdown (Home / Products / Lab Journey) ── */
+/* ── Nav dropdown (Home / Products / The Lab) ── */
 .nav-item-dropdown { position: relative; }
 .nav-dropdown-menu {
   position: absolute;

@@ -1,0 +1,11 @@
+### License
+
+Osifont is available in 3 different licenses:
+
+- osifont.ttf - GNU GPL licence version 3 with font exception
+- osifont-gpl2fe.ttf - GNU GPL licence version 2 with font exception
+- osifont-lgpl3fe.ttf - GNU LGPL licence version 3 with font exception
+
+Disclaimer: Only contributors with at least 10% of glyphs contributed can discuss license changes.
+
+Source: https://github.com/hikikomori82/osifont (osifont-lgpl3fe.woff, GNU LGPL v3 with font exception).

@@ -205,7 +205,7 @@ export default function HomePage() {
                 <img src="/images/profile/3DPrint_Tyson_Transparent.png" alt="Tyson at the Bambu Lab X1 Carbon printer that makes every LittleDevLab piece" loading="lazy" />
               </div>
               <Reveal className="about-content">
-                <span className="tag">Lab Journey</span>
+                <span className="tag">The Lab</span>
                 <h2>Building this in public, one skill at a time</h2>
                 <p>LittleDevLab is the shop, but it's also the lab. Every page here doubles as practice for the skills behind AI/Data Architect work — prompt and context engineering, agentic workflows, and the judgment calls that come with directing an AI coworker on a live production site.</p>
                 <p><strong>Build Log</strong> is the day-to-day record — what shipped on the site, logged roughly twice a day, in plain terms. <strong>Lab Notes</strong> is the slower reflection — what actually got learned building it, wins and dead ends included.</p>

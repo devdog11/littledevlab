@@ -62,7 +62,7 @@ for (const page of pages) {
   console.log(`  ${page.file.padEnd(52)} ${(out.length / 1024).toFixed(1)} kB`)
 }
 
-const urls = pages.map((p) => `  <url><loc>${SITE_URL}${p.path}</loc></url>`).join('\n')
+const urls = pages.filter((p) => p.sitemap !== false).map((p) => `  <url><loc>${SITE_URL}${p.path}</loc></url>`).join('\n')
 await fs.writeFile(
   path.join(dist, 'sitemap.xml'),
   `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`,

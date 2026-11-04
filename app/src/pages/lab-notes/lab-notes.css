@@ -1,6 +1,6 @@
 /* Lab Notes styles, moved from the <style> blocks in lab-notes/*.html.
    Also the base sheet for The Lab, whose page carried the same block.
-   Loads before images/theme/blueprint.css, as it did there. */
+   Loads before images/theme/engr.css, as it did there. */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
   --paper: #f8f4ea;
@@ -75,7 +75,7 @@ header.site-nav .container { display: flex; align-items: center; justify-content
   .nav-toggle { display: flex; }
 }
 
-/* ── Nav dropdown (Home / Products / Lab Journey) ── */
+/* ── Nav dropdown (Home / Products / The Lab) ── */
 .nav-item-dropdown { position: relative; }
 .nav-dropdown-menu {
   position: absolute;
@@ -589,15 +589,15 @@ footer a { color: var(--ink-soft); margin: 0 8px; }
 :where(.note-servicenow-mcp-home-assistant-cloudflare) .perm-table .approval {
   color: var(--ink-soft);
 }
-:where(.note-servicenow-mcp-home-assistant-cloudflare, .note-soap-dish-mount-puck) figure.post-figure {
+:where(.note-servicenow-mcp-home-assistant-cloudflare, .note-soap-dish-mount-puck, .experiment) figure.post-figure {
   margin: 24px 0;
 }
-:where(.note-servicenow-mcp-home-assistant-cloudflare, .note-soap-dish-mount-puck) figure.post-figure img {
+:where(.note-servicenow-mcp-home-assistant-cloudflare, .note-soap-dish-mount-puck, .experiment) figure.post-figure img {
   border-radius: var(--radius-lg);
   border: 1px solid var(--gray-200);
   box-shadow: var(--shadow-md);
 }
-:where(.note-servicenow-mcp-home-assistant-cloudflare, .note-soap-dish-mount-puck) figure.post-figure figcaption {
+:where(.note-servicenow-mcp-home-assistant-cloudflare, .note-soap-dish-mount-puck, .experiment) figure.post-figure figcaption {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-size: .82rem;
   color: var(--ink-soft);
@@ -627,3 +627,20 @@ footer a { color: var(--ink-soft); margin: 0 8px; }
     grid-template-columns: 1fr;
   }
 }
+
+/* Experiment pages: plain Markdown images (![alt](src)) fit the sheet. */
+:where(.experiment) .post-body img { display: block; max-width: 100%; height: auto; margin: 24px 0; }
+:where(.experiment) .post-body figure.post-figure img { margin: 0; }
+
+/* Experiment 3D model: a light inner card on the dark sheet. The caption
+   selector outranks the sheet's light-text rule in engr.css. */
+:where(.experiment) .exp-model { margin: 8px 0 28px; padding: 0; background: var(--engr-paper-blue); border: 1px solid var(--engr-ink-medium); }
+:where(.experiment) .exp-model model-viewer { display: block; width: 100%; height: clamp(280px, 55vw, 440px); --poster-color: transparent; background: transparent; }
+.engr-theme main > .container:has(> .post-body) .exp-model figcaption { margin: 0; padding: 8px 14px; font-size: .78rem; color: var(--engr-ink-soft); border-top: 1px solid var(--engr-rule); }
+
+/* Experiment pages: long code scrolls inside its own box instead of spilling
+   off the sheet, and a script can sit in a collapsible <details>. */
+:where(.experiment) .post-body pre { overflow-x: auto; max-width: 100%; font-size: .82rem; line-height: 1.5; padding: 14px 16px; }
+:where(.experiment) .post-body details.code-details { margin: 24px 0; }
+:where(.experiment) .post-body details.code-details > summary { cursor: pointer; font-weight: 600; min-height: 44px; display: flex; align-items: center; }
+:where(.experiment) .post-body details.code-details[open] > summary { margin-bottom: 8px; }

@@ -7,6 +7,7 @@
 // The pre-render step and the browser both load the module (and its data)
 // before rendering, so the first browser render matches the static HTML.
 
+import { experimentsIndex } from './content/experimentsIndex.js'
 import { labNotesIndex } from './content/labNotesIndex.js'
 
 // One lazy chunk per page, so each page only downloads its own code.
@@ -16,8 +17,11 @@ const STATIC_PAGES = [
   { path: '/', file: 'index.html', module: './pages/home/HomePage.jsx' },
   { path: '/products', file: 'products.html', module: './pages/products/ProductsPage.jsx' },
   { path: '/lab/', file: 'lab/index.html', module: './pages/lab/LabPage.jsx' },
+  { path: '/experimenting/', file: 'experimenting/index.html', module: './pages/experimenting/ExperimentingPage.jsx' },
   { path: '/build-log', file: 'build-log.html', module: './pages/build-log/BuildLogPage.jsx' },
   { path: '/lab-notes/', file: 'lab-notes/index.html', module: './pages/lab-notes/LabNotesIndexPage.jsx' },
+  // Cloudflare Pages serves 404.html for unknown URLs. Not in the sitemap.
+  { path: '/404', file: '404.html', module: './pages/not-found/NotFoundPage.jsx', sitemap: false },
 ]
 
 // One page per lab-notes/<slug>.md. `preload` names the note's own chunk
@@ -32,8 +36,19 @@ function notePages() {
   }))
 }
 
+// One page per experiments/<slug>.md, the same way.
+function experimentPages() {
+  return experimentsIndex().map(({ slug }) => ({
+    path: `/experimenting/${slug}`,
+    file: `experimenting/${slug}.html`,
+    module: './pages/experimenting/ExperimentPage.jsx',
+    params: { slug },
+    preload: [`../experiments/${slug}.md`],
+  }))
+}
+
 export function listPages() {
-  return [...STATIC_PAGES.map((p) => ({ params: {}, ...p })), ...notePages()]
+  return [...STATIC_PAGES.map((p) => ({ params: {}, ...p })), ...notePages(), ...experimentPages()]
 }
 
 // The other spellings a page answers to: Cloudflare redirects x.html to /x,

@@ -19,44 +19,44 @@
     @font-face { font-family: "CountryBlueprint Local"; src: local("CountryBlueprint"), local("Country Blueprint"); }
     @font-face { font-family: "Stylus BT Local"; src: local("Stylus BT"), local("StylusBT-Roman"); }
 
-    body { font-family: var(--blueprint-font); line-height: 1.5; min-height: 100vh; }
+    body { font-family: var(--engr-font); line-height: 1.5; min-height: 100vh; }
     .wrap { max-width: 1120px; margin: 0 auto; padding: 48px 24px 96px; }
 
     header.sheet { display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: end; margin-bottom: 40px; }
     header.sheet h1 { font-size: clamp(1.6rem, 4vw, 2.4rem); line-height: 1.15; }
-    header.sheet p { max-width: 60ch; margin-top: 10px; font-size: 1.15rem; color: var(--blueprint-ink-soft); }
+    header.sheet p { max-width: 60ch; margin-top: 10px; font-size: 1.15rem; color: var(--engr-ink-soft); }
 
     .titleblock-mini {
-      border: 1.5px solid var(--blueprint-ink);
-      box-shadow: 0 0 0 4px var(--blueprint-paper), 0 0 0 5px var(--blueprint-ink-medium);
-      background: var(--blueprint-paper);
+      border: 1.5px solid var(--engr-ink);
+      box-shadow: 0 0 0 4px var(--engr-paper), 0 0 0 5px var(--engr-ink-medium);
+      background: var(--engr-paper);
       display: grid; grid-template-columns: auto auto; font-size: .72rem;
-      text-transform: uppercase; letter-spacing: .06em; color: var(--blueprint-ink-dark);
+      text-transform: uppercase; letter-spacing: .06em; color: var(--engr-ink-dark);
     }
-    .titleblock-mini > div { padding: 5px 10px; border: .5px solid var(--blueprint-rule); }
-    .titleblock-mini b { display: block; font-size: .6rem; color: var(--blueprint-ink-soft); font-weight: 400; }
+    .titleblock-mini > div { padding: 5px 10px; border: .5px solid var(--engr-rule); }
+    .titleblock-mini b { display: block; font-size: .6rem; color: var(--engr-ink-soft); font-weight: 400; }
 
     /* ── Live preview ── */
     .controls { display: flex; flex-wrap: wrap; gap: 14px 24px; align-items: center; padding: 16px 20px; margin-bottom: 20px; }
     .controls label { font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; }
-    .controls select, .controls input[type=range] { font: inherit; color: inherit; accent-color: var(--blueprint-ink); }
-    .controls select { padding: 4px 8px; background: var(--blueprint-paper); border: 1px solid var(--blueprint-ink); border-radius: 0; }
+    .controls select, .controls input[type=range] { font: inherit; color: inherit; accent-color: var(--engr-ink); }
+    .controls select { padding: 4px 8px; background: var(--engr-paper); border: 1px solid var(--engr-ink); border-radius: 0; }
     .controls .bounce { display: none; align-items: center; gap: 8px; }
     .controls .bounce.on { display: flex; }
 
     body { --anno: "Architects Daughter"; }
     .drawing { position: relative; padding: 56px 56px 150px; margin-bottom: 56px; }
-    /* Scoped under .blueprint-theme so it outranks the shared stylesheet's
-       heading rule (.blueprint-theme :is(h1, h2, h3)); otherwise headings
+    /* Scoped under .engr-theme so it outranks the shared stylesheet's
+       heading rule (.engr-theme :is(h1, h2, h3)); otherwise headings
        stay in Architects Daughter whatever font is picked. */
-    .blueprint-theme .anno { font-family: var(--anno), var(--font-sans); }
+    .engr-theme .anno { font-family: var(--anno), var(--font-sans); }
     .drawing .grid2 { display: grid; grid-template-columns: 1.1fr 1fr; gap: 48px; align-items: start; }
-    .part { position: relative; height: 220px; margin: 30px 0 30px 34px; border: 1.5px solid var(--blueprint-ink); }
-    .part.bp-hatch::after { content: ""; position: absolute; left: 30%; top: 32%; width: 26%; height: 36%; border: 1.5px solid var(--blueprint-ink); border-radius: 50%; background: var(--blueprint-paper); }
+    .part { position: relative; height: 220px; margin: 30px 0 30px 34px; border: 1.5px solid var(--engr-ink); }
+    .part.bp-hatch::after { content: ""; position: absolute; left: 30%; top: 32%; width: 26%; height: 36%; border: 1.5px solid var(--engr-ink); border-radius: 50%; background: var(--engr-paper); }
     .drawing .bp-dim { font-size: 1rem; }
-    .drawing .bp-dim > span { font-family: var(--anno), var(--blueprint-font); }
+    .drawing .bp-dim > span { font-family: var(--anno), var(--engr-font); }
     .callout-tag { position: absolute; right: 0; bottom: -64px; padding: 0 4px; font-size: 1.05rem; text-transform: uppercase; }
-    .callout-tag::before { content: ""; position: absolute; right: 100%; top: 50%; width: 92px; border-top: 1px solid var(--blueprint-ink-medium); transform: rotate(38deg); transform-origin: right; }
+    .callout-tag::before { content: ""; position: absolute; right: 100%; top: 50%; width: 92px; border-top: 1px solid var(--engr-ink-medium); transform: rotate(38deg); transform-origin: right; }
     .sheet-text { margin: 96px 0 0 34px; }
     .sheet-text .photo-frame { margin: 24px 0 0; }
 
@@ -65,23 +65,23 @@
     .drawing .negative {
       align-self: start;
       padding: 28px 28px 32px;
-      color: var(--blueprint-paper);
-      background-color: var(--blueprint-ink-dark);
+      color: var(--engr-paper);
+      background-color: var(--engr-ink-dark);
       background-image:
         linear-gradient(rgb(255 255 255 / .07) 1px, transparent 1px),
         linear-gradient(90deg, rgb(255 255 255 / .07) 1px, transparent 1px);
       background-size: 24px 24px;
-      box-shadow: 0 0 0 4px var(--blueprint-paper), 0 0 0 5px var(--blueprint-ink-medium);
+      box-shadow: 0 0 0 4px var(--engr-paper), 0 0 0 5px var(--engr-ink-medium);
       text-shadow: none;
     }
-    .drawing .negative h3 { color: var(--blueprint-paper); text-shadow: none; }
-    .drawing .negative .section-tag i { border-color: var(--blueprint-paper); }
-    .drawing .negative ::selection { background: rgb(255 255 255 / .25); color: var(--blueprint-paper); }
+    .drawing .negative h3 { color: var(--engr-paper); text-shadow: none; }
+    .drawing .negative .section-tag i { border-color: var(--engr-paper); }
+    .drawing .negative ::selection { background: rgb(255 255 255 / .25); color: var(--engr-paper); }
     .section-tag { display: inline-flex; align-items: center; gap: 10px; font-size: 1.15rem; text-transform: uppercase; margin-bottom: 12px; }
-    .section-tag i { font-style: normal; width: 34px; height: 34px; border: 1.5px solid var(--blueprint-ink); border-radius: 50%; display: grid; place-items: center; }
-    .blueprint-theme .drawing h3 { font-size: 1.35rem; margin-bottom: 8px; font-family: var(--anno), var(--font-sans); }
-    .blueprint-theme .drawing p { margin-bottom: 12px; font-family: var(--font-sans); font-size: 1rem; }
-    .drawing .spec-label { font-family: var(--font-label); font-size: .82rem; letter-spacing: .06em; text-transform: uppercase; color: var(--blueprint-ink-soft); }
+    .section-tag i { font-style: normal; width: 34px; height: 34px; border: 1.5px solid var(--engr-ink); border-radius: 50%; display: grid; place-items: center; }
+    .engr-theme .drawing h3 { font-size: 1.35rem; margin-bottom: 8px; font-family: var(--anno), var(--font-sans); }
+    .engr-theme .drawing p { margin-bottom: 12px; font-family: var(--font-sans); font-size: 1rem; }
+    .drawing .spec-label { font-family: var(--font-label); font-size: .82rem; letter-spacing: .06em; text-transform: uppercase; color: var(--engr-ink-soft); }
     .notes { font-size: 1.05rem; text-transform: uppercase; line-height: 1.6; margin-top: 18px; padding-left: 0; list-style: none; }
     .notes li::before { content: counter(n) ". "; counter-increment: n; }
     .notes { counter-reset: n; }
@@ -92,21 +92,21 @@
     h2.group { font-size: 1.15rem; text-transform: uppercase; letter-spacing: .08em; margin: 8px 0 18px; }
     .specimens { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 22px; margin-bottom: 48px; }
     .spec { padding: 18px 20px 20px; display: flex; flex-direction: column; gap: 10px; cursor: pointer; }
-    .spec:hover, .spec.active { box-shadow: 7px 7px 0 color-mix(in srgb, var(--blueprint-ink) 20%, transparent); }
-    .spec.active { outline: 2px solid var(--blueprint-ink); outline-offset: 3px; }
-    .spec-head { display: flex; justify-content: space-between; gap: 10px; font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; color: var(--blueprint-ink-soft); border-bottom: 1px solid var(--blueprint-rule); padding-bottom: 6px; }
-    .spec-head .rank { color: var(--blueprint-ink-dark); font-weight: 700; }
-    .spec .big { font-size: 2.1rem; line-height: 1.1; text-transform: uppercase; color: var(--blueprint-ink-dark); }
+    .spec:hover, .spec.active { box-shadow: 7px 7px 0 color-mix(in srgb, var(--engr-ink) 20%, transparent); }
+    .spec.active { outline: 2px solid var(--engr-ink); outline-offset: 3px; }
+    .spec-head { display: flex; justify-content: space-between; gap: 10px; font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; color: var(--engr-ink-soft); border-bottom: 1px solid var(--engr-rule); padding-bottom: 6px; }
+    .spec-head .rank { color: var(--engr-ink-dark); font-weight: 700; }
+    .spec .big { font-size: 2.1rem; line-height: 1.1; text-transform: uppercase; color: var(--engr-ink-dark); }
     .spec .dimline { position: relative; height: 26px; margin: 8px 4px 4px; }
     .spec .dimline .bp-dim { left: 0; right: 0; top: 13px; font-size: 1rem; }
     .spec .label { font-size: 1.1rem; text-transform: uppercase; }
     .spec .mixed { font-size: 1.05rem; }
-    .spec .glyphs { font-size: .95rem; letter-spacing: .04em; color: var(--blueprint-ink-soft); word-break: break-all; }
-    .spec .why { font-family: var(--blueprint-font); font-size: .8rem; color: var(--blueprint-ink-soft); margin-top: auto; padding-top: 8px; border-top: 1px dashed var(--blueprint-rule); }
-    .spec .status { font-family: var(--blueprint-font); font-size: .68rem; text-transform: uppercase; letter-spacing: .06em; }
+    .spec .glyphs { font-size: .95rem; letter-spacing: .04em; color: var(--engr-ink-soft); word-break: break-all; }
+    .spec .why { font-family: var(--engr-font); font-size: .8rem; color: var(--engr-ink-soft); margin-top: auto; padding-top: 8px; border-top: 1px dashed var(--engr-rule); }
+    .spec .status { font-family: var(--engr-font); font-size: .68rem; text-transform: uppercase; letter-spacing: .06em; }
     .spec .status.missing { color: #a2361f; }
 
-    footer.note { font-size: .8rem; color: var(--blueprint-ink-soft); max-width: 70ch; }
+    footer.note { font-size: .8rem; color: var(--engr-ink-soft); max-width: 70ch; }
 
     @media (max-width: 760px) {
       .wrap { padding: 28px 16px 64px; }
@@ -119,27 +119,57 @@
     /* ── Paper options (preview only) ──
        Default is the theme's whiteprint sheet. Each option swaps the paper
        tokens and the printed ruling; ink stays blueprint blue. */
-    body.blueprint-theme[data-paper] .bp-panel { background-color: color-mix(in srgb, var(--blueprint-paper) 90%, transparent); }
-    body.blueprint-theme[data-paper]::before { opacity: .3; }
+    body.engr-theme[data-paper] .bp-panel { background-color: color-mix(in srgb, var(--engr-paper) 90%, transparent); }
+    body.engr-theme[data-paper]::before { opacity: .3; }
+
+    /* Site paper with heavier ruling. Same sheet, color and 24/120px grid as
+       the site; only the line strength and the center-column veil change.
+       The site today: minor .08, major .15, veil 90% (center lines ~1%). */
+    body.engr-theme[data-paper^="ruling-"]::before { opacity: .35; }
+    body.engr-theme[data-paper="ruling-light"] {
+      --engr-grid: rgb(66 107 120 / .08);
+      --engr-grid-major: rgb(66 107 120 / .15);
+      --paper-veil: color-mix(in srgb, var(--engr-paper) 90%, transparent);
+    }
+    body.engr-theme[data-paper="ruling-medium"] {
+      --engr-grid: rgb(66 107 120 / .13);
+      --engr-grid-major: rgb(66 107 120 / .24);
+      --paper-veil: color-mix(in srgb, var(--engr-paper) 72%, transparent);
+    }
+    body.engr-theme[data-paper="ruling-strong"] {
+      --engr-grid: rgb(66 107 120 / .18);
+      --engr-grid-major: rgb(66 107 120 / .32);
+      --paper-veil: color-mix(in srgb, var(--engr-paper) 60%, transparent);
+    }
+    body.engr-theme[data-paper="ruling-full"] {
+      --engr-grid: rgb(66 107 120 / .12);
+      --engr-grid-major: rgb(66 107 120 / .22);
+      --paper-veil: transparent;
+    }
+    body.engr-theme[data-paper="ruling-green"] {
+      --engr-grid: rgb(96 120 88 / .16);
+      --engr-grid-major: rgb(96 120 88 / .30);
+      --paper-veil: color-mix(in srgb, var(--engr-paper) 65%, transparent);
+    }
 
     /* Engineering computation paper: 5 squares to the inch, faint heavier
        line every inch, a margin line down the left. */
-    body.blueprint-theme[data-paper="eng-yellow"] {
-      --blueprint-paper: #f7f0cd;
-      --blueprint-paper-blue: #efe5b6;
+    body.engr-theme[data-paper="eng-yellow"] {
+      --engr-paper: #f7f0cd;
+      --engr-paper-blue: #efe5b6;
       --rule-minor: rgb(104 130 60 / .2);
       --rule-major: rgb(104 130 60 / .34);
       --rule-margin: rgb(176 92 52 / .45);
     }
-    body.blueprint-theme[data-paper="eng-green"] {
-      --blueprint-paper: #e2edd5;
-      --blueprint-paper-blue: #d5e4c5;
+    body.engr-theme[data-paper="eng-green"] {
+      --engr-paper: #e2edd5;
+      --engr-paper-blue: #d5e4c5;
       --rule-minor: rgb(46 118 78 / .2);
       --rule-major: rgb(46 118 78 / .34);
       --rule-margin: rgb(46 118 78 / .55);
     }
-    body.blueprint-theme[data-paper^="eng-"] {
-      background-color: var(--blueprint-paper);
+    body.engr-theme[data-paper^="eng-"] {
+      background-color: var(--engr-paper);
       background-image:
         linear-gradient(90deg, transparent 47px, var(--rule-margin) 47px, var(--rule-margin) 49px, transparent 49px),
         linear-gradient(var(--rule-major) 1px, transparent 1px),
@@ -153,14 +183,14 @@
 
     /* Recycled engineering paper: oatmeal stock, gray-green ruling, and
        lint: dark specks, pale and dark fibers, a few colored flecks. */
-    body.blueprint-theme[data-paper="eng-recycled"] {
-      --blueprint-paper: #eeeae0;
-      --blueprint-paper-blue: #e4dfd2;
+    body.engr-theme[data-paper="eng-recycled"] {
+      --engr-paper: #eeeae0;
+      --engr-paper-blue: #e4dfd2;
       --rule-minor: rgb(96 116 92 / .2);
       --rule-major: rgb(96 116 92 / .34);
       --rule-margin: rgb(150 104 84 / .45);
     }
-    body.blueprint-theme[data-paper="eng-recycled"]::before {
+    body.engr-theme[data-paper="eng-recycled"]::before {
       opacity: 1;
       background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='f'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='1' seed='3'/><feColorMatrix values='0 0 0 0 .36 0 0 0 0 .32 0 0 0 0 .27 10 0 0 0 -7.3'/></filter><rect width='100%' height='100%' filter='url(%23f)'/></svg>"),
         url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='420' height='420'><filter id='f'><feTurbulence type='fractalNoise' baseFrequency='.55' numOctaves='1' seed='11'/><feColorMatrix values='0 0 0 0 .3 0 0 0 0 .38 0 0 0 0 .62 0 4 0 0 -2.96'/></filter><rect width='100%' height='100%' filter='url(%23f)'/></svg>"),
@@ -170,88 +200,88 @@
     }
 
     /* Moleskine-style notebook: ivory stock, 5 mm ruling in warm gray. */
-    body.blueprint-theme[data-paper^="mole-"] {
-      --blueprint-paper: #f4eddc;
-      --blueprint-paper-blue: #ece3cd;
-      background-color: var(--blueprint-paper);
+    body.engr-theme[data-paper^="mole-"] {
+      --engr-paper: #f4eddc;
+      --engr-paper-blue: #ece3cd;
+      background-color: var(--engr-paper);
       background-size: 19px 19px;
     }
-    body.blueprint-theme[data-paper="mole-dot"] {
+    body.engr-theme[data-paper="mole-dot"] {
       background-image: radial-gradient(circle at 1px 1px, rgb(92 84 72 / .42) 1px, transparent 1.6px);
     }
-    body.blueprint-theme[data-paper="mole-grid"] {
+    body.engr-theme[data-paper="mole-grid"] {
       background-image:
         linear-gradient(rgb(92 84 72 / .16) 1px, transparent 1px),
         linear-gradient(90deg, rgb(92 84 72 / .16) 1px, transparent 1px);
     }
-    .photo-frame { display: inline-block; padding: 10px 10px 8px; border: 1px solid var(--blueprint-ink-medium); background: var(--blueprint-paper); }
+    .photo-frame { display: inline-block; padding: 10px 10px 8px; border: 1px solid var(--engr-ink-medium); background: var(--engr-paper); }
     .photo-frame img { display: block; width: 200px; height: auto; margin: 0 auto; }
     .photo-frame figcaption { margin-top: 8px; font-size: .95rem; text-transform: uppercase; text-align: center; }
 
     /* ── Ink options (preview only) ──
        Swap the ink tokens; the paper's own ruling keeps its color.
        Text colors stay at 4.5:1 or better on every paper above. */
-    body.blueprint-theme[data-ink="rapidograph"] {
-      --blueprint-ink: #161616;
-      --blueprint-ink-dark: #0a0a0a;
-      --blueprint-ink-soft: #3d3d3d;
-      --blueprint-ink-medium: rgb(22 22 22 / .45);
-      --blueprint-ink-faint: rgb(22 22 22 / .1);
-      --blueprint-rule: rgb(22 22 22 / .24);
+    body.engr-theme[data-ink="rapidograph"] {
+      --engr-ink: #161616;
+      --engr-ink-dark: #0a0a0a;
+      --engr-ink-soft: #3d3d3d;
+      --engr-ink-medium: rgb(22 22 22 / .45);
+      --engr-ink-faint: rgb(22 22 22 / .1);
+      --engr-rule: rgb(22 22 22 / .24);
       --ink-bleed: rgb(10 10 10 / .5);
     }
     /* 3B: soft, dark graphite with a slight smudge at the edges. */
-    body.blueprint-theme[data-ink="pencil-3b"] {
-      --blueprint-ink: #34363a;
-      --blueprint-ink-dark: #26282c;
-      --blueprint-ink-soft: #4b4e53;
-      --blueprint-ink-medium: rgb(52 54 58 / .42);
-      --blueprint-ink-faint: rgb(52 54 58 / .1);
-      --blueprint-rule: rgb(52 54 58 / .22);
+    body.engr-theme[data-ink="pencil-3b"] {
+      --engr-ink: #34363a;
+      --engr-ink-dark: #26282c;
+      --engr-ink-soft: #4b4e53;
+      --engr-ink-medium: rgb(52 54 58 / .42);
+      --engr-ink-faint: rgb(52 54 58 / .1);
+      --engr-rule: rgb(52 54 58 / .22);
       --ink-bleed: rgb(38 40 44 / .55);
       --ink-smudge: 0 0 1px rgb(52 54 58 / .45);
     }
     /* HB: harder lead, lighter and crisper gray. */
-    body.blueprint-theme[data-ink="pencil-hb"] {
-      --blueprint-ink: #575b61;
-      --blueprint-ink-dark: #474b51;
-      --blueprint-ink-soft: #62666c;
-      --blueprint-ink-medium: rgb(87 91 97 / .4);
-      --blueprint-ink-faint: rgb(87 91 97 / .1);
-      --blueprint-rule: rgb(87 91 97 / .22);
+    body.engr-theme[data-ink="pencil-hb"] {
+      --engr-ink: #575b61;
+      --engr-ink-dark: #474b51;
+      --engr-ink-soft: #62666c;
+      --engr-ink-medium: rgb(87 91 97 / .4);
+      --engr-ink-faint: rgb(87 91 97 / .1);
+      --engr-rule: rgb(87 91 97 / .22);
       --ink-bleed: rgb(71 75 81 / .35);
       --ink-smudge: 0 0 .5px rgb(87 91 97 / .35);
     }
-    body.blueprint-theme[data-ink] { color: var(--blueprint-ink); text-shadow: var(--ink-smudge, none); }
-    body.blueprint-theme[data-ink] :is(h1, h2, h3, h4) { text-shadow: 0 0 .4px var(--ink-bleed); }
-    body.blueprint-theme[data-ink] ::selection { background: var(--blueprint-ink-faint); }
+    body.engr-theme[data-ink] { color: var(--engr-ink); text-shadow: var(--ink-smudge, none); }
+    body.engr-theme[data-ink] :is(h1, h2, h3, h4) { text-shadow: 0 0 .4px var(--ink-bleed); }
+    body.engr-theme[data-ink] ::selection { background: var(--engr-ink-faint); }
 
     /* ── Landing hero sample ── */
     .hero-sample { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; padding: 48px; margin-bottom: 56px; }
-    .hs-eyebrow { display: inline-block; margin-bottom: 16px; font-size: .9rem; letter-spacing: .08em; text-transform: uppercase; color: var(--blueprint-ink-dark); }
-    .blueprint-theme .hs-title { font-size: clamp(2.2rem, 4.4vw, 3.3rem); line-height: 1.12; letter-spacing: 0; margin-bottom: 22px; }
-    .hs-title em { font-style: normal; color: var(--blueprint-ink); text-decoration: underline 2px var(--blueprint-ink-medium); text-underline-offset: .14em; }
-    .blueprint-theme .hs-sub { font-family: var(--font-sans); font-size: 1.06rem; max-width: 44ch; margin-bottom: 18px; line-height: 1.7; }
+    .hs-eyebrow { display: inline-block; margin-bottom: 16px; font-size: .9rem; letter-spacing: .08em; text-transform: uppercase; color: var(--engr-ink-dark); }
+    .engr-theme .hs-title { font-size: clamp(2.2rem, 4.4vw, 3.3rem); line-height: 1.12; letter-spacing: 0; margin-bottom: 22px; }
+    .hs-title em { font-style: normal; color: var(--engr-ink); text-decoration: underline 2px var(--engr-ink-medium); text-underline-offset: .14em; }
+    .engr-theme .hs-sub { font-family: var(--font-sans); font-size: 1.06rem; max-width: 44ch; margin-bottom: 18px; line-height: 1.7; }
     .hs-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
-    .hs-btn { display: inline-block; padding: 12px 20px; border: 1.5px solid var(--blueprint-ink-dark); font-size: .85rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; text-decoration: none; }
-    .hs-btn--primary { background: var(--blueprint-ink-dark); color: var(--blueprint-paper); box-shadow: 4px 4px 0 var(--blueprint-ink-faint); }
-    .hs-btn--ghost { color: var(--blueprint-ink-dark); background: transparent; }
-    .hs-btn:hover { transform: translate(-1px, -1px); box-shadow: 5px 5px 0 var(--blueprint-ink-medium); }
-    .hs-btn:focus-visible { outline: 3px solid var(--blueprint-ink-dark); outline-offset: 3px; }
-    .hs-badges { display: flex; gap: 28px; margin-top: 40px; padding-top: 22px; border-top: 1px solid var(--blueprint-ink-medium); }
-    .hs-badge-num { font-size: 1.8rem; line-height: 1; color: var(--blueprint-ink-dark); }
-    .hs-badge-label { font-size: .75rem; color: var(--blueprint-ink-soft); margin-top: 4px; }
+    .hs-btn { display: inline-block; padding: 12px 20px; border: 1.5px solid var(--engr-ink-dark); font-size: .85rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; text-decoration: none; }
+    .hs-btn--primary { background: var(--engr-ink-dark); color: var(--engr-paper); box-shadow: 4px 4px 0 var(--engr-ink-faint); }
+    .hs-btn--ghost { color: var(--engr-ink-dark); background: transparent; }
+    .hs-btn:hover { transform: translate(-1px, -1px); box-shadow: 5px 5px 0 var(--engr-ink-medium); }
+    .hs-btn:focus-visible { outline: 3px solid var(--engr-ink-dark); outline-offset: 3px; }
+    .hs-badges { display: flex; gap: 28px; margin-top: 40px; padding-top: 22px; border-top: 1px solid var(--engr-ink-medium); }
+    .hs-badge-num { font-size: 1.8rem; line-height: 1; color: var(--engr-ink-dark); }
+    .hs-badge-label { font-size: .75rem; color: var(--engr-ink-soft); margin-top: 4px; }
     .hs-photos { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 10px; height: 460px; }
     .hs-photos img { width: 100%; height: 100%; object-fit: cover; }
     .hs-photos img:first-child { grid-row: span 2; }
 
     /* Photo tint follows the ink: graphite for pencil, plain gray for pen. */
-    body.blueprint-theme[data-ink="rapidograph"] { --blueprint-photo-filter: grayscale(1) contrast(1.2); }
-    body.blueprint-theme[data-ink^="pencil-"] { --blueprint-photo-filter: grayscale(1) contrast(1.05) sepia(.15) brightness(1.03); }
+    body.engr-theme[data-ink="rapidograph"] { --engr-photo-filter: grayscale(1) contrast(1.2); }
+    body.engr-theme[data-ink^="pencil-"] { --engr-photo-filter: grayscale(1) contrast(1.05) sepia(.15) brightness(1.03); }
 
     /* Orange accent. Bright orange only as fills, with near-black text on
        top (6.7:1); orange as text uses the deep shade (5.1:1 on yellow). */
-    body.blueprint-theme[data-accent="orange"] {
+    body.engr-theme[data-accent="orange"] {
       --accent-fill: #f28c28;
       --accent-text: #a8470c;
       --accent-on: #1f1f1f;
@@ -269,7 +299,7 @@
     [data-accent] .drawing .callout-tag,
     [data-accent] .drawing .section-tag { color: var(--accent-text); }
     [data-accent] .drawing .section-tag i { border-color: var(--accent-tag-border, var(--accent-tag, var(--accent-fill))); background: var(--accent-tag, var(--accent-fill)); color: var(--accent-tag-on, var(--accent-on)); }
-    [data-accent] .drawing .negative .section-tag { color: var(--blueprint-paper); }
+    [data-accent] .drawing .negative .section-tag { color: var(--engr-paper); }
 
 
     /* ════ Theme presets ════════════════════════════════════════════
@@ -277,9 +307,9 @@
        All text pairings below were checked at 4.5:1 or better. */
 
     /* Sheet header strip: notebook and field-book pages print one. */
-    .sheet-header { display: none; flex-wrap: wrap; gap: 6px 28px; margin: -24px 0 28px; padding: 8px 0 10px; border-bottom: 1.5px solid var(--blueprint-ink-medium); font-size: .78rem; text-transform: uppercase; letter-spacing: .06em; color: var(--blueprint-ink-soft); }
-    .sheet-header b { font-family: var(--anno), var(--blueprint-font); font-weight: 400; font-size: 1.15rem; text-transform: none; letter-spacing: 0; color: var(--blueprint-ink-dark); margin-left: 6px; }
-    .sheet-header .blank { display: inline-block; width: 120px; border-bottom: 1px solid var(--blueprint-ink-medium); margin-left: 6px; }
+    .sheet-header { display: none; flex-wrap: wrap; gap: 6px 28px; margin: -24px 0 28px; padding: 8px 0 10px; border-bottom: 1.5px solid var(--engr-ink-medium); font-size: .78rem; text-transform: uppercase; letter-spacing: .06em; color: var(--engr-ink-soft); }
+    .sheet-header b { font-family: var(--anno), var(--engr-font); font-weight: 400; font-size: 1.15rem; text-transform: none; letter-spacing: 0; color: var(--engr-ink-dark); margin-left: 6px; }
+    .sheet-header .blank { display: inline-block; width: 120px; border-bottom: 1px solid var(--engr-ink-medium); margin-left: 6px; }
     .sheet-header > [data-for] { display: none; }
     [data-paper="chem-notebook"] .sheet-header,
     [data-paper="field-book"] .sheet-header { display: flex; }
@@ -288,28 +318,28 @@
 
     /* ── Chemistry lab notebook ──
        Bright white bound-notebook page, 4×4-per-inch blue-green grid. */
-    body.blueprint-theme[data-paper="chem-notebook"] {
-      --blueprint-paper: #fbfbf8;
-      --blueprint-paper-blue: #eef3f2;
-      background-color: var(--blueprint-paper);
+    body.engr-theme[data-paper="chem-notebook"] {
+      --engr-paper: #fbfbf8;
+      --engr-paper-blue: #eef3f2;
+      background-color: var(--engr-paper);
       background-image:
         linear-gradient(rgb(56 140 140 / .2) 1px, transparent 1px),
         linear-gradient(90deg, rgb(56 140 140 / .2) 1px, transparent 1px);
       background-size: 24px 24px;
     }
-    body.blueprint-theme[data-paper="chem-notebook"]::before { opacity: .12; }
+    body.engr-theme[data-paper="chem-notebook"]::before { opacity: .12; }
     /* Ballpoint: black-blue ink, no smudge. */
-    body.blueprint-theme[data-ink="ballpoint"] {
-      --blueprint-ink: #202430;
-      --blueprint-ink-dark: #151821;
-      --blueprint-ink-soft: #3e4350;
-      --blueprint-ink-medium: rgb(32 36 48 / .42);
-      --blueprint-ink-faint: rgb(32 36 48 / .1);
-      --blueprint-rule: rgb(32 36 48 / .22);
+    body.engr-theme[data-ink="ballpoint"] {
+      --engr-ink: #202430;
+      --engr-ink-dark: #151821;
+      --engr-ink-soft: #3e4350;
+      --engr-ink-medium: rgb(32 36 48 / .42);
+      --engr-ink-faint: rgb(32 36 48 / .1);
+      --engr-rule: rgb(32 36 48 / .22);
       --ink-bleed: rgb(21 24 33 / .4);
     }
     /* Hazard diamond: blue (health), red (fire), yellow (reactivity). */
-    body.blueprint-theme[data-accent="hazard"] {
+    body.engr-theme[data-accent="hazard"] {
       --accent-fill: #ffd100;
       --accent-on: #1f1f1f;
       --accent-text: #c8102e;
@@ -328,14 +358,14 @@
     [data-accent="hazard"] .hero-sample .hs-badges::before { background: linear-gradient(90deg, #8cc4ff 0 25%, #e8344f 25% 50%, #ffd100 50% 75%, #ffffff 75%); }
     /* Hazard on yellow engineering paper: yellow fills would vanish (1.3:1),
        so tags use the diamond's white quarter with an ink outline (6:1). */
-    body.blueprint-theme[data-paper^="eng-"][data-accent="hazard"] {
+    body.engr-theme[data-paper^="eng-"][data-accent="hazard"] {
       --accent-tag: #ffffff;
-      --accent-tag-on: var(--blueprint-ink-dark);
-      --accent-tag-border: var(--blueprint-ink);
-      --accent-btn: var(--blueprint-ink-dark);
-      --accent-btn-border: var(--blueprint-ink-dark);
-      --accent-eyebrow: var(--blueprint-ink-dark);
-      --accent-badge: var(--blueprint-ink-dark);
+      --accent-tag-on: var(--engr-ink-dark);
+      --accent-tag-border: var(--engr-ink);
+      --accent-btn: var(--engr-ink-dark);
+      --accent-btn-border: var(--engr-ink-dark);
+      --accent-eyebrow: var(--engr-ink-dark);
+      --accent-badge: var(--engr-ink-dark);
     }
     /* ...and on the dark band the main button goes hazard yellow (11:1). */
     [data-paper^="eng-"][data-accent="hazard"] .hero-sample { --accent-btn: #ffd100; --accent-btn-on: #1f1f1f; }
@@ -343,10 +373,10 @@
     /* ── Civil engineering field book ──
        Weatherproof yellow-green page, red ruling, column lines, and the
        center gutter of the open book. */
-    body.blueprint-theme[data-paper="field-book"] {
-      --blueprint-paper: #f2efc6;
-      --blueprint-paper-blue: #e9e5b6;
-      background-color: var(--blueprint-paper);
+    body.engr-theme[data-paper="field-book"] {
+      --engr-paper: #f2efc6;
+      --engr-paper-blue: #e9e5b6;
+      background-color: var(--engr-paper);
       background-image:
         linear-gradient(90deg, transparent calc(50% - 1px), rgb(110 100 50 / .35) calc(50% - 1px), rgb(110 100 50 / .35) calc(50% + 1px), transparent calc(50% + 1px)),
         linear-gradient(90deg, rgb(186 52 52 / .22) 1px, transparent 1px),
@@ -354,9 +384,9 @@
       background-size: 100% 100%, 120px 100%, 100% 24px;
       background-attachment: fixed, scroll, scroll;
     }
-    body.blueprint-theme[data-paper="field-book"]::before { opacity: .25; }
+    body.engr-theme[data-paper="field-book"]::before { opacity: .25; }
     /* Surveyor's flagging tape: hot pink fills, deep magenta as text. */
-    body.blueprint-theme[data-accent="flagging"] {
+    body.engr-theme[data-accent="flagging"] {
       --accent-fill: #ff2e93;
       --accent-on: #1f1f1f;
       --accent-text: #b0006a;
@@ -366,35 +396,35 @@
 
     /* ── Developer whiteboard ──
        Glossy white board, ghosts of erased diagrams, aluminum frame. */
-    body.blueprint-theme[data-paper="whiteboard"] {
-      --blueprint-paper: #fdfdfd;
-      --blueprint-paper-blue: #f1f4f6;
-      background-color: var(--blueprint-paper);
+    body.engr-theme[data-paper="whiteboard"] {
+      --engr-paper: #fdfdfd;
+      --engr-paper-blue: #f1f4f6;
+      background-color: var(--engr-paper);
       background-image:
         linear-gradient(115deg, transparent 30%, rgb(255 255 255 / .9) 45%, transparent 60%),
         url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='900' height='700'><g fill='none' stroke='rgb(110,120,130)' stroke-opacity='.07' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'><rect x='60' y='70' width='190' height='110' rx='14'/><path d='M250 125 h120 m-18 -14 l18 14 l-18 14'/><rect x='370' y='70' width='190' height='110' rx='14'/><path d='M465 180 v90 m-14 -18 l14 18 l14 -18'/><ellipse cx='465' cy='320' rx='110' ry='48'/><path d='M640 90 c40 -30 90 30 130 0 s90 30 120 0'/><path d='M90 420 q30 -40 60 0 t60 0 t60 0'/><path d='M620 420 l40 40 l80 -90'/><path d='M80 560 h260 M80 600 h200 M80 640 h230'/><path d='M560 540 c60 -40 160 -40 220 0 c-60 40 -160 40 -220 0z'/></g><g fill='none' stroke='rgb(140,150,160)' stroke-opacity='.05' stroke-width='28' stroke-linecap='round'><path d='M330 470 c80 -20 160 30 240 0'/></g></svg>");
       background-size: 100% 100%, 900px 700px;
       background-attachment: fixed, scroll;
     }
-    body.blueprint-theme[data-paper="whiteboard"]::before { opacity: 0; }
-    body.blueprint-theme[data-paper="whiteboard"]::after {
+    body.engr-theme[data-paper="whiteboard"]::before { opacity: 0; }
+    body.engr-theme[data-paper="whiteboard"]::after {
       content: ""; position: fixed; inset: 0; z-index: 50; pointer-events: none;
       border: 10px solid #c3c9cf;
       box-shadow: inset 0 0 0 1px #9aa2aa, inset 0 6px 12px -6px rgb(0 0 0 / .25);
     }
     /* Dry-erase marker: near-black with a little bleed. */
-    body.blueprint-theme[data-ink="marker"] {
-      --blueprint-ink: #1b1e22;
-      --blueprint-ink-dark: #111316;
-      --blueprint-ink-soft: #4a5058;
-      --blueprint-ink-medium: rgb(27 30 34 / .45);
-      --blueprint-ink-faint: rgb(27 30 34 / .1);
-      --blueprint-rule: rgb(27 30 34 / .24);
+    body.engr-theme[data-ink="marker"] {
+      --engr-ink: #1b1e22;
+      --engr-ink-dark: #111316;
+      --engr-ink-soft: #4a5058;
+      --engr-ink-medium: rgb(27 30 34 / .45);
+      --engr-ink-faint: rgb(27 30 34 / .1);
+      --engr-rule: rgb(27 30 34 / .24);
       --ink-bleed: rgb(17 19 22 / .5);
       --ink-smudge: 0 0 .6px rgb(27 30 34 / .45);
     }
     /* Marker set: red, blue, green. */
-    body.blueprint-theme[data-accent="marker"] {
+    body.engr-theme[data-accent="marker"] {
       --accent-fill: #1565c0;
       --accent-on: #ffffff;
       --accent-text: #c62828;
@@ -416,22 +446,22 @@
        the ink (a touch darker for contrast) with its line-drawing pattern. */
     #heroSample {
       position: relative;
-      color: var(--blueprint-paper);
-      background-color: color-mix(in srgb, var(--blueprint-ink-dark) 80%, black);
+      color: var(--engr-paper);
+      background-color: color-mix(in srgb, var(--engr-ink-dark) 80%, black);
       background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600' viewBox='0 0 600 600'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='1.4' stroke-opacity='0.14'%3E%3Crect x='40' y='40' width='150' height='90' /%3E%3Cline x1='115' y1='40' x2='115' y2='130' /%3E%3Ccircle cx='150' cy='75' r='16' /%3E%3Cline x1='150' y1='55' x2='150' y2='95' stroke-dasharray='4 3' /%3E%3Cline x1='130' y1='75' x2='170' y2='75' stroke-dasharray='4 3' /%3E%3Cpolyline points='40,170 115,170 115,150 190,150 190,215 40,215' /%3E%3Cline x1='150' y1='190' x2='150' y2='210' stroke-dasharray='3 3' /%3E%3Cline x1='163' y1='190' x2='163' y2='210' stroke-dasharray='3 3' /%3E%3Ccircle cx='430' cy='90' r='70' /%3E%3Ccircle cx='430' cy='90' r='40' /%3E%3Ccircle cx='430' cy='90' r='22' /%3E%3Ccircle cx='430' cy='34' r='9' /%3E%3Ccircle cx='479' cy='63' r='9' /%3E%3Ccircle cx='430' cy='146' r='9' /%3E%3Cline x1='430' y1='10' x2='430' y2='170' stroke-dasharray='5 3 1 3' /%3E%3Cline x1='352' y1='90' x2='508' y2='90' stroke-dasharray='5 3 1 3' /%3E%3Crect x='330' y='210' width='40' height='60' /%3E%3Crect x='370' y='195' width='24' height='30' /%3E%3Cline x1='330' y1='218' x2='370' y2='218' /%3E%3Cline x1='330' y1='230' x2='340' y2='220' /%3E%3Cline x1='340' y1='230' x2='350' y2='220' /%3E%3Cline x1='350' y1='230' x2='360' y2='220' /%3E%3Cline x1='360' y1='230' x2='370' y2='220' /%3E%3Cpath d='M60 330 q0 -55 55 -55 q55 0 55 55 v40 h-110 z' /%3E%3Cpath d='M85 370 a30 30 0 0 1 60 0' /%3E%3Ccircle cx='85' cy='320' r='9' /%3E%3Ccircle cx='145' cy='320' r='9' /%3E%3Cline x1='115' y1='275' x2='115' y2='300' stroke-dasharray='3 3' /%3E%3Cpolyline points='190,300 190,370 220,370 220,340 235,340 235,300' /%3E%3Cline x1='202' y1='300' x2='202' y2='370' stroke-dasharray='3 3' /%3E%3Cpath d='M370 330 a30 30 0 1 0 0 60 h90 l25 -30 l-25 -30 z' /%3E%3Ccircle cx='370' cy='360' r='11' /%3E%3Ccircle cx='455' cy='360' r='7' /%3E%3Cline x1='400' y1='330' x2='400' y2='390' /%3E%3Cline x1='420' y1='330' x2='420' y2='390' stroke-dasharray='3 3' /%3E%3Cline x1='250' y1='430' x2='250' y2='470' stroke-dasharray='6 3 1 3' /%3E%3Cline x1='230' y1='450' x2='270' y2='450' stroke-dasharray='6 3 1 3' /%3E%3Ccircle cx='250' cy='450' r='14' /%3E%3Cline x1='500' y1='420' x2='500' y2='470' stroke-dasharray='6 3 1 3' /%3E%3Cline x1='475' y1='445' x2='525' y2='445' stroke-dasharray='6 3 1 3' /%3E%3C/g%3E%3C/svg%3E");
       background-size: 480px 480px;
       text-shadow: none;
-      box-shadow: 0 0 0 4px var(--blueprint-paper), 0 0 0 5px var(--blueprint-ink-medium);
+      box-shadow: 0 0 0 4px var(--engr-paper), 0 0 0 5px var(--engr-ink-medium);
     }
-    .hero-sample .hs-title { color: var(--blueprint-paper); text-shadow: none; }
-    .hero-sample .hs-title em { color: var(--blueprint-paper); text-decoration-color: rgb(255 255 255 / .45); }
+    .hero-sample .hs-title { color: var(--engr-paper); text-shadow: none; }
+    .hero-sample .hs-title em { color: var(--engr-paper); text-decoration-color: rgb(255 255 255 / .45); }
     .hero-sample .hs-eyebrow { color: rgb(255 255 255 / .82); }
-    .hero-sample .hs-btn--primary { background: var(--blueprint-paper); color: var(--blueprint-ink-dark); border-color: var(--blueprint-paper); box-shadow: none; }
-    .hero-sample .hs-btn--ghost { color: var(--blueprint-paper); border-color: rgb(255 255 255 / .6); }
+    .hero-sample .hs-btn--primary { background: var(--engr-paper); color: var(--engr-ink-dark); border-color: var(--engr-paper); box-shadow: none; }
+    .hero-sample .hs-btn--ghost { color: var(--engr-paper); border-color: rgb(255 255 255 / .6); }
     .hero-sample .hs-btn:hover { box-shadow: 4px 4px 0 rgb(0 0 0 / .35); }
-    .hero-sample .hs-btn:focus-visible { outline-color: var(--blueprint-paper); }
+    .hero-sample .hs-btn:focus-visible { outline-color: var(--engr-paper); }
     .hero-sample .hs-badges { border-top-color: rgb(255 255 255 / .2); }
-    .hero-sample .hs-badge-num { color: var(--blueprint-paper); }
+    .hero-sample .hs-badge-num { color: var(--engr-paper); }
     .hero-sample .hs-badge-label { color: rgb(255 255 255 / .7); }
     .hero-sample .hs-photos img { border-color: rgb(255 255 255 / .5); box-shadow: 6px 6px 0 rgb(0 0 0 / .25); }
     /* Orange on the dark band: a lighter orange so small text stays above 4.5:1. */
@@ -456,7 +486,7 @@
     /* ── Quiet drafting studio (the site theme) ──
        "studio" accent: muted blue-green, used for actions and selected
        details only. Contrast on the paper 4.9:1; white on it 5.8:1. */
-    body.blueprint-theme[data-accent="studio"] {
+    body.engr-theme[data-accent="studio"] {
       --accent-fill: #426b78;
       --accent-on: #ffffff;
       --accent-text: #426b78;
@@ -469,13 +499,13 @@
     [data-accent="studio"] .hs-badges { border-top-width: 1px; }
     [data-accent="studio"] .hs-btn--primary { box-shadow: 3px 3px 0 rgb(46 52 56 / .09); }
     /* The old blueprint ink, kept so the earlier presets still render. */
-    body.blueprint-theme[data-ink="blueprint"] {
-      --blueprint-ink: #155d9a;
-      --blueprint-ink-dark: #0d4d84;
-      --blueprint-ink-soft: #336b9c;
-      --blueprint-ink-medium: rgb(21 93 154 / .43);
-      --blueprint-ink-faint: rgb(21 93 154 / .11);
-      --blueprint-rule: rgb(21 93 154 / .24);
+    body.engr-theme[data-ink="blueprint"] {
+      --engr-ink: #155d9a;
+      --engr-ink-dark: #0d4d84;
+      --engr-ink-soft: #336b9c;
+      --engr-ink-medium: rgb(21 93 154 / .43);
+      --engr-ink-faint: rgb(21 93 154 / .11);
+      --engr-rule: rgb(21 93 154 / .24);
     }
 
     /* Light hero (the site): paper and graphite instead of the dark band.
@@ -484,26 +514,26 @@
       --accent-text: inherit;
       --accent-eyebrow: inherit;
       --accent-badge: inherit;
-      color: var(--blueprint-ink);
-      background: var(--blueprint-paper);
-      border: 1px solid var(--blueprint-ink-medium);
-      box-shadow: 4px 4px 0 var(--blueprint-ink-faint);
+      color: var(--engr-ink);
+      background: var(--engr-paper);
+      border: 1px solid var(--engr-ink-medium);
+      box-shadow: 4px 4px 0 var(--engr-ink-faint);
     }
-    body[data-hero="light"] #heroSample .hs-title { color: var(--blueprint-ink-dark); }
-    body[data-hero="light"] #heroSample .hs-title em { color: var(--accent-text, var(--blueprint-ink)); text-decoration: none; }
-    body[data-hero="light"] #heroSample .hs-eyebrow { color: var(--accent-eyebrow, var(--blueprint-ink-soft)); }
-    body[data-hero="light"] #heroSample .hs-sub { color: var(--blueprint-ink-soft); }
-    body[data-hero="light"] #heroSample .hs-sub:first-of-type { color: var(--blueprint-ink); }
-    body[data-hero="light"] #heroSample .hs-btn--primary { background: var(--accent-btn, var(--accent-fill, var(--blueprint-ink-dark))); color: var(--accent-btn-on, var(--accent-on, var(--blueprint-paper))); border-color: var(--accent-btn, var(--accent-fill, var(--blueprint-ink-dark))); }
-    body[data-hero="light"] #heroSample .hs-btn--ghost { color: var(--blueprint-ink-dark); border-color: var(--blueprint-ink); }
-    body[data-hero="light"] #heroSample .hs-badges { border-top-color: var(--accent-rule, var(--blueprint-ink-medium)); }
-    body[data-hero="light"] #heroSample .hs-badge-num { color: var(--accent-badge, var(--blueprint-ink-dark)); }
-    body[data-hero="light"] #heroSample .hs-badge-label { color: var(--blueprint-ink-soft); }
-    body[data-hero="light"] #heroSample .hs-photos img { border-color: var(--blueprint-ink-medium); box-shadow: 4px 4px 0 var(--blueprint-ink-faint); }
+    body[data-hero="light"] #heroSample .hs-title { color: var(--engr-ink-dark); }
+    body[data-hero="light"] #heroSample .hs-title em { color: var(--accent-text, var(--engr-ink)); text-decoration: none; }
+    body[data-hero="light"] #heroSample .hs-eyebrow { color: var(--accent-eyebrow, var(--engr-ink-soft)); }
+    body[data-hero="light"] #heroSample .hs-sub { color: var(--engr-ink-soft); }
+    body[data-hero="light"] #heroSample .hs-sub:first-of-type { color: var(--engr-ink); }
+    body[data-hero="light"] #heroSample .hs-btn--primary { background: var(--accent-btn, var(--accent-fill, var(--engr-ink-dark))); color: var(--accent-btn-on, var(--accent-on, var(--engr-paper))); border-color: var(--accent-btn, var(--accent-fill, var(--engr-ink-dark))); }
+    body[data-hero="light"] #heroSample .hs-btn--ghost { color: var(--engr-ink-dark); border-color: var(--engr-ink); }
+    body[data-hero="light"] #heroSample .hs-badges { border-top-color: var(--accent-rule, var(--engr-ink-medium)); }
+    body[data-hero="light"] #heroSample .hs-badge-num { color: var(--accent-badge, var(--engr-ink-dark)); }
+    body[data-hero="light"] #heroSample .hs-badge-label { color: var(--engr-ink-soft); }
+    body[data-hero="light"] #heroSample .hs-photos img { border-color: var(--engr-ink-medium); box-shadow: 4px 4px 0 var(--engr-ink-faint); }
   </style>
-  <link rel="stylesheet" href="images/theme/blueprint.css">
+  <link rel="stylesheet" href="images/theme/engr.css">
 </head>
-<body class="blueprint-theme">
+<body class="engr-theme">
 <div class="wrap">
   <div class="sheet-header" aria-hidden="true">
     <span data-for="chem">Project<b>LittleDevLab</b></span>
@@ -542,7 +572,11 @@
     </select>
     <label for="paper">Paper</label>
     <select id="paper">
-      <option value="">Recycled drafting paper (site)</option>
+      <option value="">Site paper, ruling strong (site)</option>
+      <option value="ruling-light">Site paper, ruling light (old site)</option>
+      <option value="ruling-medium">Site paper, ruling medium</option>
+      <option value="ruling-full">Site paper, ruling full sheet (no veil)</option>
+      <option value="ruling-green">Site paper, green-gray ruling</option>
       <option value="eng-yellow">Engineering paper, yellow</option>
       <option value="eng-green">Engineering paper, green</option>
       <option value="eng-recycled">Engineering paper, recycled</option>
@@ -573,8 +607,8 @@
     </select>
     <label for="hero">Hero</label>
     <select id="hero">
-      <option value="light">Light paper (site)</option>
-      <option value="dark">Dark band</option>
+      <option value="dark">Dark band (site)</option>
+      <option value="light">Light paper</option>
     </select>
     <label for="pick">Annotation font</label>
     <select id="pick"></select>
@@ -686,7 +720,7 @@
 
   FONTS.forEach((f, i) => {
     const label = f.label || f.name;
-    const ff = `'${f.name}', var(--blueprint-font)`;
+    const ff = `'${f.name}', var(--engr-font)`;
     const size = f.scale || 1;
     const card = document.createElement("article");
     card.className = "spec bp-panel";
@@ -764,14 +798,14 @@
     document.body.dataset.hero = v;
     try { localStorage.setItem("bp-hero", v); } catch {}
   };
-  try { hero.value = localStorage.getItem("bp-hero") || "light"; } catch {}
+  try { hero.value = localStorage.getItem("bp-hero") || "dark"; } catch {}
   setHero(hero.value);
   hero.addEventListener("change", () => setHero(hero.value));
 
   // Theme presets set all the pickers at once. Touching any picker
   // afterwards drops back to "Custom".
   const PRESETS = {
-    quiet:      { paper: "",              ink: "",          accent: "studio",   hero: "light", font: "Architects Daughter" },
+    quiet:      { paper: "",              ink: "",          accent: "studio",   hero: "dark",  font: "Architects Daughter" },
     eng:        { paper: "eng-yellow",    ink: "pencil-hb", accent: "orange",   hero: "dark",  font: "Architects Daughter" },
     engblue:    { paper: "eng-yellow",    ink: "blueprint", accent: "hazard",   hero: "dark",  font: "Architects Daughter" },
     chem:       { paper: "chem-notebook", ink: "ballpoint", accent: "hazard",   hero: "dark",  font: "Kalam" },

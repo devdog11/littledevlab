@@ -8,6 +8,7 @@ import Nav from '../../components/Nav.jsx'
 import { SimpleFooter } from '../../components/SiteFooter.jsx'
 import { buildLogIndex } from '../../content/buildLogIndex.js'
 import { newestFirst, shortDate } from '../../content/dates.js'
+import { experimentsIndex } from '../../content/experimentsIndex.js'
 import { labNotesIndex } from '../../content/labNotesIndex.js'
 import { URLS } from '../../site.js'
 import labNotesCss from '../lab-notes/lab-notes.css?url'
@@ -30,7 +31,8 @@ export function loadData() {
   const logs = buildLogIndex()
     .map((l) => ({ ...l, kind: 'log', href: `${URLS.buildLog}#${l.slug}` }))
     .sort(newestFirst)
-  return { notes, logs, products: products.length }
+  const experiments = experimentsIndex().map((e) => ({ href: URLS.experiment(e.slug), title: e.title }))
+  return { notes, logs, experiments, products: products.length }
 }
 
 // Newest date first; same-day items keep their order (notes before logs).
@@ -59,15 +61,15 @@ function Cover({ notes, logs, productCount }) {
   )
 }
 
-function SeriesCard({ sheet, title, blurb, items, href, cta }) {
+function SeriesCard({ sheet, title, blurb, items, href, cta, limit = 3 }) {
   return (
     <article className="lab-series bp-panel">
       <p className="lab-sheet-no">Sheet series {sheet}</p>
       <h2><a href={href}>{title}</a></h2>
       <p>{blurb}</p>
       <ol className="lab-mini-list">
-        {items.slice(0, 3).map((i) => (
-          <li key={i.href}><span className="lab-date">{shortDate(i.date)}</span> <a href={i.href}>{i.title}</a></li>
+        {items.slice(0, limit).map((i) => (
+          <li key={i.href}>{i.date && <><span className="lab-date">{shortDate(i.date)}</span> </>}<a href={i.href}>{i.title}</a></li>
         ))}
       </ol>
       <a className="btn btn-primary" href={href}>{cta}</a>
@@ -183,6 +185,12 @@ export default function LabPage({ data }) {
                 sheet="B" title="Build Log" href={URLS.buildLog} cta="Open the Build Log"
                 blurb="Short, dated entries for every change that shipped, each with its commit."
                 items={logs}
+              />
+              <SeriesCard
+                sheet="E" title="Experimenting" href={URLS.experimenting} cta="See the experiments"
+                blurb="Projects still on the bench, from 3D prints to code and home automation: in the works, failed and almost real."
+                items={data.experiments}
+                limit={Infinity}
               />
             </div>
           </section>

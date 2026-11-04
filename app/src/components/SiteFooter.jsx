@@ -43,7 +43,7 @@ export default function SiteFooter({ titleblock = HOME_TITLEBLOCK }) {
             <ul className="footer-links">
               <li><a href={URLS.home}>Home</a></li>
               <li><a href={URLS.products}>Products</a></li>
-              <li><a href={URLS.lab}>Lab Journey</a></li>
+              <li><a href={URLS.lab}>The Lab</a></li>
               <li><a href={URLS.contact}>Get in Touch</a></li>
             </ul>
           </div>

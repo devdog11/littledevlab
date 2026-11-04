@@ -4,7 +4,7 @@ import { DEFAULT_IMAGE, SITE_NAME, SITE_URL } from './site.js'
 //   title, description, path (clean canonical URL path)
 //   image       social preview image path (optional)
 //   type        Open Graph type, "website" or "article" (optional)
-//   styles      stylesheets loaded BEFORE the theme (images/theme/blueprint.css)
+//   styles      stylesheets loaded BEFORE the theme (images/theme/engr.css)
 //   lateStyles  stylesheets loaded AFTER the theme
 //   scripts     extra module scripts (e.g. model-viewer)
 // The theme loads between the two lists because pages relied on that order:
@@ -23,7 +23,7 @@ export function headTags(head) {
   return [
     `<title>${t(head.title)}</title>`,
     `<meta name="description" content="${t(head.description)}" />`,
-    `<link rel="canonical" href="${t(url)}" />`,
+    ...(head.noindex ? ['<meta name="robots" content="noindex" />'] : [`<link rel="canonical" href="${t(url)}" />`]),
     `<meta property="og:site_name" content="${SITE_NAME}" />`,
     `<meta property="og:type" content="${t(head.type ?? 'website')}" />`,
     `<meta property="og:title" content="${t(head.ogTitle ?? head.title)}" />`,
@@ -45,7 +45,7 @@ export function lateHeadTags(head) {
 // stylesheets in the browser, in the same order the pre-render uses.
 export function applyHead(head) {
   document.title = head.title
-  const theme = document.querySelector('link[href$="/theme/blueprint.css"]')
+  const theme = document.querySelector('link[href$="/theme/engr.css"]')
   const add = (tag, attrs, before) => {
     const el = document.createElement(tag)
     Object.assign(el, attrs)
